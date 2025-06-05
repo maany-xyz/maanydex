@@ -7,12 +7,20 @@ import (
 
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
 
+	//authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	"github.com/neutron-org/neutron/v5/app"
 )
 
 func main() {
+
+
 	config := config.GetDefaultConfig()
 	config.Seal()
+
+	// Print Module account address:
+	// moduleName := "mintburn" // The name of your module account
+    // moduleAddress := authtypes.NewModuleAddress(moduleName)
+    // fmt.Printf("Address for module '%s': %s\n", moduleName, moduleAddress.String())
 
 	rootCmd, _ := NewRootCmd()
 
@@ -21,4 +29,6 @@ func main() {
 	if err := svrcmd.Execute(rootCmd, "", app.DefaultNodeHome); err != nil {
 		os.Exit(1)
 	}
+
+
 }

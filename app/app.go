@@ -15,6 +15,10 @@ import (
 	v505 "github.com/neutron-org/neutron/v5/app/upgrades/v5.0.5"
 	dynamicfeestypes "github.com/neutron-org/neutron/v5/x/dynamicfees/types"
 
+	mintburn "github.com/neutron-org/neutron/v5/x/mintburn/keeper"
+	mintburnmodule "github.com/neutron-org/neutron/v5/x/mintburn/module"
+	mintburntypes "github.com/neutron-org/neutron/v5/x/mintburn/types"
+
 	"github.com/skip-mev/feemarket/x/feemarket"
 	feemarketkeeper "github.com/skip-mev/feemarket/x/feemarket/keeper"
 	feemarkettypes "github.com/skip-mev/feemarket/x/feemarket/types"
@@ -310,6 +314,8 @@ var (
 		oracletypes.ModuleName:                        nil,
 		marketmaptypes.ModuleName:                     nil,
 		feemarkettypes.FeeCollectorName:               nil,
+		mintburntypes.MintBurnModuleAccount: 		   {authtypes.Minter, authtypes.Burner},
+
 	}
 )
 
@@ -420,6 +426,10 @@ type App struct {
 	// Custom checkTx handler -> this check-tx is used to simulate txs that are
 	// wrapped in a bid-tx
 	checkTxHandler checktx.CheckTx
+
+	// Adding the mintburn keeper
+	MintBurnKeeper mintburn.Keeper
+
 }
 
 // AutoCLIOpts returns options based upon the modules in the neutron v5 app.
@@ -494,6 +504,7 @@ func New(
 		feeburnertypes.StoreKey, adminmoduletypes.StoreKey, ccvconsumertypes.StoreKey, tokenfactorytypes.StoreKey, pfmtypes.StoreKey,
 		crontypes.StoreKey, ibcratelimittypes.ModuleName, ibchookstypes.StoreKey, consensusparamtypes.StoreKey, crisistypes.StoreKey, dextypes.StoreKey, auctiontypes.StoreKey,
 		oracletypes.StoreKey, marketmaptypes.StoreKey, feemarkettypes.StoreKey, dynamicfeestypes.StoreKey, globalfeetypes.StoreKey,
+		mintburntypes.StoreKey,
 	)
 	tkeys := storetypes.NewTransientStoreKeys(paramstypes.TStoreKey, dextypes.TStoreKey)
 	memKeys := storetypes.NewMemoryStoreKeys(capabilitytypes.MemStoreKey, feetypes.MemStoreKey)
@@ -604,6 +615,15 @@ func New(
 	// Create IBC Keeper
 	app.IBCKeeper = ibckeeper.NewKeeper(
 		appCodec, keys[ibchost.StoreKey], app.GetSubspace(ibchost.ModuleName), &app.ConsumerKeeper, app.UpgradeKeeper, scopedIBCKeeper, authtypes.NewModuleAddress(adminmoduletypes.ModuleName).String(),
+	)
+
+	app.MintBurnKeeper = mintburn.NewKeeper(
+		mintburntypes.ModuleName,
+		keys[mintburntypes.StoreKey],
+		app.BankKeeper, 
+		app.IBCKeeper.ChannelKeeper,
+		app.IBCKeeper.ConnectionKeeper, 
+		app.IBCKeeper.ClientKeeper,
 	)
 
 	// Feekeeper needs to be initialized before middlewares injection
@@ -874,6 +894,9 @@ func New(
 	ibcHooksModule := ibchooks.NewAppModule(app.AccountKeeper)
 
 	transferModule := transferSudo.NewAppModule(app.TransferKeeper)
+
+	wrappedTransfer := mintburnmodule.NewIBCMiddleware(app.TransferStack, app.MintBurnKeeper)
+
 	app.ContractKeeper = wasmkeeper.NewDefaultPermissionKeeper(app.WasmKeeper)
 
 	app.RateLimitingICS4Wrapper.ContractKeeper = app.ContractKeeper
@@ -881,7 +904,7 @@ func New(
 
 	ibcRouter.AddRoute(icacontrollertypes.SubModuleName, icaControllerStack).
 		AddRoute(icahosttypes.SubModuleName, icaHostIBCModule).
-		AddRoute(ibctransfertypes.ModuleName, app.TransferStack).
+		AddRoute(ibctransfertypes.ModuleName, wrappedTransfer).
 		AddRoute(interchaintxstypes.ModuleName, icaControllerStack).
 		AddRoute(wasmtypes.ModuleName, wasm.NewIBCHandler(app.WasmKeeper, app.IBCKeeper.ChannelKeeper, app.IBCKeeper.ChannelKeeper)).
 		AddRoute(ccvconsumertypes.ModuleName, consumerModule)
@@ -935,6 +958,8 @@ func New(
 		consensus.NewAppModule(appCodec, app.ConsensusParamsKeeper),
 		// always be last to make sure that it checks for all invariants and not only part of them
 		crisis.NewAppModule(&app.CrisisKeeper, skipGenesisInvariants, app.GetSubspace(crisistypes.ModuleName)),
+		mintburnmodule.NewAppModule(appCodec, app.MintBurnKeeper, app.Logger()),
+
 	)
 
 	app.mm.SetOrderPreBlockers(
@@ -1060,6 +1085,8 @@ func New(
 		dextypes.ModuleName,
 		dynamicfeestypes.ModuleName,
 		consensusparamtypes.ModuleName,
+		mintburntypes.ModuleName,
+
 	)
 
 	app.mm.RegisterInvariants(&app.CrisisKeeper)
