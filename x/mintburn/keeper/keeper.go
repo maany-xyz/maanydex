@@ -79,18 +79,18 @@ func (k Keeper) BurnTokens(ctx sdk.Context, recipient sdk.AccAddress, amount sdk
     }
 
     return nil
-    // Transfer tokens to module account and burn them
-    // ctx.Logger().Info("Now in BurnTokens in Keeper")
-    // err := k.bankKeeper.SendCoinsFromAccountToModule(ctx, recipient, k.moduleName, sdk.NewCoins(amount))
-    // if err != nil {
-    //      ctx.Logger().Error("Error sending bridged tokens ", "msg", err)
-    //     return err
-    // }
-    // ctx.Logger().Info("Sent bridged tokens succesfully to module account.")
-    // return k.bankKeeper.BurnCoins(ctx, k.moduleName, sdk.NewCoins(amount))
 }
 
 func (k Keeper) IsAllowedChannel(ctx sdk.Context, channelID string) bool {
 	store := prefix.NewStore(ctx.KVStore(k.StoreKey), []byte("allowed-channel/"))
 	return store.Has([]byte(channelID))
+}
+
+
+func (k Keeper) BurnEscrowedTokens(ctx sdk.Context, escrowAddr sdk.AccAddress, coin sdk.Coin) error {
+    	if err := k.BankKeeper.SendCoinsFromAccountToModule(ctx, escrowAddr, k.ModuleName, sdk.NewCoins(coin)); err != nil {
+		return err
+	}
+
+	return k.BankKeeper.BurnCoins(ctx, k.ModuleName, sdk.NewCoins(coin))
 }
