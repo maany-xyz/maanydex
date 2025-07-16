@@ -1,0 +1,6 @@
+{
+  "weights": "4tokenB,4stake",
+  "initial-deposit": "100tokenB,100stake",
+  "swap-fee": "0.01",
+  "future-governor": "168h"
+}

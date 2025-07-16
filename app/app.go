@@ -226,6 +226,10 @@ import (
 	oracletypes "github.com/skip-mev/slinky/x/oracle/types"
 
 	runtimeservices "github.com/cosmos/cosmos-sdk/runtime/services"
+
+	gamm "github.com/neutron-org/neutron/v5/x/gamm"
+	gammkeeper "github.com/neutron-org/neutron/v5/x/gamm/keeper"
+	gammtypes "github.com/neutron-org/neutron/v5/x/gamm/types"
 )
 
 const (
@@ -294,6 +298,7 @@ var (
 		marketmap.AppModuleBasic{},
 		dynamicfees.AppModuleBasic{},
 		consensus.AppModuleBasic{},
+		gamm.AppModuleBasic{},
 	)
 
 	// module account permissions
@@ -315,6 +320,8 @@ var (
 		marketmaptypes.ModuleName:                     nil,
 		feemarkettypes.FeeCollectorName:               nil,
 		mintburntypes.MintBurnModuleAccount: 		   {authtypes.Minter, authtypes.Burner},
+		gammtypes.ModuleName:                          {authtypes.Minter, authtypes.Burner},
+
 
 	}
 )
@@ -430,6 +437,8 @@ type App struct {
 	// Adding the mintburn keeper
 	MintBurnKeeper mintburn.Keeper
 
+	GAMMKeeper gammkeeper.Keeper
+
 }
 
 // AutoCLIOpts returns options based upon the modules in the neutron v5 app.
@@ -504,7 +513,7 @@ func New(
 		feeburnertypes.StoreKey, adminmoduletypes.StoreKey, ccvconsumertypes.StoreKey, tokenfactorytypes.StoreKey, pfmtypes.StoreKey,
 		crontypes.StoreKey, ibcratelimittypes.ModuleName, ibchookstypes.StoreKey, consensusparamtypes.StoreKey, crisistypes.StoreKey, dextypes.StoreKey, auctiontypes.StoreKey,
 		oracletypes.StoreKey, marketmaptypes.StoreKey, feemarkettypes.StoreKey, dynamicfeestypes.StoreKey, globalfeetypes.StoreKey,
-		mintburntypes.StoreKey,
+		mintburntypes.StoreKey, gammtypes.StoreKey,
 	)
 	tkeys := storetypes.NewTransientStoreKeys(paramstypes.TStoreKey, dextypes.TStoreKey)
 	memKeys := storetypes.NewMemoryStoreKeys(capabilitytypes.MemStoreKey, feetypes.MemStoreKey)
@@ -869,6 +878,18 @@ func New(
 	app.CronKeeper.WasmMsgServer = wasmkeeper.NewMsgServerImpl(&app.WasmKeeper)
 	cronModule := cron.NewAppModule(appCodec, app.CronKeeper)
 
+	app.GAMMKeeper = gammkeeper.NewKeeper(
+		appCodec, keys[gammtypes.StoreKey],
+		app.GetSubspace(gammtypes.ModuleName),
+		app.AccountKeeper,
+		// TODO: Add a mintcoins restriction
+		app.BankKeeper, nil,
+		nil,
+		nil,
+		nil)
+	
+	gamm.NewAppModule(appCodec, app.GAMMKeeper, app.AccountKeeper, app.BankKeeper)
+	
 	// Create static IBC router, add transfer route, then set and seal it
 	ibcRouter := ibcporttypes.NewRouter()
 
@@ -959,6 +980,7 @@ func New(
 		// always be last to make sure that it checks for all invariants and not only part of them
 		crisis.NewAppModule(&app.CrisisKeeper, skipGenesisInvariants, app.GetSubspace(crisistypes.ModuleName)),
 		mintburnmodule.NewAppModule(appCodec, app.MintBurnKeeper, app.Logger()),
+		gamm.NewAppModule(appCodec, app.GAMMKeeper, app.AccountKeeper, app.BankKeeper),
 
 	)
 
@@ -1005,6 +1027,8 @@ func New(
 		feemarkettypes.ModuleName,
 		dextypes.ModuleName,
 		consensusparamtypes.ModuleName,
+		gammtypes.ModuleName,
+
 	)
 
 	app.mm.SetOrderEndBlockers(
@@ -1042,6 +1066,8 @@ func New(
 		feemarkettypes.ModuleName,
 		dextypes.ModuleName,
 		consensusparamtypes.ModuleName,
+		gammtypes.ModuleName,
+
 	)
 
 	// NOTE: The genutils module must occur after staking so that pools are
@@ -1086,6 +1112,8 @@ func New(
 		dynamicfeestypes.ModuleName,
 		consensusparamtypes.ModuleName,
 		mintburntypes.ModuleName,
+		gammtypes.ModuleName,
+
 
 	)
 
@@ -1623,6 +1651,7 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(tokenfactorytypes.StoreKey).WithKeyTable(tokenfactorytypes.ParamKeyTable())
 	paramsKeeper.Subspace(interchainqueriesmoduletypes.StoreKey).WithKeyTable(interchainqueriesmoduletypes.ParamKeyTable())
 	paramsKeeper.Subspace(interchaintxstypes.StoreKey).WithKeyTable(interchaintxstypes.ParamKeyTable())
+	paramsKeeper.Subspace(gammtypes.StoreKey).WithKeyTable(gammtypes.ParamKeyTable())
 
 	return paramsKeeper
 }
