@@ -230,6 +230,12 @@ import (
 	gamm "github.com/neutron-org/neutron/v5/x/gamm"
 	gammkeeper "github.com/neutron-org/neutron/v5/x/gamm/keeper"
 	gammtypes "github.com/neutron-org/neutron/v5/x/gamm/types"
+
+	"github.com/neutron-org/neutron/v5/x/poolmanager"
+	poolmanagermodule "github.com/neutron-org/neutron/v5/x/poolmanager/module"
+	poolmanagertypes "github.com/neutron-org/neutron/v5/x/poolmanager/types"
+
+	takerfeetypes "github.com/neutron-org/neutron/v5/x/takerfee/types"
 )
 
 const (
@@ -299,6 +305,8 @@ var (
 		dynamicfees.AppModuleBasic{},
 		consensus.AppModuleBasic{},
 		gamm.AppModuleBasic{},
+		poolmanagermodule.AppModuleBasic{},
+		
 	)
 
 	// module account permissions
@@ -321,8 +329,8 @@ var (
 		feemarkettypes.FeeCollectorName:               nil,
 		mintburntypes.MintBurnModuleAccount: 		   {authtypes.Minter, authtypes.Burner},
 		gammtypes.ModuleName:                          {authtypes.Minter, authtypes.Burner},
-
-
+		poolmanagertypes.ModuleName:				   {authtypes.Minter, authtypes.Burner},
+		takerfeetypes.ModuleName:					   {authtypes.Minter, authtypes.Burner},
 	}
 )
 
@@ -438,6 +446,8 @@ type App struct {
 	MintBurnKeeper mintburn.Keeper
 
 	GAMMKeeper gammkeeper.Keeper
+	PoolManagerKeeper            *poolmanager.Keeper
+
 
 }
 
@@ -513,7 +523,7 @@ func New(
 		feeburnertypes.StoreKey, adminmoduletypes.StoreKey, ccvconsumertypes.StoreKey, tokenfactorytypes.StoreKey, pfmtypes.StoreKey,
 		crontypes.StoreKey, ibcratelimittypes.ModuleName, ibchookstypes.StoreKey, consensusparamtypes.StoreKey, crisistypes.StoreKey, dextypes.StoreKey, auctiontypes.StoreKey,
 		oracletypes.StoreKey, marketmaptypes.StoreKey, feemarkettypes.StoreKey, dynamicfeestypes.StoreKey, globalfeetypes.StoreKey,
-		mintburntypes.StoreKey, gammtypes.StoreKey,
+		mintburntypes.StoreKey, gammtypes.StoreKey, poolmanagertypes.StoreKey,
 	)
 	tkeys := storetypes.NewTransientStoreKeys(paramstypes.TStoreKey, dextypes.TStoreKey)
 	memKeys := storetypes.NewMemoryStoreKeys(capabilitytypes.MemStoreKey, feetypes.MemStoreKey)
@@ -887,8 +897,11 @@ func New(
 		nil,
 		nil,
 		nil)
-	
+	app.PoolManagerKeeper = poolmanager.NewKeeper(keys[poolmanagertypes.StoreKey],app.GetSubspace(poolmanagertypes.ModuleName), app.GAMMKeeper, nil, nil, app.BankKeeper, app.AccountKeeper, nil, nil, nil, nil,)
+	app.GAMMKeeper.SetPoolManager(app.PoolManagerKeeper)
+
 	gamm.NewAppModule(appCodec, app.GAMMKeeper, app.AccountKeeper, app.BankKeeper)
+	poolmanagermodule.NewAppModule(*app.PoolManagerKeeper,app.GAMMKeeper)
 	
 	// Create static IBC router, add transfer route, then set and seal it
 	ibcRouter := ibcporttypes.NewRouter()
@@ -981,6 +994,7 @@ func New(
 		crisis.NewAppModule(&app.CrisisKeeper, skipGenesisInvariants, app.GetSubspace(crisistypes.ModuleName)),
 		mintburnmodule.NewAppModule(appCodec, app.MintBurnKeeper, app.Logger()),
 		gamm.NewAppModule(appCodec, app.GAMMKeeper, app.AccountKeeper, app.BankKeeper),
+		poolmanagermodule.NewAppModule(*app.PoolManagerKeeper, app.GAMMKeeper),
 
 	)
 
@@ -1028,6 +1042,7 @@ func New(
 		dextypes.ModuleName,
 		consensusparamtypes.ModuleName,
 		gammtypes.ModuleName,
+		poolmanagertypes.ModuleName,
 
 	)
 
@@ -1067,6 +1082,7 @@ func New(
 		dextypes.ModuleName,
 		consensusparamtypes.ModuleName,
 		gammtypes.ModuleName,
+		poolmanagertypes.ModuleName,
 
 	)
 
@@ -1113,8 +1129,7 @@ func New(
 		consensusparamtypes.ModuleName,
 		mintburntypes.ModuleName,
 		gammtypes.ModuleName,
-
-
+		poolmanagertypes.ModuleName,
 	)
 
 	app.mm.RegisterInvariants(&app.CrisisKeeper)
@@ -1652,6 +1667,8 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(interchainqueriesmoduletypes.StoreKey).WithKeyTable(interchainqueriesmoduletypes.ParamKeyTable())
 	paramsKeeper.Subspace(interchaintxstypes.StoreKey).WithKeyTable(interchaintxstypes.ParamKeyTable())
 	paramsKeeper.Subspace(gammtypes.StoreKey).WithKeyTable(gammtypes.ParamKeyTable())
+	paramsKeeper.Subspace(poolmanagertypes.StoreKey).WithKeyTable(poolmanagertypes.ParamKeyTable())
+
 
 	return paramsKeeper
 }

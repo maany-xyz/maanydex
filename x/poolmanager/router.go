@@ -93,10 +93,10 @@ func (k Keeper) RouteExactAmountIn(
 	}
 
 	// Run taker fee skim logic
-	err = k.TakerFeeSkim(ctx, denomsInvolvedInRoute, totalTakerFeesCharged)
-	if err != nil {
-		return osmomath.Int{}, err
-	}
+	// err = k.TakerFeeSkim(ctx, denomsInvolvedInRoute, totalTakerFeesCharged)
+	// if err != nil {
+	// 	return osmomath.Int{}, err
+	// }
 
 	return tokenOutAmount, nil
 }
@@ -204,7 +204,7 @@ func (k Keeper) SwapExactAmountIn(
 	}
 
 	// Track volume for volume-splitting incentives
-	k.trackVolume(ctx, pool.GetId(), tokenIn)
+	// k.trackVolume(ctx, pool.GetId(), tokenIn)
 
 	return tokenOutAmount, takerFeeCharged, nil
 }
@@ -398,12 +398,14 @@ func (k Keeper) RouteExactAmountOut(ctx sdk.Context,
 
 		tokenIn := sdk.NewCoin(routeStep.TokenInDenom, curTokenInAmount)
 		tokenInAfterAddTakerFee, takerFeeCharged, err := k.chargeTakerFee(ctx, tokenIn, _tokenOut.Denom, sender, false)
+		ctx.Logger().Info("in here with token fee: ", "tokenIn", tokenIn, "tokenInAfterTakerFee", tokenInAfterAddTakerFee)
 		if err != nil {
 			return osmomath.Int{}, err
 		}
 
 		// Track volume for volume-splitting incentives
-		k.trackVolume(ctx, pool.GetId(), sdk.NewCoin(routeStep.TokenInDenom, tokenIn.Amount))
+		//TODO: check if custom logic needed 
+		//k.trackVolume(ctx, pool.GetId(), sdk.NewCoin(routeStep.TokenInDenom, tokenIn.Amount))
 
 		// Sets the final amount of tokens that need to be input into the first pool. Even though this is the final return value for the
 		// whole method and will not change after the first iteration, we still iterate through the rest of the pools to execute their respective
@@ -414,6 +416,7 @@ func (k Keeper) RouteExactAmountOut(ctx sdk.Context,
 
 		// Track taker fees charged
 		totalTakerFeesCharged = totalTakerFeesCharged.Add(takerFeeCharged)
+		ctx.Logger().Info("the total fee is: ", "totalTakerFeesCharged", totalTakerFeesCharged)
 
 		// Add the token in denom to the denoms involved in the route, IFF it is not already in the slice
 		if !osmoutils.Contains(denomsInvolvedInRoute, routeStep.TokenInDenom) {
@@ -422,10 +425,10 @@ func (k Keeper) RouteExactAmountOut(ctx sdk.Context,
 	}
 
 	// Run taker fee skim logic
-	err = k.TakerFeeSkim(ctx, denomsInvolvedInRoute, totalTakerFeesCharged)
-	if err != nil {
-		return osmomath.Int{}, err
-	}
+	// err = k.TakerFeeSkim(ctx, denomsInvolvedInRoute, totalTakerFeesCharged)
+	// if err != nil {
+	// 	return osmomath.Int{}, err
+	// }
 
 	return tokenInAmount, nil
 }

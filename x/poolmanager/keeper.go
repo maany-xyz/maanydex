@@ -194,6 +194,8 @@ func (k Keeper) ExportGenesis(ctx sdk.Context) *types.GenesisState {
 func (k Keeper) GetNextPoolId(ctx sdk.Context) uint64 {
 	store := ctx.KVStore(k.storeKey)
 	nextPoolId := gogotypes.UInt64Value{}
+	ctx.Logger().Info("in here with pool  ","store", store, "nextpoolId ", nextPoolId)
+
 	osmoutils.MustGet(store, types.KeyNextGlobalPoolId, &nextPoolId)
 	return nextPoolId.Value
 }

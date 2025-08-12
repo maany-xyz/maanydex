@@ -32,6 +32,7 @@ func (k Keeper) validateCreatedPool(poolId uint64, pool types.PoolI) error {
 func (k Keeper) CreatePool(ctx sdk.Context, msg types.CreatePoolMsg) (uint64, error) {
 	// Check that the pool type exists
 	poolType := msg.GetPoolType()
+
 	_, ok := k.routes[poolType]
 	if !ok {
 		return 0, types.InvalidPoolTypeError{PoolType: poolType}
@@ -46,13 +47,14 @@ func (k Keeper) CreatePool(ctx sdk.Context, msg types.CreatePoolMsg) (uint64, er
 	}
 
 	sender := msg.PoolCreator()
-	err = k.fundCommunityPoolIfNotWhitelisted(ctx, sender)
-	if err != nil {
-		return 0, err
-	}
+	// err = k.fundCommunityPoolIfNotWhitelisted(ctx, sender)
+	// if err != nil {
+	// 	return 0, err
+	// }
 
 	// Send initial liquidity from pool creator to pool module account.
 	initialPoolLiquidity := msg.InitialLiquidity()
+
 	err = k.bankKeeper.SendCoins(ctx, sender, pool.GetAddress(), initialPoolLiquidity)
 	if err != nil {
 		return 0, err
@@ -93,11 +95,12 @@ func (k Keeper) createPoolZeroLiquidityNoCreationFee(ctx sdk.Context, msg types.
 	// Run validate basic on the message.
 	err := msg.Validate(ctx)
 	if err != nil {
+		ctx.Logger().Error("In validation error ", "err", err)
 		return nil, err
 	}
-
 	// Get the next pool ID and increment the pool ID counter.
 	poolId := k.getNextPoolIdAndIncrement(ctx)
+
 	if poolId >= types.MaxPoolId {
 		return nil, fmt.Errorf("next pool ID %d is greater than max pool ID %d", poolId, types.MaxPoolId)
 	}
@@ -107,30 +110,43 @@ func (k Keeper) createPoolZeroLiquidityNoCreationFee(ctx sdk.Context, msg types.
 	// Create the pool with the given pool ID.
 	pool, err := msg.CreatePool(ctx, poolId)
 	if err != nil {
+			ctx.Logger().Error("created pool via Msg", "err", err)
+
 		return nil, err
 	}
 
+	ctx.Logger().Info("created pool via Msg", "pool", pool)
+
 	// Store the pool ID to pool type mapping in state.
 	k.SetPoolRoute(ctx, poolId, poolType)
+	ctx.Logger().Info("set pool route ")
 
 	// Validates the pool address and pool ID stored match what was expected.
 	if err := k.validateCreatedPool(poolId, pool); err != nil {
 		return nil, err
 	}
+	ctx.Logger().Info("validated created pool ")
 
 	// Run the respective pool type's initialization logic.
 	swapModule := k.routes[poolType]
+	ctx.Logger().Info("Defining swap module ", "swap", swapModule)
+
 	if err := swapModule.InitializePool(ctx, pool, msg.PoolCreator()); err != nil {
 		return nil, err
 	}
+
+	ctx.Logger().Info("Swap module inited pool ")
 
 	// Create and save the pool's module account to the account keeper.
 	// This utilizes the pool address already created and validated in the previous steps.
 	if err := osmoutils.CreateModuleAccount(ctx, k.accountKeeper, pool.GetAddress()); err != nil {
 		return nil, fmt.Errorf("creating pool module account for id %d: %w", poolId, err)
 	}
+	ctx.Logger().Info("Created Module Account ")
 
 	emitCreatePoolEvents(ctx, poolId)
+	ctx.Logger().Info("emitted pool events ", "pool", pool)
+
 	return pool, nil
 }
 

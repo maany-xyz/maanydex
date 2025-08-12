@@ -68,7 +68,7 @@ func (server msgServer) StableSwapAdjustScalingFactors(goCtx context.Context, ms
 // It will create a dedicated module account for the pool and sends the initial liquidity to the created module account.
 func (server msgServer) CreatePool(goCtx context.Context, msg poolmanagertypes.CreatePoolMsg) (poolId uint64, err error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
-
+	ctx.Logger().Info("Inside Create Pool ", "msg", msg)
 	poolId, err = server.keeper.poolManager.CreatePool(ctx, msg)
 	if err != nil {
 		return 0, err
@@ -96,7 +96,7 @@ func (server msgServer) JoinPool(goCtx context.Context, msg *types.MsgJoinPool) 
 	if err != nil {
 		return nil, err
 	}
-
+	ctx.Logger().Info("Inside of JoinPool")
 	neededLp, sharesOut, err := server.keeper.JoinPoolNoSwap(ctx, sender, msg.PoolId, msg.ShareOutAmount, msg.TokenInMaxs)
 	if err != nil {
 		return nil, err

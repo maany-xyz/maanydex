@@ -94,6 +94,7 @@ func (k Keeper) SwapExactAmountOut(
 	tokenOut sdk.Coin,
 	spreadFactor osmomath.Dec,
 ) (tokenInAmount osmomath.Int, err error) {
+	ctx.Logger().Info("In swap implementation of SwapExactAmountOut ")
 	if tokenInDenom == tokenOut.Denom {
 		return osmomath.Int{}, errors.New("cannot trade same denomination in and out")
 	}
@@ -108,27 +109,33 @@ func (k Keeper) SwapExactAmountOut(
 		}
 	}()
 
+		ctx.Logger().Info("Before Liquidity ")
+
 	liquidity, err := k.GetTotalPoolLiquidity(ctx, pool.GetId())
 	if err != nil {
 		return osmomath.Int{}, err
 	}
+		ctx.Logger().Info("After Liquidity ")
 
 	poolOutBal := liquidity.AmountOf(tokenOut.Denom)
 	if tokenOut.Amount.GTE(poolOutBal) {
 		return osmomath.Int{}, errorsmod.Wrapf(types.ErrTooManyTokensOut,
 			"can't get more tokens out than there are tokens in the pool")
 	}
+		ctx.Logger().Info("Before CFMMPool ")
 
 	cfmmPool, err := asCFMMPool(pool)
 	if err != nil {
 		return osmomath.Int{}, err
 	}
+		ctx.Logger().Info("After CFMMPool ")
 
 	tokenIn, err := cfmmPool.SwapInAmtGivenOut(ctx, sdk.Coins{tokenOut}, tokenInDenom, spreadFactor)
 	if err != nil {
 		return osmomath.Int{}, err
 	}
 	tokenInAmount = tokenIn.Amount
+		ctx.Logger().Info("After swap ")
 
 	if tokenInAmount.LTE(osmomath.ZeroInt()) {
 		return osmomath.Int{}, errorsmod.Wrapf(types.ErrInvalidMathApprox, "token amount is zero or negative")
@@ -137,8 +144,11 @@ func (k Keeper) SwapExactAmountOut(
 	if tokenInAmount.GT(tokenInMaxAmount) {
 		return osmomath.Int{}, errorsmod.Wrapf(types.ErrLimitMaxAmount, "Swap requires %s, which is greater than the amount %s", tokenIn, tokenInMaxAmount)
 	}
+		ctx.Logger().Info("After LTE ")
 
 	err = k.updatePoolForSwap(ctx, pool, sender, tokenIn, tokenOut)
+			ctx.Logger().Info("After updatePoolForSwap ")
+
 	if err != nil {
 		return osmomath.Int{}, err
 	}
@@ -214,9 +224,10 @@ func (k Keeper) updatePoolForSwap(
 	// Search for references to this function to see where else it is used.
 	// Each new pool module will have to emit this event separately
 	events.EmitSwapEvent(ctx, sender, pool.GetId(), tokensIn, tokensOut)
-	k.hooks.AfterCFMMSwap(ctx, sender, pool.GetId(), tokensIn, tokensOut)
-	k.RecordTotalLiquidityIncrease(ctx, tokensIn)
-	k.RecordTotalLiquidityDecrease(ctx, tokensOut)
+	//TODO: custom logic
+	// k.hooks.AfterCFMMSwap(ctx, sender, pool.GetId(), tokensIn, tokensOut)
+	// k.RecordTotalLiquidityIncrease(ctx, tokensIn)
+	// k.RecordTotalLiquidityDecrease(ctx, tokensOut)
 
 	return err
 }

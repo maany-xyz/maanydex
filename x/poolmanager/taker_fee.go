@@ -13,7 +13,7 @@ import (
 
 	"github.com/neutron-org/neutron/v5/osmoutils"
 	"github.com/neutron-org/neutron/v5/x/poolmanager/types"
-	txfeestypes "github.com/neutron-org/neutron/v5/x/txfees/types"
+	takerfeetypes "github.com/neutron-org/neutron/v5/x/takerfee/types"
 )
 
 var zero = osmomath.ZeroInt()
@@ -129,7 +129,7 @@ func (k Keeper) GetAllTradingPairTakerFees(ctx sdk.Context) ([]types.DenomPairTa
 // In the future, we might charge a lower taker fee as opposed to no fee at all.
 // TODO: Gas optimize this function, its expensive in both gas and CPU.
 func (k Keeper) chargeTakerFee(ctx sdk.Context, tokenIn sdk.Coin, tokenOutDenom string, sender sdk.AccAddress, exactIn bool) (sdk.Coin, sdk.Coin, error) {
-	takerFeeModuleAccountName := txfeestypes.TakerFeeCollectorName
+	takerFeeModuleAccountName := takerfeetypes.ModuleName //txfeestypes.TakerFeeCollectorName 
 
 	reducedFeeWhitelist := []string{}
 	k.paramSpace.Get(ctx, types.KeyReducedTakerFeeByWhitelist, &reducedFeeWhitelist)

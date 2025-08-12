@@ -73,25 +73,34 @@ func (k Keeper) CalculateSpotPrice(
 // - Records total liquidity increase
 // - Calls the AfterPoolCreated hook
 func (k Keeper) InitializePool(ctx sdk.Context, pool poolmanagertypes.PoolI, sender sdk.AccAddress) (err error) {
+	ctx.Logger().Info("In Gamm's init pool ", "pool", pool)
+
 	cfmmPool, err := asCFMMPool(pool)
 	if err != nil {
 		return err
 	}
+	ctx.Logger().Info("In Gamm's init pool ", "cfmmPool", cfmmPool)
 
 	exitFee := cfmmPool.GetExitFee(ctx)
 	if !exitFee.IsZero() {
 		return fmt.Errorf("can not create pool with non zero exit fee, got %d", exitFee)
 	}
+	ctx.Logger().Info("In Gamm's exitFee ", "exitFee", exitFee)
 
 	// Mint the initial pool shares share token to the sender
 	err = k.MintPoolShareToAccount(ctx, pool, sender, cfmmPool.GetTotalShares())
 	if err != nil {
 		return err
 	}
+		ctx.Logger().Info("Minted initial pool shares")
 
 	// Finally, add the share token's meta data to the bank keeper.
 	poolShareBaseDenom := types.GetPoolShareDenom(pool.GetId())
 	poolShareDisplayDenom := fmt.Sprintf("GAMM-%d", pool.GetId())
+			
+	ctx.Logger().Info("Getting pool share denom ", "denom", poolShareBaseDenom)
+	ctx.Logger().Info("Getting pool share display denom ", "denom", poolShareDisplayDenom)
+
 	k.bankKeeper.SetDenomMetaData(ctx, banktypes.Metadata{
 		Description: fmt.Sprintf("The share token of the gamm pool %d", pool.GetId()),
 		DenomUnits: []*banktypes.DenomUnit{
@@ -115,13 +124,20 @@ func (k Keeper) InitializePool(ctx sdk.Context, pool poolmanagertypes.PoolI, sen
 	if err := k.setPool(ctx, pool); err != nil {
 		return err
 	}
+	ctx.Logger().Info("Bank module operation done ")
 
 	// N.B.: these hooks propagate to x/twap to create
 	// twap records at pool creation time.
 	// Additionally, these hooks are used in x/pool-incentives to
 	// create gauges.
-	k.hooks.AfterCFMMPoolCreated(ctx, sender, pool.GetId())
+
+	// TODO: create custom logic to deal with gauges
+	// k.hooks.AfterCFMMPoolCreated(ctx, sender, pool.GetId())
+	// ctx.Logger().Info("After created hook ")
+
 	k.RecordTotalLiquidityIncrease(ctx, cfmmPool.GetTotalPoolLiquidity(ctx))
+	ctx.Logger().Info("Record total Liquidity ")
+
 	return nil
 }
 
@@ -157,12 +173,15 @@ func (k Keeper) JoinPoolNoSwap(
 		return nil, osmomath.ZeroInt(), err
 	}
 
+	ctx.Logger().Info("All clear until here")
 	// we do an abstract calculation on the lp liquidity coins needed to have
 	// the designated amount of given shares of the pool without performing swap
 	neededLpLiquidity, err := getMaximalNoSwapLPAmount(ctx, pool, shareOutAmount)
 	if err != nil {
 		return nil, osmomath.ZeroInt(), err
 	}
+
+		ctx.Logger().Info("All clear until here 2")
 
 	// check that needed lp liquidity does not exceed the given `tokenInMaxs` parameter. Return error if so.
 	// if tokenInMaxs == 0, don't do this check.
@@ -180,15 +199,20 @@ func (k Keeper) JoinPoolNoSwap(
 		}
 	}
 
+	ctx.Logger().Info("All clear until here 3")
+
 	sharesOut, err = pool.JoinPoolNoSwap(ctx, neededLpLiquidity, pool.GetSpreadFactor(ctx))
 	if err != nil {
 		return nil, osmomath.ZeroInt(), err
 	}
+	ctx.Logger().Info("All clear until here 4")
+
 	// sanity check, don't return error as not worth halting the LP. We know its not too much.
 	if sharesOut.LT(shareOutAmount) {
 		ctx.Logger().Debug(fmt.Sprintf("Expected to JoinPoolNoSwap >= %s shares, actually did %s shares",
 			shareOutAmount, sharesOut))
 	}
+	ctx.Logger().Info("All clear until here 5")
 
 	err = k.applyJoinPoolStateChange(ctx, pool, sender, sharesOut, neededLpLiquidity)
 	return neededLpLiquidity, sharesOut, err
