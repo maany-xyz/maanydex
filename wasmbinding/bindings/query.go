@@ -7,7 +7,7 @@ import (
 	marketmaptypes "github.com/skip-mev/slinky/x/marketmap/types"
 
 	contractmanagertypes "github.com/neutron-org/neutron/v5/x/contractmanager/types"
-	dextypes "github.com/neutron-org/neutron/v5/x/dex/types"
+	// dextypes "github.com/neutron-org/neutron/v5/x/dex/types"
 
 	feerefundertypes "github.com/neutron-org/neutron/v5/x/feerefunder/types"
 
@@ -47,7 +47,7 @@ type NeutronQuery struct {
 	// Query all failures for address
 	Failures *Failures `json:"failures,omitempty"`
 	// dex module queries
-	Dex *DexQuery `json:"dex,omitempty"`
+	// Dex *DexQuery `json:"dex,omitempty"`
 	// oracle module queries
 	Oracle *OracleQuery `json:"oracle,omitempty"`
 	// marketmap module query
@@ -236,44 +236,44 @@ type FailuresResponse struct {
 	Failures []contractmanagertypes.Failure `json:"failures"`
 }
 
-type DexQuery struct {
-	// Parameters queries the parameters of the module.
-	Params *dextypes.QueryParamsRequest `json:"params"`
-	// Queries a LimitOrderTrancheUser by index.
-	LimitOrderTrancheUser *dextypes.QueryGetLimitOrderTrancheUserRequest `json:"limit_order_tranche_user,omitempty"`
-	// Queries a list of LimitOrderTrancheUser items.
-	LimitOrderTrancheUserAll *dextypes.QueryAllLimitOrderTrancheUserRequest `json:"limit_order_tranche_user_all"`
-	// Queries a list of LimitOrderTrancheUser items for a given address.
-	LimitOrderTrancheUserAllByAddress *dextypes.QueryAllLimitOrderTrancheUserByAddressRequest `json:"limit_order_tranche_user_all_by_address"`
-	// Queries a LimitOrderTranche by index.
-	LimitOrderTranche *dextypes.QueryGetLimitOrderTrancheRequest `json:"limit_order_tranche"`
-	// Queries a list of LimitOrderTranche items for a given pairID / TokenIn combination.
-	LimitOrderTrancheAll *dextypes.QueryAllLimitOrderTrancheRequest `json:"limit_order_tranche_all"`
-	// Queries a list of UserDeposits items.
-	UserDepositsAll *dextypes.QueryAllUserDepositsRequest `json:"user_deposit_all"`
-	// Queries a list of TickLiquidity items.
-	TickLiquidityAll *dextypes.QueryAllTickLiquidityRequest `json:"tick_liquidity_all"`
-	// Queries a InactiveLimitOrderTranche by index.
-	InactiveLimitOrderTranche *dextypes.QueryGetInactiveLimitOrderTrancheRequest `json:"inactive_limit_order_tranche"`
-	// Queries a list of InactiveLimitOrderTranche items.
-	InactiveLimitOrderTrancheAll *dextypes.QueryAllInactiveLimitOrderTrancheRequest `json:"inactive_limit_order_tranche_all"`
-	// Queries a list of PoolReserves items.
-	PoolReservesAll *dextypes.QueryAllPoolReservesRequest `json:"pool_reserves_all"`
-	// Queries a PoolReserve by index
-	PoolReserves *dextypes.QueryGetPoolReservesRequest `json:"pool_reserves"`
-	// Queries the simulated result of a multihop swap
-	EstimateMultiHopSwap *dextypes.QueryEstimateMultiHopSwapRequest `json:"estimate_multi_hop_swap"`
-	// Queries the simulated result of a PlaceLimit order
-	EstimatePlaceLimitOrder *QueryEstimatePlaceLimitOrderRequest `json:"estimate_place_limit_order"`
-	// Queries a pool by pair, tick and fee
-	Pool *dextypes.QueryPoolRequest `json:"pool"`
-	// Queries a pool by ID
-	PoolByID *dextypes.QueryPoolByIDRequest `json:"pool_by_id"`
-	// Queries a PoolMetadata by ID
-	PoolMetadata *dextypes.QueryGetPoolMetadataRequest `json:"pool_metadata"`
-	// Queries a list of PoolMetadata items.
-	PoolMetadataAll *dextypes.QueryAllPoolMetadataRequest `json:"pool_metadata_all"`
-}
+// type DexQuery struct {
+// 	// Parameters queries the parameters of the module.
+// 	Params *dextypes.QueryParamsRequest `json:"params"`
+// 	// Queries a LimitOrderTrancheUser by index.
+// 	LimitOrderTrancheUser *dextypes.QueryGetLimitOrderTrancheUserRequest `json:"limit_order_tranche_user,omitempty"`
+// 	// Queries a list of LimitOrderTrancheUser items.
+// 	LimitOrderTrancheUserAll *dextypes.QueryAllLimitOrderTrancheUserRequest `json:"limit_order_tranche_user_all"`
+// 	// Queries a list of LimitOrderTrancheUser items for a given address.
+// 	LimitOrderTrancheUserAllByAddress *dextypes.QueryAllLimitOrderTrancheUserByAddressRequest `json:"limit_order_tranche_user_all_by_address"`
+// 	// Queries a LimitOrderTranche by index.
+// 	LimitOrderTranche *dextypes.QueryGetLimitOrderTrancheRequest `json:"limit_order_tranche"`
+// 	// Queries a list of LimitOrderTranche items for a given pairID / TokenIn combination.
+// 	LimitOrderTrancheAll *dextypes.QueryAllLimitOrderTrancheRequest `json:"limit_order_tranche_all"`
+// 	// Queries a list of UserDeposits items.
+// 	UserDepositsAll *dextypes.QueryAllUserDepositsRequest `json:"user_deposit_all"`
+// 	// Queries a list of TickLiquidity items.
+// 	TickLiquidityAll *dextypes.QueryAllTickLiquidityRequest `json:"tick_liquidity_all"`
+// 	// Queries a InactiveLimitOrderTranche by index.
+// 	InactiveLimitOrderTranche *dextypes.QueryGetInactiveLimitOrderTrancheRequest `json:"inactive_limit_order_tranche"`
+// 	// Queries a list of InactiveLimitOrderTranche items.
+// 	InactiveLimitOrderTrancheAll *dextypes.QueryAllInactiveLimitOrderTrancheRequest `json:"inactive_limit_order_tranche_all"`
+// 	// Queries a list of PoolReserves items.
+// 	PoolReservesAll *dextypes.QueryAllPoolReservesRequest `json:"pool_reserves_all"`
+// 	// Queries a PoolReserve by index
+// 	PoolReserves *dextypes.QueryGetPoolReservesRequest `json:"pool_reserves"`
+// 	// Queries the simulated result of a multihop swap
+// 	EstimateMultiHopSwap *dextypes.QueryEstimateMultiHopSwapRequest `json:"estimate_multi_hop_swap"`
+// 	// Queries the simulated result of a PlaceLimit order
+// 	EstimatePlaceLimitOrder *QueryEstimatePlaceLimitOrderRequest `json:"estimate_place_limit_order"`
+// 	// Queries a pool by pair, tick and fee
+// 	Pool *dextypes.QueryPoolRequest `json:"pool"`
+// 	// Queries a pool by ID
+// 	PoolByID *dextypes.QueryPoolByIDRequest `json:"pool_by_id"`
+// 	// Queries a PoolMetadata by ID
+// 	PoolMetadata *dextypes.QueryGetPoolMetadataRequest `json:"pool_metadata"`
+// 	// Queries a list of PoolMetadata items.
+// 	PoolMetadataAll *dextypes.QueryAllPoolMetadataRequest `json:"pool_metadata_all"`
+// }
 
 // QueryEstimatePlaceLimitOrderRequest is a copy dextypes.QueryEstimatePlaceLimitOrderRequest with altered ExpirationTime field,
 // it's a preferable way to pass timestamp as unixtime to contracts

@@ -28,18 +28,16 @@ type IBCModule struct {
 	wrappedKeeper      wrapkeeper.KeeperTransferWrapper
 	keeper             keeper.Keeper
 	sudoKeeper         neutrontypes.WasmKeeper
-	tokenfactoryKeeper neutrontypes.TokenfactoryKeeper
 	transfer.IBCModule
 }
 
 // NewIBCModule creates a new IBCModule given the keeper
-func NewIBCModule(k wrapkeeper.KeeperTransferWrapper, sudoKeeper neutrontypes.WasmKeeper, tokenfactoryKeeper neutrontypes.TokenfactoryKeeper) IBCModule {
+func NewIBCModule(k wrapkeeper.KeeperTransferWrapper, sudoKeeper neutrontypes.WasmKeeper) IBCModule {
 	return IBCModule{
 		wrappedKeeper:      k,
 		keeper:             k.Keeper,
 		sudoKeeper:         sudoKeeper,
 		IBCModule:          transfer.NewIBCModule(k.Keeper),
-		tokenfactoryKeeper: tokenfactoryKeeper,
 	}
 }
 
@@ -83,8 +81,8 @@ func (im IBCModule) OnChanOpenAck(
 		return errors.Wrap(err, "failed to process original OnChanOpenAck")
 	}
 
-	escrowAddress := transfertypes.GetEscrowAddress(portID, channelID)
-	im.tokenfactoryKeeper.StoreEscrowAddress(ctx, escrowAddress.Bytes())
+	// escrowAddress := transfertypes.GetEscrowAddress(portID, channelID)
+	// im.tokenfactoryKeeper.StoreEscrowAddress(ctx, escrowAddress.Bytes())
 
 	return nil
 }
@@ -100,8 +98,8 @@ func (im IBCModule) OnChanOpenConfirm(
 		return errors.Wrap(err, "failed to process original OnChanOpenConfirm")
 	}
 
-	escrowAddress := transfertypes.GetEscrowAddress(portID, channelID)
-	im.tokenfactoryKeeper.StoreEscrowAddress(ctx, escrowAddress.Bytes())
+	// escrowAddress := transfertypes.GetEscrowAddress(portID, channelID)
+	// im.tokenfactoryKeeper.StoreEscrowAddress(ctx, escrowAddress.Bytes())
 
 	return nil
 }

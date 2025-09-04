@@ -7,7 +7,6 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	paramChange "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
 
-	dextypes "github.com/neutron-org/neutron/v5/x/dex/types"
 	feetypes "github.com/neutron-org/neutron/v5/x/feerefunder/types"
 	icqtypes "github.com/neutron-org/neutron/v5/x/interchainqueries/types"
 	transferwrappertypes "github.com/neutron-org/neutron/v5/x/transfer/types"
@@ -63,7 +62,7 @@ type NeutronMsg struct {
 	ResubmitFailure *ResubmitFailure `json:"resubmit_failure,omitempty"`
 
 	// dex module bindings
-	Dex *Dex `json:"dex,omitempty"`
+	// Dex *Dex `json:"dex,omitempty"`
 }
 
 // SubmitTx submits interchain transaction on a remote chain.
@@ -229,14 +228,14 @@ type ResubmitFailureResponse struct {
 	FailureId uint64 `json:"failure_id"`
 }
 
-type Dex struct {
-	Deposit                  *dextypes.MsgDeposit                  `json:"deposit"`
-	Withdrawal               *dextypes.MsgWithdrawal               `json:"withdrawal"`
-	PlaceLimitOrder          *MsgPlaceLimitOrder                   `json:"place_limit_order"`
-	WithdrawFilledLimitOrder *dextypes.MsgWithdrawFilledLimitOrder `json:"withdraw_filled_limit_order"`
-	CancelLimitOrder         *dextypes.MsgCancelLimitOrder         `json:"cancel_limit_order"`
-	MultiHopSwap             *dextypes.MsgMultiHopSwap             `json:"multi_hop_swap"`
-}
+// type Dex struct {
+// 	Deposit                  *dextypes.MsgDeposit                  `json:"deposit"`
+// 	Withdrawal               *dextypes.MsgWithdrawal               `json:"withdrawal"`
+// 	PlaceLimitOrder          *MsgPlaceLimitOrder                   `json:"place_limit_order"`
+// 	WithdrawFilledLimitOrder *dextypes.MsgWithdrawFilledLimitOrder `json:"withdraw_filled_limit_order"`
+// 	CancelLimitOrder         *dextypes.MsgCancelLimitOrder         `json:"cancel_limit_order"`
+// 	MultiHopSwap             *dextypes.MsgMultiHopSwap             `json:"multi_hop_swap"`
+// }
 
 // MsgPlaceLimitOrder is a copy dextypes.MsgPlaceLimitOrder with altered ExpirationTime field,
 // it's a preferable way to pass timestamp as unixtime to contracts

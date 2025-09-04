@@ -155,9 +155,6 @@ func CustomQuerier(qp *QueryPlugin) func(ctx sdk.Context, request json.RawMessag
 
 			return bz, nil
 
-		case contractQuery.Dex != nil:
-			return qp.DexQuery(ctx, *contractQuery.Dex)
-
 		case contractQuery.Oracle != nil:
 			return qp.OracleQuery(ctx, *contractQuery.Oracle)
 

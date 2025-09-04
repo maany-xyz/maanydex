@@ -26,7 +26,6 @@ import (
 
 	contractmanagertypes "github.com/neutron-org/neutron/v5/x/contractmanager/types"
 	crontypes "github.com/neutron-org/neutron/v5/x/cron/types"
-	dextypes "github.com/neutron-org/neutron/v5/x/dex/types"
 	feeburnertypes "github.com/neutron-org/neutron/v5/x/feeburner/types"
 	feerefundertypes "github.com/neutron-org/neutron/v5/x/feerefunder/types"
 	interchainqueriestypes "github.com/neutron-org/neutron/v5/x/interchainqueries/types"
@@ -80,7 +79,6 @@ func isSdkMessageWhitelisted(msg sdk.Msg) bool {
 		*crontypes.MsgAddSchedule,
 		*crontypes.MsgRemoveSchedule,
 		*contractmanagertypes.MsgUpdateParams,
-		*dextypes.MsgUpdateParams,
 		*banktypes.MsgUpdateParams,
 		*crisistypes.MsgUpdateParams,
 		*minttypes.MsgUpdateParams,

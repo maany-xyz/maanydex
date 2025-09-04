@@ -6,14 +6,17 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/neutron-org/neutron/v5/x/dex/types"
-
 	"github.com/cosmos/cosmos-sdk/types/query"
 )
 
+// Minimal BankKeeper interface (what we actually use here)
+type BankKeeper interface {
+	IterateAccountBalances(ctx sdk.Context, addr sdk.AccAddress, cb func(sdk.Coin) bool)
+}
+
 func FilteredPaginateAccountBalances(
 	ctx sdk.Context,
-	bankKeeper types.BankKeeper,
+	bankKeeper BankKeeper,
 	address sdk.AccAddress,
 	pageRequest *query.PageRequest,
 	onResult func(coin sdk.Coin, accumulate bool) bool,

@@ -19,7 +19,6 @@ import (
 
 	"github.com/neutron-org/neutron/v5/app"
 	"github.com/neutron-org/neutron/v5/testutil"
-	dexmoduletypes "github.com/neutron-org/neutron/v5/x/dex/types"
 )
 
 type KeeperTestHelper struct {
@@ -120,10 +119,10 @@ func (s *KeeperTestHelper) Commit() {
 }
 
 // FundAcc funds target address with specified amount.
-func (s *KeeperTestHelper) FundAcc(acc sdk.AccAddress, amounts sdk.Coins) {
-	err := s.App.BankKeeper.MintCoins(s.Ctx, dexmoduletypes.ModuleName, amounts)
-	s.Require().NoError(err)
+// func (s *KeeperTestHelper) FundAcc(acc sdk.AccAddress, amounts sdk.Coins) {
+// 	err := s.App.BankKeeper.MintCoins(s.Ctx, dexmoduletypes.ModuleName, amounts)
+// 	s.Require().NoError(err)
 
-	err = s.App.BankKeeper.SendCoinsFromModuleToAccount(s.Ctx, dexmoduletypes.ModuleName, acc, amounts)
-	s.Require().NoError(err)
-}
+// 	err = s.App.BankKeeper.SendCoinsFromModuleToAccount(s.Ctx, dexmoduletypes.ModuleName, acc, amounts)
+// 	s.Require().NoError(err)
+// }

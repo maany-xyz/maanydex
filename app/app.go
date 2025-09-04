@@ -1,29 +1,28 @@
 package app
 
 import (
-	"context"
 	"fmt"
 	"io"
 	"io/fs"
 	"net/http"
 	"os"
 	"path/filepath"
-	"time"
 
 	v502 "github.com/neutron-org/neutron/v5/app/upgrades/v5.0.2"
 	v504 "github.com/neutron-org/neutron/v5/app/upgrades/v5.0.4"
 	v505 "github.com/neutron-org/neutron/v5/app/upgrades/v5.0.5"
-	dynamicfeestypes "github.com/neutron-org/neutron/v5/x/dynamicfees/types"
+
+	// dynamicfeestypes "github.com/neutron-org/neutron/v5/x/dynamicfees/types"
 
 	mintburn "github.com/neutron-org/neutron/v5/x/mintburn/keeper"
 	mintburnmodule "github.com/neutron-org/neutron/v5/x/mintburn/module"
 	mintburntypes "github.com/neutron-org/neutron/v5/x/mintburn/types"
 
-	"github.com/skip-mev/feemarket/x/feemarket"
-	feemarketkeeper "github.com/skip-mev/feemarket/x/feemarket/keeper"
-	feemarkettypes "github.com/skip-mev/feemarket/x/feemarket/types"
+	// "github.com/skip-mev/feemarket/x/feemarket"
+	// feemarketkeeper "github.com/skip-mev/feemarket/x/feemarket/keeper"
+	// feemarkettypes "github.com/skip-mev/feemarket/x/feemarket/types"
 
-	"github.com/neutron-org/neutron/v5/x/dynamicfees"
+	// "github.com/neutron-org/neutron/v5/x/dynamicfees"
 	ibcratelimit "github.com/neutron-org/neutron/v5/x/ibc-rate-limit"
 
 	"cosmossdk.io/client/v2/autocli"
@@ -32,18 +31,15 @@ import (
 
 	appconfig "github.com/neutron-org/neutron/v5/app/config"
 
-	"github.com/skip-mev/slinky/abci/strategies/aggregator"
-	"github.com/skip-mev/slinky/x/oracle"
+	// "github.com/skip-mev/slinky/x/oracle"
 
-	oraclepreblock "github.com/skip-mev/slinky/abci/preblock/oracle"
-	slinkyproposals "github.com/skip-mev/slinky/abci/proposals"
-	compression "github.com/skip-mev/slinky/abci/strategies/codec"
-	"github.com/skip-mev/slinky/abci/strategies/currencypair"
-	"github.com/skip-mev/slinky/abci/ve"
-	oracleconfig "github.com/skip-mev/slinky/oracle/config"
-	"github.com/skip-mev/slinky/pkg/math/voteweighted"
-	oracleclient "github.com/skip-mev/slinky/service/clients/oracle"
-	servicemetrics "github.com/skip-mev/slinky/service/metrics"
+	// oraclepreblock "github.com/skip-mev/slinky/abci/preblock/oracle"
+	// slinkyproposals "github.com/skip-mev/slinky/abci/proposals"
+
+	// oracleconfig "github.com/skip-mev/slinky/oracle/config"
+
+	// oracleclient "github.com/skip-mev/slinky/service/clients/oracle"
+	// servicemetrics "github.com/skip-mev/slinky/service/metrics"
 
 	v500 "github.com/neutron-org/neutron/v5/app/upgrades/v5.0.0"
 	"github.com/neutron-org/neutron/v5/x/globalfee"
@@ -155,9 +151,9 @@ import (
 	cronkeeper "github.com/neutron-org/neutron/v5/x/cron/keeper"
 	crontypes "github.com/neutron-org/neutron/v5/x/cron/types"
 
-	"github.com/neutron-org/neutron/v5/x/tokenfactory"
-	tokenfactorykeeper "github.com/neutron-org/neutron/v5/x/tokenfactory/keeper"
-	tokenfactorytypes "github.com/neutron-org/neutron/v5/x/tokenfactory/types"
+	// "github.com/neutron-org/neutron/v5/x/tokenfactory"
+	// tokenfactorykeeper "github.com/neutron-org/neutron/v5/x/tokenfactory/keeper"
+	// tokenfactorytypes "github.com/neutron-org/neutron/v5/x/tokenfactory/types"
 
 	"github.com/cosmos/admin-module/v2/x/adminmodule"
 	adminmodulecli "github.com/cosmos/admin-module/v2/x/adminmodule/client/cli"
@@ -171,7 +167,9 @@ import (
 	"github.com/neutron-org/neutron/v5/x/contractmanager"
 	contractmanagermodulekeeper "github.com/neutron-org/neutron/v5/x/contractmanager/keeper"
 	contractmanagermoduletypes "github.com/neutron-org/neutron/v5/x/contractmanager/types"
-	dynamicfeeskeeper "github.com/neutron-org/neutron/v5/x/dynamicfees/keeper"
+
+	// dynamicfeeskeeper "github.com/neutron-org/neutron/v5/x/dynamicfees/keeper"
+
 	"github.com/neutron-org/neutron/v5/x/feeburner"
 	feeburnerkeeper "github.com/neutron-org/neutron/v5/x/feeburner/keeper"
 	feeburnertypes "github.com/neutron-org/neutron/v5/x/feeburner/types"
@@ -201,29 +199,30 @@ import (
 	pfmkeeper "github.com/cosmos/ibc-apps/middleware/packet-forward-middleware/v8/packetforward/keeper"
 	pfmtypes "github.com/cosmos/ibc-apps/middleware/packet-forward-middleware/v8/packetforward/types"
 
-	"github.com/neutron-org/neutron/v5/x/dex"
-	dexkeeper "github.com/neutron-org/neutron/v5/x/dex/keeper"
-	dextypes "github.com/neutron-org/neutron/v5/x/dex/types"
+	// "github.com/neutron-org/neutron/v5/x/dex"
+	// dexkeeper "github.com/neutron-org/neutron/v5/x/dex/keeper"
+	// dextypes "github.com/neutron-org/neutron/v5/x/dex/types"
 
 	globalfeekeeper "github.com/neutron-org/neutron/v5/x/globalfee/keeper"
 	gmpmiddleware "github.com/neutron-org/neutron/v5/x/gmp"
 
 	// Block-sdk imports
-	blocksdkabci "github.com/skip-mev/block-sdk/v2/abci"
+	// blocksdkabci "github.com/skip-mev/block-sdk/v2/abci"
 	blocksdk "github.com/skip-mev/block-sdk/v2/block"
-	"github.com/skip-mev/block-sdk/v2/x/auction"
-	auctionkeeper "github.com/skip-mev/block-sdk/v2/x/auction/keeper"
-	rewardsaddressprovider "github.com/skip-mev/block-sdk/v2/x/auction/rewards"
-	auctiontypes "github.com/skip-mev/block-sdk/v2/x/auction/types"
+
+	// "github.com/skip-mev/block-sdk/v2/x/auction"
+	// auctionkeeper "github.com/skip-mev/block-sdk/v2/x/auction/keeper"
+	// rewardsaddressprovider "github.com/skip-mev/block-sdk/v2/x/auction/rewards"
+	// auctiontypes "github.com/skip-mev/block-sdk/v2/x/auction/types"
 
 	"github.com/skip-mev/block-sdk/v2/abci/checktx"
-	"github.com/skip-mev/block-sdk/v2/block/base"
 
-	"github.com/skip-mev/slinky/x/marketmap"
-	marketmapkeeper "github.com/skip-mev/slinky/x/marketmap/keeper"
-	marketmaptypes "github.com/skip-mev/slinky/x/marketmap/types"
-	oraclekeeper "github.com/skip-mev/slinky/x/oracle/keeper"
-	oracletypes "github.com/skip-mev/slinky/x/oracle/types"
+	// "github.com/skip-mev/slinky/x/marketmap"
+	// marketmapkeeper "github.com/skip-mev/slinky/x/marketmap/keeper"
+	// marketmaptypes "github.com/skip-mev/slinky/x/marketmap/types"
+
+	// oraclekeeper "github.com/skip-mev/slinky/x/oracle/keeper"
+	// oracletypes "github.com/skip-mev/slinky/x/oracle/types"
 
 	runtimeservices "github.com/cosmos/cosmos-sdk/runtime/services"
 
@@ -257,8 +256,11 @@ var (
 	// non-dependant module elements, such as codec registration
 	// and genesis verification.
 	ModuleBasics = module.NewBasicManager(
+		// -----------------------------
+		// Core (Cosmos SDK + Maany-DEX)
+		// -----------------------------
 		auth.AppModuleBasic{},
-		authzmodule.AppModuleBasic{},
+		authzmodule.AppModuleBasic{}, 
 		bank.AppModuleBasic{},
 		capability.AppModuleBasic{},
 		genutil.NewAppModuleBasic(genutiltypes.DefaultMessageValidator),
@@ -266,22 +268,44 @@ var (
 		crisis.AppModuleBasic{},
 		slashing.AppModuleBasic{},
 		feegrantmodule.AppModuleBasic{},
-		ibc.AppModuleBasic{},
-		ica.AppModuleBasic{},
-		tendermint.AppModuleBasic{},
 		upgrade.AppModuleBasic{},
 		evidence.AppModuleBasic{},
-		transferSudo.AppModuleBasic{},
 		vesting.AppModuleBasic{},
+		tendermint.AppModuleBasic{},
+		consensus.AppModuleBasic{},
+		// DEX essentials
+		gamm.AppModuleBasic{},
+		poolmanagermodule.AppModuleBasic{},
+		// -----------------------------
+		// IBC Core (+ ICS Consumer)
+		// -----------------------------
+		ibc.AppModuleBasic{},
 		ccvconsumer.AppModuleBasic{},
-		wasm.AppModuleBasic{},
-		tokenfactory.AppModuleBasic{},
+		ica.AppModuleBasic{},
+		transferSudo.AppModuleBasic{},
+		// ----------------------------------------
+		// Neutron – keep (useful; default to “off”)
+		// ----------------------------------------
 		interchainqueries.AppModuleBasic{},
 		interchaintxs.AppModuleBasic{},
+
+		ibcratelimit.AppModuleBasic{},
+		packetforward.AppModuleBasic{},
 		feerefunder.AppModuleBasic{},
 		feeburner.AppModuleBasic{},
 		contractmanager.AppModuleBasic{},
 		cron.AppModuleBasic{},
+
+		globalfee.AppModule{},
+
+		// Only if you keep CosmWasm enabled; otherwise drop both wasm + ibchooks:
+		// (If kept, lock uploads/instantiation to Nobody in genesis)
+		wasm.AppModuleBasic{},            // CosmWasm contracts (LOCK or remove for MVP)
+		ibchooks.AppModuleBasic{},        // IBC→WASM hooks; needs wasm
+
+		// --------------------------------
+		// Neutron – unused (for now / MVP)
+		// --------------------------------
 		adminmodule.NewAppModuleBasic(
 			govclient.NewProposalHandler(
 				adminmodulecli.NewSubmitParamChangeProposalTxCmd,
@@ -293,26 +317,19 @@ var (
 				adminmodulecli.NewCmdSubmitCancelUpgradeProposal,
 			),
 		),
-		ibchooks.AppModuleBasic{},
-		packetforward.AppModuleBasic{},
-		ibcratelimit.AppModuleBasic{},
-		auction.AppModuleBasic{},
-		globalfee.AppModule{},
-		feemarket.AppModuleBasic{},
-		dex.AppModuleBasic{},
-		oracle.AppModuleBasic{},
-		marketmap.AppModuleBasic{},
-		dynamicfees.AppModuleBasic{},
-		consensus.AppModuleBasic{},
-		gamm.AppModuleBasic{},
-		poolmanagermodule.AppModuleBasic{},
-		
+		// tokenfactory.AppModuleBasic{},
+		// dex.AppModuleBasic{},
+		// oracle.AppModuleBasic{},
+		// marketmap.AppModuleBasic{},
+		// feemarket.AppModuleBasic{},
+		//dynamicfees.AppModuleBasic{},
+		// auction.AppModuleBasic{},
 	)
 
 	// module account permissions
 	maccPerms = map[string][]string{
 		authtypes.FeeCollectorName:                    nil,
-		auctiontypes.ModuleName:                       nil,
+		// auctiontypes.ModuleName:                       nil,
 		ibctransfertypes.ModuleName:                   {authtypes.Minter, authtypes.Burner},
 		icatypes.ModuleName:                           nil,
 		wasmtypes.ModuleName:                          {},
@@ -321,12 +338,12 @@ var (
 		feeburnertypes.ModuleName:                     nil,
 		ccvconsumertypes.ConsumerRedistributeName:     {authtypes.Burner},
 		ccvconsumertypes.ConsumerToSendToProviderName: nil,
-		tokenfactorytypes.ModuleName:                  {authtypes.Minter, authtypes.Burner},
+		// tokenfactorytypes.ModuleName:                  {authtypes.Minter, authtypes.Burner},
 		crontypes.ModuleName:                          nil,
-		dextypes.ModuleName:                           {authtypes.Minter, authtypes.Burner},
-		oracletypes.ModuleName:                        nil,
-		marketmaptypes.ModuleName:                     nil,
-		feemarkettypes.FeeCollectorName:               nil,
+		// dextypes.ModuleName:                           {authtypes.Minter, authtypes.Burner},
+		// oracletypes.ModuleName:                        nil,
+		// marketmaptypes.ModuleName:                     nil,
+		// feemarkettypes.FeeCollectorName:               nil,
 		mintburntypes.MintBurnModuleAccount: 		   {authtypes.Minter, authtypes.Burner},
 		gammtypes.ModuleName:                          {authtypes.Minter, authtypes.Burner},
 		poolmanagertypes.ModuleName:				   {authtypes.Minter, authtypes.Burner},
@@ -378,7 +395,7 @@ type App struct {
 	AuthzKeeper       authzkeeper.Keeper
 	BankKeeper        bankkeeper.BaseKeeper
 	// AuctionKeeper handles the processing of bid-txs, the selection of winners per height, and the distribution of rewards.
-	AuctionKeeper       auctionkeeper.Keeper
+	// AuctionKeeper       auctionkeeper.Keeper
 	CapabilityKeeper    *capabilitykeeper.Keeper
 	SlashingKeeper      slashingkeeper.Keeper
 	CrisisKeeper        crisiskeeper.Keeper
@@ -390,15 +407,15 @@ type App struct {
 	EvidenceKeeper      evidencekeeper.Keeper
 	TransferKeeper      wrapkeeper.KeeperTransferWrapper
 	FeeGrantKeeper      feegrantkeeper.Keeper
-	FeeMarkerKeeper     *feemarketkeeper.Keeper
-	DynamicFeesKeeper   *dynamicfeeskeeper.Keeper
+	// FeeMarkerKeeper     *feemarketkeeper.Keeper
+	// DynamicFeesKeeper   *dynamicfeeskeeper.Keeper
 	FeeKeeper           *feekeeper.Keeper
 	FeeBurnerKeeper     *feeburnerkeeper.Keeper
 	ConsumerKeeper      ccvconsumerkeeper.Keeper
-	TokenFactoryKeeper  *tokenfactorykeeper.Keeper
+	// TokenFactoryKeeper  *tokenfactorykeeper.Keeper
 	CronKeeper          cronkeeper.Keeper
 	PFMKeeper           *pfmkeeper.Keeper
-	DexKeeper           dexkeeper.Keeper
+	// DexKeeper           dexkeeper.Keeper
 	GlobalFeeKeeper     globalfeekeeper.Keeper
 
 	PFMModule packetforward.AppModule
@@ -425,12 +442,12 @@ type App struct {
 	ContractKeeper *wasmkeeper.PermissionedKeeper
 
 	// slinky
-	MarketMapKeeper       *marketmapkeeper.Keeper
-	OracleKeeper          *oraclekeeper.Keeper
-	oraclePreBlockHandler *oraclepreblock.PreBlockHandler
+	// MarketMapKeeper       *marketmapkeeper.Keeper
+	// OracleKeeper          *oraclekeeper.Keeper
+	// oraclePreBlockHandler *oraclepreblock.PreBlockHandler
 
-	// processes
-	oracleClient oracleclient.OracleClient
+	// // processes
+	// oracleClient oracleclient.OracleClient
 
 	// mm is the module manager
 	mm *module.Manager
@@ -520,12 +537,17 @@ func New(
 		evidencetypes.StoreKey, ibctransfertypes.StoreKey, icacontrollertypes.StoreKey,
 		icahosttypes.StoreKey, capabilitytypes.StoreKey,
 		interchainqueriesmoduletypes.StoreKey, contractmanagermoduletypes.StoreKey, interchaintxstypes.StoreKey, wasmtypes.StoreKey, feetypes.StoreKey,
-		feeburnertypes.StoreKey, adminmoduletypes.StoreKey, ccvconsumertypes.StoreKey, tokenfactorytypes.StoreKey, pfmtypes.StoreKey,
-		crontypes.StoreKey, ibcratelimittypes.ModuleName, ibchookstypes.StoreKey, consensusparamtypes.StoreKey, crisistypes.StoreKey, dextypes.StoreKey, auctiontypes.StoreKey,
-		oracletypes.StoreKey, marketmaptypes.StoreKey, feemarkettypes.StoreKey, dynamicfeestypes.StoreKey, globalfeetypes.StoreKey,
+		feeburnertypes.StoreKey, adminmoduletypes.StoreKey, ccvconsumertypes.StoreKey, //tokenfactorytypes.StoreKey,
+		pfmtypes.StoreKey,
+		crontypes.StoreKey, ibcratelimittypes.ModuleName, ibchookstypes.StoreKey, consensusparamtypes.StoreKey, crisistypes.StoreKey, //dextypes.StoreKey, 
+		// auctiontypes.StoreKey,
+		// oracletypes.StoreKey, marketmaptypes.StoreKey, 
+		 //feemarkettypes.StoreKey, 
+		// dynamicfeestypes.StoreKey
+		globalfeetypes.StoreKey,
 		mintburntypes.StoreKey, gammtypes.StoreKey, poolmanagertypes.StoreKey,
 	)
-	tkeys := storetypes.NewTransientStoreKeys(paramstypes.TStoreKey, dextypes.TStoreKey)
+	tkeys := storetypes.NewTransientStoreKeys(paramstypes.TStoreKey)
 	memKeys := storetypes.NewMemoryStoreKeys(capabilitytypes.MemStoreKey, feetypes.MemStoreKey)
 
 	app := &App{
@@ -610,15 +632,15 @@ func New(
 		authtypes.NewModuleAddress(adminmoduletypes.ModuleName).String(),
 	)
 
-	app.DynamicFeesKeeper = dynamicfeeskeeper.NewKeeper(appCodec, keys[dynamicfeestypes.StoreKey], authtypes.NewModuleAddress(adminmoduletypes.ModuleName).String())
+	// app.DynamicFeesKeeper = dynamicfeeskeeper.NewKeeper(appCodec, keys[dynamicfeestypes.StoreKey], authtypes.NewModuleAddress(adminmoduletypes.ModuleName).String())
 
-	app.FeeMarkerKeeper = feemarketkeeper.NewKeeper(
-		appCodec,
-		keys[feemarkettypes.StoreKey],
-		app.AccountKeeper,
-		app.DynamicFeesKeeper,
-		authtypes.NewModuleAddress(adminmoduletypes.ModuleName).String(),
-	)
+	// app.FeeMarkerKeeper = feemarketkeeper.NewKeeper(
+	// 	appCodec,
+	// 	keys[feemarkettypes.StoreKey],
+	// 	app.AccountKeeper,
+	// 	app.DynamicFeesKeeper,
+	// 	authtypes.NewModuleAddress(adminmoduletypes.ModuleName).String(),
+	// )
 
 	// ... other modules keepers
 	// pre-initialize ConsumerKeeper to satisfy ibckeeper.NewKeeper
@@ -664,16 +686,16 @@ func New(
 		authtypes.NewModuleAddress(adminmoduletypes.ModuleName).String(),
 	)
 
-	tokenFactoryKeeper := tokenfactorykeeper.NewKeeper(
-		appCodec,
-		app.keys[tokenfactorytypes.StoreKey],
-		maccPerms,
-		app.AccountKeeper,
-		&app.BankKeeper,
-		&app.WasmKeeper,
-		authtypes.NewModuleAddress(adminmoduletypes.ModuleName).String(),
-	)
-	app.TokenFactoryKeeper = &tokenFactoryKeeper
+	// tokenFactoryKeeper := tokenfactorykeeper.NewKeeper(
+	// 	appCodec,
+	// 	app.keys[tokenfactorytypes.StoreKey],
+	// 	maccPerms,
+	// 	app.AccountKeeper,
+	// 	&app.BankKeeper,
+	// 	&app.WasmKeeper,
+	// 	authtypes.NewModuleAddress(adminmoduletypes.ModuleName).String(),
+	// )
+	// app.TokenFactoryKeeper = &tokenFactoryKeeper
 
 	app.WireICS20PreWasmKeeper(appCodec)
 	app.PFMModule = packetforward.NewAppModule(app.PFMKeeper, app.GetSubspace(pfmtypes.ModuleName))
@@ -738,31 +760,31 @@ func New(
 	app.ConsumerKeeper = *app.ConsumerKeeper.SetHooks(app.SlashingKeeper.Hooks())
 	consumerModule := ccvconsumer.NewAppModule(app.ConsumerKeeper, app.GetSubspace(ccvconsumertypes.ModuleName))
 
-	app.BankKeeper.BaseSendKeeper = app.BankKeeper.BaseSendKeeper.SetHooks(
-		banktypes.NewMultiBankHooks(
-			app.TokenFactoryKeeper.Hooks(),
-		))
+	// app.BankKeeper.BaseSendKeeper = app.BankKeeper.BaseSendKeeper.SetHooks(
+	// 	banktypes.NewMultiBankHooks(
+	// 		app.TokenFactoryKeeper.Hooks(),
+	// 	))
 
-	app.DexKeeper = *dexkeeper.NewKeeper(
-		appCodec,
-		keys[dextypes.StoreKey],
-		keys[dextypes.MemStoreKey],
-		tkeys[dextypes.TStoreKey],
-		app.BankKeeper.WithMintCoinsRestriction(dextypes.NewDexDenomMintCoinsRestriction()),
-		authtypes.NewModuleAddress(adminmoduletypes.ModuleName).String(),
-	)
+	// app.DexKeeper = *dexkeeper.NewKeeper(
+	// 	appCodec,
+	// 	keys[dextypes.StoreKey],
+	// 	keys[dextypes.MemStoreKey],
+	// 	tkeys[dextypes.TStoreKey],
+	// 	app.BankKeeper.WithMintCoinsRestriction(dextypes.NewDexDenomMintCoinsRestriction()),
+	// 	authtypes.NewModuleAddress(adminmoduletypes.ModuleName).String(),
+	// )
 
-	app.AuctionKeeper = auctionkeeper.NewKeeperWithRewardsAddressProvider(
-		appCodec,
-		keys[auctiontypes.StoreKey],
-		app.AccountKeeper,
-		&app.BankKeeper,
-		// 25% of rewards should be sent to the redistribute address
-		rewardsaddressprovider.NewFixedAddressRewardsAddressProvider(app.AccountKeeper.GetModuleAddress(ccvconsumertypes.ConsumerRedistributeName)),
-		authtypes.NewModuleAddress(adminmoduletypes.ModuleName).String(),
-	)
+	// app.AuctionKeeper = auctionkeeper.NewKeeperWithRewardsAddressProvider(
+	// 	appCodec,
+	// 	keys[auctiontypes.StoreKey],
+	// 	app.AccountKeeper,
+	// 	&app.BankKeeper,
+	// 	// 25% of rewards should be sent to the redistribute address
+	// 	rewardsaddressprovider.NewFixedAddressRewardsAddressProvider(app.AccountKeeper.GetModuleAddress(ccvconsumertypes.ConsumerRedistributeName)),
+	// 	authtypes.NewModuleAddress(adminmoduletypes.ModuleName).String(),
+	// )
 
-	dexModule := dex.NewAppModule(appCodec, app.DexKeeper, app.BankKeeper)
+	// dexModule := dex.NewAppModule(appCodec, app.DexKeeper, app.BankKeeper)
 
 	wasmDir := filepath.Join(homePath, "wasm")
 	wasmConfig, err := wasm.ReadWasmConfig(appOpts)
@@ -818,21 +840,21 @@ func New(
 		authtypes.NewModuleAddress(adminmoduletypes.ModuleName).String(),
 	)
 
-	app.MarketMapKeeper = marketmapkeeper.NewKeeper(
-		runtime.NewKVStoreService(keys[marketmaptypes.StoreKey]),
-		appCodec,
-		authtypes.NewModuleAddress(adminmoduletypes.ModuleName),
-	)
-	marketmapModule := marketmap.NewAppModule(appCodec, app.MarketMapKeeper)
+	// app.MarketMapKeeper = marketmapkeeper.NewKeeper(
+	// 	runtime.NewKVStoreService(keys[marketmaptypes.StoreKey]),
+	// 	appCodec,
+	// 	authtypes.NewModuleAddress(adminmoduletypes.ModuleName),
+	// )
+	// marketmapModule := marketmap.NewAppModule(appCodec, app.MarketMapKeeper)
 
-	oracleKeeper := oraclekeeper.NewKeeper(runtime.NewKVStoreService(keys[oracletypes.StoreKey]),
-		appCodec,
-		app.MarketMapKeeper,
-		authtypes.NewModuleAddress(adminmoduletypes.ModuleName))
-	app.OracleKeeper = &oracleKeeper
-	oracleModule := oracle.NewAppModule(appCodec, *app.OracleKeeper)
+	// oracleKeeper := oraclekeeper.NewKeeper(runtime.NewKVStoreService(keys[oracletypes.StoreKey]),
+	// 	appCodec,
+	// 	app.MarketMapKeeper,
+	// 	authtypes.NewModuleAddress(adminmoduletypes.ModuleName))
+	// app.OracleKeeper = &oracleKeeper
+	// oracleModule := oracle.NewAppModule(appCodec, *app.OracleKeeper)
 
-	app.MarketMapKeeper.SetHooks(app.OracleKeeper.Hooks())
+	// app.MarketMapKeeper.SetHooks(app.OracleKeeper.Hooks())
 
 	app.CronKeeper = *cronkeeper.NewKeeper(
 		appCodec,
@@ -844,17 +866,18 @@ func New(
 	wasmOpts = append(wasmbinding.RegisterCustomPlugins(
 		&app.InterchainTxsKeeper,
 		&app.InterchainQueriesKeeper,
-		app.TransferKeeper,
+		// app.TransferKeeper,
 		&app.AdminmoduleKeeper,
 		app.FeeBurnerKeeper,
 		app.FeeKeeper,
 		&app.BankKeeper,
-		app.TokenFactoryKeeper,
+		nil,
 		&app.CronKeeper,
 		&app.ContractManagerKeeper,
-		&app.DexKeeper,
-		app.OracleKeeper,
-		app.MarketMapKeeper,
+		nil,
+		// app.OracleKeeper,
+		// app.MarketMapKeeper,
+		nil,
 	), wasmOpts...)
 
 	queryPlugins := wasmkeeper.WithQueryPlugins(
@@ -980,15 +1003,15 @@ func New(
 		adminModule,
 		ibcRateLimitmodule,
 		ibcHooksModule,
-		tokenfactory.NewAppModule(appCodec, *app.TokenFactoryKeeper, app.AccountKeeper, app.BankKeeper),
+		// tokenfactory.NewAppModule(appCodec, *app.TokenFactoryKeeper, app.AccountKeeper, app.BankKeeper),
 		cronModule,
 		globalfee.NewAppModule(app.GlobalFeeKeeper, app.GetSubspace(globalfee.ModuleName), app.AppCodec(), app.keys[globalfee.ModuleName]),
-		feemarket.NewAppModule(appCodec, *app.FeeMarkerKeeper),
-		dynamicfees.NewAppModule(appCodec, *app.DynamicFeesKeeper),
-		dexModule,
-		marketmapModule,
-		oracleModule,
-		auction.NewAppModule(appCodec, app.AuctionKeeper),
+		// feemarket.NewAppModule(appCodec, *app.FeeMarkerKeeper),
+		// dynamicfees.NewAppModule(appCodec, *app.DynamicFeesKeeper),
+		// dexModule,
+		// marketmapModule,
+		// oracleModule,
+		// auction.NewAppModule(appCodec, app.AuctionKeeper),
 		consensus.NewAppModule(appCodec, app.ConsensusParamsKeeper),
 		// always be last to make sure that it checks for all invariants and not only part of them
 		crisis.NewAppModule(&app.CrisisKeeper, skipGenesisInvariants, app.GetSubspace(crisistypes.ModuleName)),
@@ -1007,7 +1030,7 @@ func New(
 	// CanWithdrawInvariant invariant.
 	// NOTE: staking module is required if HistoricalEntries param > 0
 	app.mm.SetOrderBeginBlockers(
-		auctiontypes.ModuleName,
+		// auctiontypes.ModuleName,
 		upgradetypes.ModuleName,
 		capabilitytypes.ModuleName,
 		slashingtypes.ModuleName,
@@ -1022,7 +1045,7 @@ func New(
 		feegrant.ModuleName,
 		paramstypes.ModuleName,
 		ccvconsumertypes.ModuleName,
-		tokenfactorytypes.ModuleName,
+		// tokenfactorytypes.ModuleName,
 		icatypes.ModuleName,
 		interchainqueriesmoduletypes.ModuleName,
 		interchaintxstypes.ModuleName,
@@ -1035,11 +1058,11 @@ func New(
 		ibchookstypes.ModuleName,
 		pfmtypes.ModuleName,
 		crontypes.ModuleName,
-		marketmaptypes.ModuleName,
-		oracletypes.ModuleName,
+		// marketmaptypes.ModuleName,
+		// oracletypes.ModuleName,
 		globalfee.ModuleName,
-		feemarkettypes.ModuleName,
-		dextypes.ModuleName,
+		// feemarkettypes.ModuleName,
+		// dextypes.ModuleName,
 		consensusparamtypes.ModuleName,
 		gammtypes.ModuleName,
 		poolmanagertypes.ModuleName,
@@ -1047,7 +1070,7 @@ func New(
 	)
 
 	app.mm.SetOrderEndBlockers(
-		auctiontypes.ModuleName,
+		// auctiontypes.ModuleName,
 		crisistypes.ModuleName,
 		capabilitytypes.ModuleName,
 		authtypes.ModuleName,
@@ -1062,7 +1085,7 @@ func New(
 		ibchost.ModuleName,
 		ibctransfertypes.ModuleName,
 		ccvconsumertypes.ModuleName,
-		tokenfactorytypes.ModuleName,
+		// tokenfactorytypes.ModuleName,
 		icatypes.ModuleName,
 		interchainqueriesmoduletypes.ModuleName,
 		interchaintxstypes.ModuleName,
@@ -1075,11 +1098,11 @@ func New(
 		ibchookstypes.ModuleName,
 		pfmtypes.ModuleName,
 		crontypes.ModuleName,
-		marketmaptypes.ModuleName,
-		oracletypes.ModuleName,
+		// marketmaptypes.ModuleName,
+		// oracletypes.ModuleName,
 		globalfee.ModuleName,
-		feemarkettypes.ModuleName,
-		dextypes.ModuleName,
+		// feemarkettypes.ModuleName,
+		// dextypes.ModuleName,
 		consensusparamtypes.ModuleName,
 		gammtypes.ModuleName,
 		poolmanagertypes.ModuleName,
@@ -1092,7 +1115,7 @@ func New(
 	// so that other modules that want to create or claim capabilities afterwards in InitChain
 	// can do so safely.
 	app.mm.SetOrderInitGenesis(
-		auctiontypes.ModuleName,
+		// auctiontypes.ModuleName,
 		capabilitytypes.ModuleName,
 		authtypes.ModuleName,
 		ibctransfertypes.ModuleName,
@@ -1107,7 +1130,7 @@ func New(
 		upgradetypes.ModuleName,
 		feegrant.ModuleName,
 		ccvconsumertypes.ModuleName,
-		tokenfactorytypes.ModuleName,
+		// tokenfactorytypes.ModuleName,
 		icatypes.ModuleName,
 		interchainqueriesmoduletypes.ModuleName,
 		interchaintxstypes.ModuleName,
@@ -1121,11 +1144,11 @@ func New(
 		pfmtypes.ModuleName,
 		crontypes.ModuleName,
 		globalfee.ModuleName,
-		feemarkettypes.ModuleName,
-		oracletypes.ModuleName,
-		marketmaptypes.ModuleName,
-		dextypes.ModuleName,
-		dynamicfeestypes.ModuleName,
+		// feemarkettypes.ModuleName,
+		// oracletypes.ModuleName,
+		// marketmaptypes.ModuleName,
+		// dextypes.ModuleName,
+		// dynamicfeestypes.ModuleName,
 		consensusparamtypes.ModuleName,
 		mintburntypes.ModuleName,
 		gammtypes.ModuleName,
@@ -1162,7 +1185,7 @@ func New(
 		interchainTxsModule,
 		feeBurnerModule,
 		cronModule,
-		dexModule,
+		// dexModule,
 	)
 	app.sm.RegisterStoreDecoders()
 
@@ -1201,7 +1224,7 @@ func New(
 			WasmConfig:            &wasmConfig,
 			TXCounterStoreService: runtime.NewKVStoreService(keys[wasmtypes.StoreKey]),
 			ConsumerKeeper:        app.ConsumerKeeper,
-			FeeMarketKeeper:       app.FeeMarkerKeeper,
+			// FeeMarketKeeper:       app.FeeMarkerKeeper,
 		},
 		app.Logger(),
 	)
@@ -1210,84 +1233,84 @@ func New(
 	}
 	app.SetAnteHandler(anteHandler)
 
-	postHandlerOptions := PostHandlerOptions{
-		AccountKeeper:   app.AccountKeeper,
-		BankKeeper:      app.BankKeeper,
-		FeeMarketKeeper: app.FeeMarkerKeeper,
-	}
-	postHandler, err := NewPostHandler(postHandlerOptions)
-	if err != nil {
-		panic(err)
-	}
-	app.SetPostHandler(postHandler)
+	// postHandlerOptions := PostHandlerOptions{
+	// 	AccountKeeper:   app.AccountKeeper,
+	// 	BankKeeper:      app.BankKeeper,
+	// 	// FeeMarketKeeper: app.FeeMarkerKeeper,
+	// }
+	// postHandler, err := NewPostHandler(postHandlerOptions)
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// app.SetPostHandler(postHandler)
 
 	// set ante-handlers
-	opts := []base.LaneOption{
-		base.WithAnteHandler(anteHandler),
-	}
-	baseLane.WithOptions(opts...)
+	// opts := []base.LaneOption{
+	// 	base.WithAnteHandler(anteHandler),
+	// }
+	// baseLane.WithOptions(opts...)
 
 	// set the block-sdk prepare / process-proposal handlers
-	blockSdkProposalHandler := blocksdkabci.NewDefaultProposalHandler(
-		app.Logger(),
-		app.GetTxConfig().TxDecoder(),
-		app.GetTxConfig().TxEncoder(),
-		mempool,
-	)
+	// blockSdkProposalHandler := blocksdkabci.NewDefaultProposalHandler(
+	// 	app.Logger(),
+	// 	app.GetTxConfig().TxDecoder(),
+	// 	app.GetTxConfig().TxEncoder(),
+	// 	mempool,
+	// )
 
 	// Read general config from app-opts, and construct oracle service.
-	cfg, err := oracleconfig.ReadConfigFromAppOpts(appOpts)
-	if err != nil {
-		panic(err)
-	}
+	// cfg, err := oracleconfig.ReadConfigFromAppOpts(appOpts)
+	// if err != nil {
+	// 	panic(err)
+	// }
 
-	// If app level instrumentation is enabled, then wrap the oracle service with a metrics client
-	// to get metrics on the oracle service (for ABCI++). This will allow the instrumentation to track
-	// latency in VerifyVoteExtension requests and more.
-	oracleMetrics, err := servicemetrics.NewMetricsFromConfig(cfg, app.ChainID())
-	if err != nil {
-		panic(err)
-	}
+	// // If app level instrumentation is enabled, then wrap the oracle service with a metrics client
+	// // to get metrics on the oracle service (for ABCI++). This will allow the instrumentation to track
+	// // latency in VerifyVoteExtension requests and more.
+	// oracleMetrics, err := servicemetrics.NewMetricsFromConfig(cfg, app.ChainID())
+	// if err != nil {
+	// 	panic(err)
+	// }
 
-	// Create the oracle service.
-	app.oracleClient, err = oracleclient.NewClientFromConfig(
-		cfg,
-		app.Logger().With("client", "oracle"),
-		oracleMetrics,
-	)
-	if err != nil {
-		panic(err)
-	}
+	// // Create the oracle service.
+	// app.oracleClient, err = oracleclient.NewClientFromConfig(
+	// 	cfg,
+	// 	app.Logger().With("client", "oracle"),
+	// 	oracleMetrics,
+	// )
+	// if err != nil {
+	// 	panic(err)
+	// }
 
-	// Connect to the oracle service
-	if err := app.oracleClient.Start(context.Background()); err != nil {
-		app.Logger().Error("failed to start oracle client", "err", err)
-		panic(err)
-	}
+	// // Connect to the oracle service
+	// if err := app.oracleClient.Start(context.Background()); err != nil {
+	// 	app.Logger().Error("failed to start oracle client", "err", err)
+	// 	panic(err)
+	// }
 
 	// Create special kind of store to implement ValidatorStore interfaces for ConsumerKeeper (as we don't have StakingKeeper)
-	ccvconsumerCompatKeeper := voteweighted.NewCCVConsumerCompatKeeper(app.ConsumerKeeper)
+	// ccvconsumerCompatKeeper := voteweighted.NewCCVConsumerCompatKeeper(app.ConsumerKeeper)
 
 	// Create the proposal handler that will be used to fill proposals with
-	// transactions and oracle data.
-	oracleProposalHandler := slinkyproposals.NewProposalHandler(
-		app.Logger(),
-		blockSdkProposalHandler.PrepareProposalHandler(),
-		baseapp.NoOpProcessProposal(),
-		ve.NewDefaultValidateVoteExtensionsFn(ccvconsumerCompatKeeper),
-		compression.NewCompressionVoteExtensionCodec(
-			compression.NewDefaultVoteExtensionCodec(),
-			compression.NewZLibCompressor(),
-		),
-		compression.NewCompressionExtendedCommitCodec(
-			compression.NewDefaultExtendedCommitCodec(),
-			compression.NewZStdCompressor(),
-		),
-		currencypair.NewDeltaCurrencyPairStrategy(app.OracleKeeper),
-		oracleMetrics,
-	)
-	app.SetPrepareProposal(oracleProposalHandler.PrepareProposalHandler())
-	app.SetProcessProposal(oracleProposalHandler.ProcessProposalHandler())
+	// // transactions and oracle data.
+	// oracleProposalHandler := slinkyproposals.NewProposalHandler(
+	// 	app.Logger(),
+	// 	blockSdkProposalHandler.PrepareProposalHandler(),
+	// 	baseapp.NoOpProcessProposal(),
+	// 	ve.NewDefaultValidateVoteExtensionsFn(ccvconsumerCompatKeeper),
+	// 	compression.NewCompressionVoteExtensionCodec(
+	// 		compression.NewDefaultVoteExtensionCodec(),
+	// 		compression.NewZLibCompressor(),
+	// 	),
+	// 	compression.NewCompressionExtendedCommitCodec(
+	// 		compression.NewDefaultExtendedCommitCodec(),
+	// 		compression.NewZStdCompressor(),
+	// 	),
+	// 	currencypair.NewDeltaCurrencyPairStrategy(app.OracleKeeper),
+	// 	oracleMetrics,
+	// )
+	// app.SetPrepareProposal(oracleProposalHandler.PrepareProposalHandler())
+	// app.SetProcessProposal(oracleProposalHandler.ProcessProposalHandler())
 
 	// wrap checkTxHandler with mempool parity handler
 	parityCheckTx := checktx.NewMempoolParityCheckTx(
@@ -1302,66 +1325,66 @@ func New(
 
 	// Create the aggregation function that will be used to aggregate oracle data
 	// from each validator.
-	aggregatorFn := voteweighted.MedianFromContext(
-		app.Logger(),
-		ccvconsumerCompatKeeper,
-		voteweighted.DefaultPowerThreshold,
-	)
+	// aggregatorFn := voteweighted.MedianFromContext(
+	// 	app.Logger(),
+	// 	ccvconsumerCompatKeeper,
+	// 	voteweighted.DefaultPowerThreshold,
+	// )
 
 	// Create the pre-finalize block hook that will be used to apply oracle data
 	// to the state before any transactions are executed (in finalize block).
-	app.oraclePreBlockHandler = oraclepreblock.NewOraclePreBlockHandler(
-		app.Logger(),
-		aggregatorFn,
-		app.OracleKeeper,
-		oracleMetrics,
-		currencypair.NewDeltaCurrencyPairStrategy(app.OracleKeeper),
-		compression.NewCompressionVoteExtensionCodec(
-			compression.NewDefaultVoteExtensionCodec(),
-			compression.NewZLibCompressor(),
-		),
-		compression.NewCompressionExtendedCommitCodec(
-			compression.NewDefaultExtendedCommitCodec(),
-			compression.NewZStdCompressor(),
-		),
-	)
+	// app.oraclePreBlockHandler = oraclepreblock.NewOraclePreBlockHandler(
+	// 	app.Logger(),
+	// 	aggregatorFn,
+	// 	app.OracleKeeper,
+	// 	oracleMetrics,
+	// 	currencypair.NewDeltaCurrencyPairStrategy(app.OracleKeeper),
+	// 	compression.NewCompressionVoteExtensionCodec(
+	// 		compression.NewDefaultVoteExtensionCodec(),
+	// 		compression.NewZLibCompressor(),
+	// 	),
+	// 	compression.NewCompressionExtendedCommitCodec(
+	// 		compression.NewDefaultExtendedCommitCodec(),
+	// 		compression.NewZStdCompressor(),
+	// 	),
+	// )
 
-	app.SetPreBlocker(app.oraclePreBlockHandler.WrappedPreBlocker(app.mm))
+	// app.SetPreBlocker(app.oraclePreBlockHandler.WrappedPreBlocker(app.mm))
 
 	// Create the vote extensions handler that will be used to extend and verify
 	// vote extensions (i.e. oracle data).
-	veCodec := compression.NewCompressionVoteExtensionCodec(
-		compression.NewDefaultVoteExtensionCodec(),
-		compression.NewZLibCompressor(),
-	)
-	extCommitCodec := compression.NewCompressionExtendedCommitCodec(
-		compression.NewDefaultExtendedCommitCodec(),
-		compression.NewZStdCompressor(),
-	)
-	voteExtensionsHandler := ve.NewVoteExtensionHandler(
-		app.Logger(),
-		app.oracleClient,
-		time.Second,
-		currencypair.NewDeltaCurrencyPairStrategy(app.OracleKeeper),
-		compression.NewCompressionVoteExtensionCodec(
-			compression.NewDefaultVoteExtensionCodec(),
-			compression.NewZLibCompressor(),
-		),
-		aggregator.NewOraclePriceApplier(
-			aggregator.NewDefaultVoteAggregator(
-				app.Logger(),
-				aggregatorFn,
-				currencypair.NewDeltaCurrencyPairStrategy(app.OracleKeeper),
-			),
-			app.OracleKeeper,
-			veCodec,
-			extCommitCodec,
-			app.Logger(),
-		),
-		oracleMetrics,
-	)
-	app.SetExtendVoteHandler(voteExtensionsHandler.ExtendVoteHandler())
-	app.SetVerifyVoteExtensionHandler(voteExtensionsHandler.VerifyVoteExtensionHandler())
+	// veCodec := compression.NewCompressionVoteExtensionCodec(
+	// 	compression.NewDefaultVoteExtensionCodec(),
+	// 	compression.NewZLibCompressor(),
+	// )
+	// extCommitCodec := compression.NewCompressionExtendedCommitCodec(
+	// 	compression.NewDefaultExtendedCommitCodec(),
+	// 	compression.NewZStdCompressor(),
+	// )
+	// voteExtensionsHandler := ve.NewVoteExtensionHandler(
+	// 	app.Logger(),
+	// 	app.oracleClient,
+	// 	time.Second,
+	// 	currencypair.NewDeltaCurrencyPairStrategy(app.OracleKeeper),
+	// 	compression.NewCompressionVoteExtensionCodec(
+	// 		compression.NewDefaultVoteExtensionCodec(),
+	// 		compression.NewZLibCompressor(),
+	// 	),
+	// 	aggregator.NewOraclePriceApplier(
+	// 		aggregator.NewDefaultVoteAggregator(
+	// 			app.Logger(),
+	// 			aggregatorFn,
+	// 			currencypair.NewDeltaCurrencyPairStrategy(app.OracleKeeper),
+	// 		),
+	// 		app.OracleKeeper,
+	// 		veCodec,
+	// 		extCommitCodec,
+	// 		app.Logger(),
+	// 	),
+	// 	oracleMetrics,
+	// )
+	// app.SetExtendVoteHandler(voteExtensionsHandler.ExtendVoteHandler())
+	// app.SetVerifyVoteExtensionHandler(voteExtensionsHandler.VerifyVoteExtensionHandler())
 
 	// must be before Loading version
 	// requires the snapshot store to be created and registered as a BaseAppOption
@@ -1431,19 +1454,19 @@ func (app *App) setupUpgradeHandlers() {
 					FeeBurnerKeeper:     app.FeeBurnerKeeper,
 					CronKeeper:          app.CronKeeper,
 					IcqKeeper:           app.InterchainQueriesKeeper,
-					TokenFactoryKeeper:  app.TokenFactoryKeeper,
+					// TokenFactoryKeeper:  app.TokenFactoryKeeper,
 					SlashingKeeper:      app.SlashingKeeper,
 					ParamsKeeper:        app.ParamsKeeper,
 					CapabilityKeeper:    app.CapabilityKeeper,
-					AuctionKeeper:       app.AuctionKeeper,
+					// AuctionKeeper:       app.AuctionKeeper,
 					ContractManager:     app.ContractManagerKeeper,
 					AdminModule:         app.AdminmoduleKeeper,
 					ConsensusKeeper:     &app.ConsensusParamsKeeper,
 					ConsumerKeeper:      &app.ConsumerKeeper,
-					MarketmapKeeper:     app.MarketMapKeeper,
-					FeeMarketKeeper:     app.FeeMarkerKeeper,
-					DynamicfeesKeeper:   app.DynamicFeesKeeper,
-					DexKeeper:           &app.DexKeeper,
+					// MarketmapKeeper:     app.MarketMapKeeper,
+					// FeeMarketKeeper:     app.FeeMarkerKeeper,
+					// DynamicfeesKeeper:   app.DynamicFeesKeeper,
+					// DexKeeper:           &app.DexKeeper,
 					IbcRateLimitKeeper:  app.RateLimitingICS4Wrapper.IbcratelimitKeeper,
 					ChannelKeeper:       &app.IBCKeeper.ChannelKeeper,
 					TransferKeeper:      app.TransferKeeper.Keeper,
@@ -1663,7 +1686,7 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(crontypes.StoreKey).WithKeyTable(crontypes.ParamKeyTable())
 	paramsKeeper.Subspace(feeburnertypes.StoreKey).WithKeyTable(feeburnertypes.ParamKeyTable())
 	paramsKeeper.Subspace(feetypes.StoreKey).WithKeyTable(feetypes.ParamKeyTable())
-	paramsKeeper.Subspace(tokenfactorytypes.StoreKey).WithKeyTable(tokenfactorytypes.ParamKeyTable())
+	//paramsKeeper.Subspace(tokenfactorytypes.StoreKey).WithKeyTable(tokenfactorytypes.ParamKeyTable())
 	paramsKeeper.Subspace(interchainqueriesmoduletypes.StoreKey).WithKeyTable(interchainqueriesmoduletypes.ParamKeyTable())
 	paramsKeeper.Subspace(interchaintxstypes.StoreKey).WithKeyTable(interchaintxstypes.ParamKeyTable())
 	paramsKeeper.Subspace(gammtypes.StoreKey).WithKeyTable(gammtypes.ParamKeyTable())
@@ -1799,7 +1822,7 @@ func (app *App) WireICS20PreWasmKeeper(
 		transferSudo.NewIBCModule(
 			app.TransferKeeper,
 			contractmanager.NewSudoLimitWrapper(app.ContractManagerKeeper, &app.WasmKeeper),
-			app.TokenFactoryKeeper,
+			//app.TokenFactoryKeeper,
 		),
 		app.PFMKeeper,
 		0,

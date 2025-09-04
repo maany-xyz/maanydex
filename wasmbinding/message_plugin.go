@@ -1,23 +1,12 @@
 package wasmbinding
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
-	"strings"
-	"time"
 
 	contractmanagerkeeper "github.com/neutron-org/neutron/v5/x/contractmanager/keeper"
 
 	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-
-	"github.com/cosmos/gogoproto/proto"
-
-	"golang.org/x/exp/maps"
-
-	dexkeeper "github.com/neutron-org/neutron/v5/x/dex/keeper"
-	dextypes "github.com/neutron-org/neutron/v5/x/dex/types"
-	dexutils "github.com/neutron-org/neutron/v5/x/dex/utils"
 
 	"cosmossdk.io/errors"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
@@ -47,8 +36,6 @@ import (
 	icqtypes "github.com/neutron-org/neutron/v5/x/interchainqueries/types"
 	ictxkeeper "github.com/neutron-org/neutron/v5/x/interchaintxs/keeper"
 	ictxtypes "github.com/neutron-org/neutron/v5/x/interchaintxs/types"
-	transferwrapperkeeper "github.com/neutron-org/neutron/v5/x/transfer/keeper"
-	transferwrappertypes "github.com/neutron-org/neutron/v5/x/transfer/types"
 
 	tokenfactorykeeper "github.com/neutron-org/neutron/v5/x/tokenfactory/keeper"
 	tokenfactorytypes "github.com/neutron-org/neutron/v5/x/tokenfactory/types"
@@ -57,13 +44,11 @@ import (
 func CustomMessageDecorator(
 	ictx *ictxkeeper.Keeper,
 	icq *icqkeeper.Keeper,
-	transferKeeper transferwrapperkeeper.KeeperTransferWrapper,
 	adminKeeper *adminmodulekeeper.Keeper,
 	bankKeeper *bankkeeper.BaseKeeper,
 	tokenFactoryKeeper *tokenfactorykeeper.Keeper,
 	cronKeeper *cronkeeper.Keeper,
 	contractmanagerKeeper *contractmanagerkeeper.Keeper,
-	dexKeeper *dexkeeper.Keeper,
 ) func(messenger wasmkeeper.Messenger) wasmkeeper.Messenger {
 	return func(old wasmkeeper.Messenger) wasmkeeper.Messenger {
 		return &CustomMessenger{
@@ -71,7 +56,6 @@ func CustomMessageDecorator(
 			Wrapped:                    old,
 			Ictxmsgserver:              ictxkeeper.NewMsgServerImpl(*ictx),
 			Icqmsgserver:               icqkeeper.NewMsgServerImpl(*icq),
-			transferKeeper:             transferKeeper,
 			Adminserver:                adminmodulekeeper.NewMsgServerImpl(*adminKeeper),
 			Bank:                       bankKeeper,
 			TokenFactory:               tokenFactoryKeeper,
@@ -80,7 +64,6 @@ func CustomMessageDecorator(
 			AdminKeeper:                adminKeeper,
 			ContractmanagerMsgServer:   contractmanagerkeeper.NewMsgServerImpl(*contractmanagerKeeper),
 			ContractmanagerQueryServer: contractmanagerkeeper.NewQueryServerImpl(*contractmanagerKeeper),
-			DexMsgServer:               dexkeeper.NewMsgServerImpl(*dexKeeper),
 		}
 	}
 }
@@ -90,7 +73,6 @@ type CustomMessenger struct {
 	Wrapped                    wasmkeeper.Messenger
 	Ictxmsgserver              ictxtypes.MsgServer
 	Icqmsgserver               icqtypes.MsgServer
-	transferKeeper             transferwrapperkeeper.KeeperTransferWrapper
 	Adminserver                admintypes.MsgServer
 	Bank                       *bankkeeper.BaseKeeper
 	TokenFactory               *tokenfactorykeeper.Keeper
@@ -99,7 +81,6 @@ type CustomMessenger struct {
 	AdminKeeper                *adminmodulekeeper.Keeper
 	ContractmanagerMsgServer   contractmanagertypes.MsgServer
 	ContractmanagerQueryServer contractmanagertypes.QueryServer
-	DexMsgServer               dextypes.MsgServer
 }
 
 var _ wasmkeeper.Messenger = (*CustomMessenger)(nil)
@@ -136,9 +117,9 @@ func (m *CustomMessenger) DispatchMsg(ctx sdk.Context, contractAddr sdk.AccAddre
 	if contractMsg.RemoveInterchainQuery != nil {
 		return m.removeInterchainQuery(ctx, contractAddr, contractMsg.RemoveInterchainQuery)
 	}
-	if contractMsg.IBCTransfer != nil {
-		return m.ibcTransfer(ctx, contractAddr, *contractMsg.IBCTransfer)
-	}
+	// if contractMsg.IBCTransfer != nil {
+	// 	return m.ibcTransfer(ctx, contractAddr, *contractMsg.IBCTransfer)
+	// }
 	if contractMsg.SubmitAdminProposal != nil {
 		return m.submitAdminProposal(ctx, contractAddr, &contractMsg.SubmitAdminProposal.AdminProposal)
 	}
@@ -174,147 +155,143 @@ func (m *CustomMessenger) DispatchMsg(ctx sdk.Context, contractAddr sdk.AccAddre
 	if contractMsg.ResubmitFailure != nil {
 		return m.resubmitFailure(ctx, contractAddr, contractMsg.ResubmitFailure)
 	}
-	if contractMsg.Dex != nil {
-		data, messages, err := m.dispatchDexMsg(ctx, contractAddr, *(contractMsg.Dex))
-		return nil, data, messages, err
-	}
 
 	// If none of the conditions are met, forward the message to the wrapped handler
 	return m.Wrapped.DispatchMsg(ctx, contractAddr, contractIBCPortID, msg)
 }
 
-func handleDexMsg[T sdk.LegacyMsg, R proto.Message](ctx sdk.Context, msg T, handler func(ctx context.Context, msg T) (R, error)) ([][]byte, [][]*types.Any, error) {
-	if len(msg.GetSigners()) != 1 {
-		// should never happen
-		panic("should be 1 signer")
-	}
-	signer := msg.GetSigners()[0].String()
+// func handleDexMsg[T sdk.LegacyMsg, R proto.Message](ctx sdk.Context, msg T, handler func(ctx context.Context, msg T) (R, error)) ([][]byte, [][]*types.Any, error) {
+// 	if len(msg.GetSigners()) != 1 {
+// 		// should never happen
+// 		panic("should be 1 signer")
+// 	}
+// 	signer := msg.GetSigners()[0].String()
 
-	resp, err := handler(ctx, msg)
-	if err != nil {
-		ctx.Logger().Debug(fmt.Sprintf("%T: failed to execute", msg),
-			"from_address", signer,
-			"msg", msg,
-			"error", err,
-		)
-		return nil, nil, errors.Wrapf(err, "failed to execute %T", msg)
-	}
+// 	resp, err := handler(ctx, msg)
+// 	if err != nil {
+// 		ctx.Logger().Debug(fmt.Sprintf("%T: failed to execute", msg),
+// 			"from_address", signer,
+// 			"msg", msg,
+// 			"error", err,
+// 		)
+// 		return nil, nil, errors.Wrapf(err, "failed to execute %T", msg)
+// 	}
 
-	data, err := json.Marshal(resp)
-	if err != nil {
-		ctx.Logger().Error(fmt.Sprintf("json.Marshal: failed to marshal %T response to JSON", resp),
-			"from_address", signer,
-			"error", err,
-		)
-		return nil, nil, errors.Wrap(err, fmt.Sprintf("marshal %T failed", resp))
-	}
+// 	data, err := json.Marshal(resp)
+// 	if err != nil {
+// 		ctx.Logger().Error(fmt.Sprintf("json.Marshal: failed to marshal %T response to JSON", resp),
+// 			"from_address", signer,
+// 			"error", err,
+// 		)
+// 		return nil, nil, errors.Wrap(err, fmt.Sprintf("marshal %T failed", resp))
+// 	}
 
-	ctx.Logger().Debug(fmt.Sprintf("%T execution completed", msg),
-		"from_address", signer,
-		"msg", msg,
-	)
+// 	ctx.Logger().Debug(fmt.Sprintf("%T execution completed", msg),
+// 		"from_address", signer,
+// 		"msg", msg,
+// 	)
 
-	anyResp, err := types.NewAnyWithValue(resp)
-	if err != nil {
-		return nil, nil, errors.Wrapf(err, "failed to convert {%T} to Any", resp)
-	}
-	msgResponses := [][]*types.Any{{anyResp}}
-	return [][]byte{data}, msgResponses, nil
-}
+// 	anyResp, err := types.NewAnyWithValue(resp)
+// 	if err != nil {
+// 		return nil, nil, errors.Wrapf(err, "failed to convert {%T} to Any", resp)
+// 	}
+// 	msgResponses := [][]*types.Any{{anyResp}}
+// 	return [][]byte{data}, msgResponses, nil
+// }
 
-func (m *CustomMessenger) dispatchDexMsg(ctx sdk.Context, contractAddr sdk.AccAddress, dex bindings.Dex) ([][]byte, [][]*types.Any, error) {
-	switch {
-	case dex.Deposit != nil:
-		dex.Deposit.Creator = contractAddr.String()
-		return handleDexMsg(ctx, dex.Deposit, m.DexMsgServer.Deposit)
-	case dex.Withdrawal != nil:
-		dex.Withdrawal.Creator = contractAddr.String()
-		return handleDexMsg(ctx, dex.Withdrawal, m.DexMsgServer.Withdrawal)
-	case dex.PlaceLimitOrder != nil:
-		msg := dextypes.MsgPlaceLimitOrder{
-			Creator:  contractAddr.String(),
-			Receiver: dex.PlaceLimitOrder.Receiver,
-			TokenIn:  dex.PlaceLimitOrder.TokenIn,
-			TokenOut: dex.PlaceLimitOrder.TokenOut,
-			//nolint: staticcheck // TODO: remove in next release
-			TickIndexInToOut: dex.PlaceLimitOrder.TickIndexInToOut,
-			AmountIn:         dex.PlaceLimitOrder.AmountIn,
-			MaxAmountOut:     dex.PlaceLimitOrder.MaxAmountOut,
-		}
-		orderTypeInt, ok := dextypes.LimitOrderType_value[dex.PlaceLimitOrder.OrderType]
-		if !ok {
-			return nil, nil, errors.Wrap(dextypes.ErrInvalidOrderType,
-				fmt.Sprintf(
-					"got \"%s\", expected one of %s",
-					dex.PlaceLimitOrder.OrderType,
-					strings.Join(maps.Keys(dextypes.LimitOrderType_value), ", ")),
-			)
-		}
-		msg.OrderType = dextypes.LimitOrderType(orderTypeInt)
+// func (m *CustomMessenger) dispatchDexMsg(ctx sdk.Context, contractAddr sdk.AccAddress, dex bindings.Dex) ([][]byte, [][]*types.Any, error) {
+// 	switch {
+// 	case dex.Deposit != nil:
+// 		dex.Deposit.Creator = contractAddr.String()
+// 		return handleDexMsg(ctx, dex.Deposit, m.DexMsgServer.Deposit)
+// 	case dex.Withdrawal != nil:
+// 		dex.Withdrawal.Creator = contractAddr.String()
+// 		return handleDexMsg(ctx, dex.Withdrawal, m.DexMsgServer.Withdrawal)
+// 	case dex.PlaceLimitOrder != nil:
+// 		msg := dextypes.MsgPlaceLimitOrder{
+// 			Creator:  contractAddr.String(),
+// 			Receiver: dex.PlaceLimitOrder.Receiver,
+// 			TokenIn:  dex.PlaceLimitOrder.TokenIn,
+// 			TokenOut: dex.PlaceLimitOrder.TokenOut,
+// 			//nolint: staticcheck // TODO: remove in next release
+// 			TickIndexInToOut: dex.PlaceLimitOrder.TickIndexInToOut,
+// 			AmountIn:         dex.PlaceLimitOrder.AmountIn,
+// 			MaxAmountOut:     dex.PlaceLimitOrder.MaxAmountOut,
+// 		}
+// 		orderTypeInt, ok := dextypes.LimitOrderType_value[dex.PlaceLimitOrder.OrderType]
+// 		if !ok {
+// 			return nil, nil, errors.Wrap(dextypes.ErrInvalidOrderType,
+// 				fmt.Sprintf(
+// 					"got \"%s\", expected one of %s",
+// 					dex.PlaceLimitOrder.OrderType,
+// 					strings.Join(maps.Keys(dextypes.LimitOrderType_value), ", ")),
+// 			)
+// 		}
+// 		msg.OrderType = dextypes.LimitOrderType(orderTypeInt)
 
-		if dex.PlaceLimitOrder.ExpirationTime != nil {
-			t := time.Unix(int64(*(dex.PlaceLimitOrder.ExpirationTime)), 0)
-			msg.ExpirationTime = &t
-		}
+// 		if dex.PlaceLimitOrder.ExpirationTime != nil {
+// 			t := time.Unix(int64(*(dex.PlaceLimitOrder.ExpirationTime)), 0)
+// 			msg.ExpirationTime = &t
+// 		}
 
-		if limitPriceStr := dex.PlaceLimitOrder.LimitSellPrice; limitPriceStr != "" {
-			limitPriceDec, err := dexutils.ParsePrecDecScientificNotation(limitPriceStr)
-			if err != nil {
-				return nil, nil, errors.Wrapf(err, "cannot parse string %s for limit price", limitPriceStr)
-			}
-			msg.LimitSellPrice = &limitPriceDec
-		}
+// 		if limitPriceStr := dex.PlaceLimitOrder.LimitSellPrice; limitPriceStr != "" {
+// 			limitPriceDec, err := dexutils.ParsePrecDecScientificNotation(limitPriceStr)
+// 			if err != nil {
+// 				return nil, nil, errors.Wrapf(err, "cannot parse string %s for limit price", limitPriceStr)
+// 			}
+// 			msg.LimitSellPrice = &limitPriceDec
+// 		}
 
-		return handleDexMsg(ctx, &msg, m.DexMsgServer.PlaceLimitOrder)
-	case dex.CancelLimitOrder != nil:
-		dex.CancelLimitOrder.Creator = contractAddr.String()
-		return handleDexMsg(ctx, dex.CancelLimitOrder, m.DexMsgServer.CancelLimitOrder)
-	case dex.WithdrawFilledLimitOrder != nil:
-		dex.WithdrawFilledLimitOrder.Creator = contractAddr.String()
-		return handleDexMsg(ctx, dex.WithdrawFilledLimitOrder, m.DexMsgServer.WithdrawFilledLimitOrder)
-	case dex.MultiHopSwap != nil:
-		dex.MultiHopSwap.Creator = contractAddr.String()
-		return handleDexMsg(ctx, dex.MultiHopSwap, m.DexMsgServer.MultiHopSwap)
-	}
+// 		return handleDexMsg(ctx, &msg, m.DexMsgServer.PlaceLimitOrder)
+// 	case dex.CancelLimitOrder != nil:
+// 		dex.CancelLimitOrder.Creator = contractAddr.String()
+// 		return handleDexMsg(ctx, dex.CancelLimitOrder, m.DexMsgServer.CancelLimitOrder)
+// 	case dex.WithdrawFilledLimitOrder != nil:
+// 		dex.WithdrawFilledLimitOrder.Creator = contractAddr.String()
+// 		return handleDexMsg(ctx, dex.WithdrawFilledLimitOrder, m.DexMsgServer.WithdrawFilledLimitOrder)
+// 	case dex.MultiHopSwap != nil:
+// 		dex.MultiHopSwap.Creator = contractAddr.String()
+// 		return handleDexMsg(ctx, dex.MultiHopSwap, m.DexMsgServer.MultiHopSwap)
+// 	}
 
-	return nil, nil, sdkerrors.ErrUnknownRequest
-}
+// 	return nil, nil, sdkerrors.ErrUnknownRequest
+// }
 
-func (m *CustomMessenger) ibcTransfer(ctx sdk.Context, contractAddr sdk.AccAddress, ibcTransferMsg transferwrappertypes.MsgTransfer) ([]sdk.Event, [][]byte, [][]*types.Any, error) {
-	ibcTransferMsg.Sender = contractAddr.String()
+// func (m *CustomMessenger) ibcTransfer(ctx sdk.Context, contractAddr sdk.AccAddress, ibcTransferMsg transferwrappertypes.MsgTransfer) ([]sdk.Event, [][]byte, [][]*types.Any, error) {
+// 	ibcTransferMsg.Sender = contractAddr.String()
 
-	response, err := m.transferKeeper.Transfer(ctx, &ibcTransferMsg)
-	if err != nil {
-		ctx.Logger().Debug("transferServer.Transfer: failed to transfer",
-			"from_address", contractAddr.String(),
-			"msg", ibcTransferMsg,
-			"error", err,
-		)
-		return nil, nil, nil, errors.Wrap(err, "failed to execute IBCTransfer")
-	}
+// 	// response, err := m.transferKeeper.Transfer(ctx, &ibcTransferMsg)
+// 	// if err != nil {
+// 	// 	ctx.Logger().Debug("transferServer.Transfer: failed to transfer",
+// 	// 		"from_address", contractAddr.String(),
+// 	// 		"msg", ibcTransferMsg,
+// 	// 		"error", err,
+// 	// 	)
+// 	// 	return nil, nil, nil, errors.Wrap(err, "failed to execute IBCTransfer")
+// 	// }
 
-	data, err := json.Marshal(response)
-	if err != nil {
-		ctx.Logger().Error("json.Marshal: failed to marshal MsgTransferResponse response to JSON",
-			"from_address", contractAddr.String(),
-			"msg", response,
-			"error", err,
-		)
-		return nil, nil, nil, errors.Wrap(err, "marshal json failed")
-	}
+// 	data, err := json.Marshal(response)
+// 	if err != nil {
+// 		ctx.Logger().Error("json.Marshal: failed to marshal MsgTransferResponse response to JSON",
+// 			"from_address", contractAddr.String(),
+// 			"msg", response,
+// 			"error", err,
+// 		)
+// 		return nil, nil, nil, errors.Wrap(err, "marshal json failed")
+// 	}
 
-	ctx.Logger().Debug("ibcTransferMsg completed",
-		"from_address", contractAddr.String(),
-		"msg", ibcTransferMsg,
-	)
+// 	ctx.Logger().Debug("ibcTransferMsg completed",
+// 		"from_address", contractAddr.String(),
+// 		"msg", ibcTransferMsg,
+// 	)
 
-	anyResp, err := types.NewAnyWithValue(response)
-	if err != nil {
-		return nil, nil, nil, errors.Wrapf(err, "failed to convert {%T} to Any", response)
-	}
-	msgResponses := [][]*types.Any{{anyResp}}
-	return nil, [][]byte{data}, msgResponses, nil
-}
+// 	anyResp, err := types.NewAnyWithValue(response)
+// 	if err != nil {
+// 		return nil, nil, nil, errors.Wrapf(err, "failed to convert {%T} to Any", response)
+// 	}
+// 	msgResponses := [][]*types.Any{{anyResp}}
+// 	return nil, [][]byte{data}, msgResponses, nil
+// }
 
 func (m *CustomMessenger) updateInterchainQuery(ctx sdk.Context, contractAddr sdk.AccAddress, updateQuery *bindings.UpdateInterchainQuery) ([]sdk.Event, [][]byte, [][]*types.Any, error) {
 	response, err := m.performUpdateInterchainQuery(ctx, contractAddr, updateQuery)

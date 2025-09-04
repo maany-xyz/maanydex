@@ -52,9 +52,9 @@ func NewAnteHandler(options HandlerOptions, logger log.Logger) (sdk.AnteHandler,
 		return nil, errors.Wrap(sdkerrors.ErrLogic, "tx counter store service is required for ante builder")
 	}
 
-	if options.FeeMarketKeeper == nil {
-		return nil, errors.Wrap(sdkerrors.ErrLogic, "feemarket keeper is required for ante builder")
-	}
+	// if options.FeeMarketKeeper == nil {
+	// 	return nil, errors.Wrap(sdkerrors.ErrLogic, "feemarket keeper is required for ante builder")
+	// }
 
 	sigGasConsumer := options.SigGasConsumer
 	if sigGasConsumer == nil {
@@ -71,13 +71,13 @@ func NewAnteHandler(options HandlerOptions, logger log.Logger) (sdk.AnteHandler,
 		ante.NewTxTimeoutHeightDecorator(),
 		ante.NewValidateMemoDecorator(options.AccountKeeper),
 		ante.NewConsumeGasForTxSizeDecorator(options.AccountKeeper),
-		feemarketante.NewFeeMarketCheckDecorator(
-			options.AccountKeeper,
-			options.BankKeeper,
-			options.FeegrantKeeper,
-			options.FeeMarketKeeper,
-			NewFeeDecoratorWithSwitch(options),
-		),
+		// feemarketante.NewFeeMarketCheckDecorator(
+		// 	options.AccountKeeper,
+		// 	options.BankKeeper,
+		// 	options.FeegrantKeeper,
+		// 	options.FeeMarketKeeper,
+		// 	NewFeeDecoratorWithSwitch(options),
+		// ),
 		// SetPubKeyDecorator must be called before all signature verification decorators
 		ante.NewSetPubKeyDecorator(options.AccountKeeper),
 		ante.NewValidateSigCountDecorator(options.AccountKeeper),

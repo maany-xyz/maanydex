@@ -28,3 +28,16 @@ Integration tests are implemented here: https://github.com/neutron-org/neutron-i
 
 [swap-exact-amount-in]:
 gamm's msg_server.go -> `SwapExactAmountIn` -> poolmanager's router.go `RouteExactAmountIn` which loops through hops and for every hop calls poolmodue's rounter.go `SwapExactAmountIn` (and handles taker fee logic) -> calls gamm implementation of `SwapExactAmountIn` from swap.go
+
+# TODO:
+
+1. clean up neutron modules and wiring (see https://chatgpt.com/g/g-p-67604629f8c4819180a372ebb3e3a84e-maany/c/68b85f3f-c464-8329-a89f-fe636b10ffee)
+2. Change project name (from ../neutrond to actual github repo name)
+3. Change BIN name
+4. Change denom "umaany"
+5. change bench32 name
+
+# and in config
+
+- Change chain-id (other neutron related naming?)
+- Change turn off unused neutron modules
