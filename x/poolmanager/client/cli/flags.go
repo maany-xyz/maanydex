@@ -3,7 +3,7 @@ package cli
 import (
 	flag "github.com/spf13/pflag"
 
-	"github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	"github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 )
 
 const (

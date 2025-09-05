@@ -15,11 +15,11 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/types/query"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/x/gamm/pool-models/balancer"
-	"github.com/neutron-org/neutron/v5/x/gamm/types"
-	"github.com/neutron-org/neutron/v5/x/gamm/v2types"
-	poolmanagertypes "github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/pool-models/balancer"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/types"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/v2types"
+	poolmanagertypes "github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 )
 
 var _ types.QueryServer = Querier{}

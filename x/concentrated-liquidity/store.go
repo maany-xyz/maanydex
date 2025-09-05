@@ -10,10 +10,10 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/gogoproto/proto"
 
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/model"
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types/genesis"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/model"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types/genesis"
 )
 
 const (

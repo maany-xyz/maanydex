@@ -9,7 +9,7 @@ import (
 	_ "github.com/cosmos/cosmos-sdk/types"
 	_ "github.com/cosmos/gogoproto/gogoproto"
 	proto "github.com/cosmos/gogoproto/proto"
-	_ "github.com/neutron-org/neutron/v5/x/lockup/types"
+	_ "github.com/maany-xyz/maany-dex/v5/x/lockup/types"
 	_ "google.golang.org/protobuf/types/known/durationpb"
 	_ "google.golang.org/protobuf/types/known/timestamppb"
 	io "io"

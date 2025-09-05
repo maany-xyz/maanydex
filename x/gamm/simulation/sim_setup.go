@@ -1,8 +1,8 @@
 package gammsimulation
 
 import (
-	"github.com/neutron-org/neutron/v5/simulation/simtypes"
-	"github.com/neutron-org/neutron/v5/x/gamm/keeper"
+	"github.com/maany-xyz/maany-dex/v5/simulation/simtypes"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/keeper"
 )
 
 func DefaultActions(keeper keeper.Keeper) []simtypes.Action {

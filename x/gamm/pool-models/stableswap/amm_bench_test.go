@@ -4,7 +4,7 @@ import (
 	"math/rand"
 	"testing"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
 )
 
 func BenchmarkCFMM(b *testing.B) {

@@ -9,14 +9,14 @@ import (
 	distributiontypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	cl "github.com/neutron-org/neutron/v5/x/concentrated-liquidity"
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/model"
-	cltypes "github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
-	gammtypes "github.com/neutron-org/neutron/v5/x/gamm/types"
-	incentivestypes "github.com/neutron-org/neutron/v5/x/incentives/types"
-	lockuptypes "github.com/neutron-org/neutron/v5/x/lockup/types"
-	"github.com/neutron-org/neutron/v5/x/superfluid/types"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	cl "github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/model"
+	cltypes "github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
+	gammtypes "github.com/maany-xyz/maany-dex/v5/x/gamm/types"
+	incentivestypes "github.com/maany-xyz/maany-dex/v5/x/incentives/types"
+	lockuptypes "github.com/maany-xyz/maany-dex/v5/x/lockup/types"
+	"github.com/maany-xyz/maany-dex/v5/x/superfluid/types"
 )
 
 func (k Keeper) AfterEpochEnd(ctx sdk.Context, epochIdentifier string, _ int64) error {
@@ -24,7 +24,7 @@ func (k Keeper) AfterEpochEnd(ctx sdk.Context, epochIdentifier string, _ int64) 
 }
 
 func (k Keeper) AfterEpochStartBeginBlock(ctx sdk.Context) {
-	// cref [#830](https://github.com/neutron-org/neutron/v5/issues/830),
+	// cref [#830](https://github.com/maany-xyz/maany-dex/v5/issues/830),
 	// the supplied epoch number is wrong at time of commit. hence we get from the info.
 	curEpoch := k.ek.GetEpochInfo(ctx, k.GetEpochIdentifier(ctx)).CurrentEpoch
 
@@ -150,7 +150,7 @@ func (k Keeper) UpdateOsmoEquivalentMultipliers(ctx sdk.Context, asset types.Sup
 		multiplier := k.calculateOsmoBackingPerShare(pool, osmoPoolAsset)
 		k.SetOsmoEquivalentMultiplier(ctx, newEpochNumber, asset.Denom, multiplier)
 	} else if asset.AssetType == types.SuperfluidAssetTypeConcentratedShare {
-		// https://github.com/neutron-org/neutron/v5/issues/6229
+		// https://github.com/maany-xyz/maany-dex/v5/issues/6229
 		_ = osmoutils.ApplyFuncIfNoError(ctx, func(cacheCtx sdk.Context) error {
 			return k.updateConcentratedOsmoEquivalentMultiplier(cacheCtx, asset, newEpochNumber)
 		})

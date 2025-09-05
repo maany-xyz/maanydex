@@ -3,7 +3,7 @@ package cli_test
 import (
 	"testing"
 
-	"github.com/neutron-org/neutron/v5/app/config"
+	"github.com/maany-xyz/maany-dex/v5/app/config"
 
 	"cosmossdk.io/math"
 
@@ -11,9 +11,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
 
-	"github.com/neutron-org/neutron/v5/testutil/contractmanager/network"
-	"github.com/neutron-org/neutron/v5/x/feerefunder/client/cli"
-	"github.com/neutron-org/neutron/v5/x/feerefunder/types"
+	"github.com/maany-xyz/maany-dex/v5/testutil/contractmanager/network"
+	"github.com/maany-xyz/maany-dex/v5/x/feerefunder/client/cli"
+	"github.com/maany-xyz/maany-dex/v5/x/feerefunder/types"
 )
 
 func feeRefunderNetwork(t *testing.T, feeInfo types.Fee) *network.Network {

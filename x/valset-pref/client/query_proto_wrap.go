@@ -5,8 +5,8 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	validatorprefkeeper "github.com/neutron-org/neutron/v5/x/valset-pref"
-	"github.com/neutron-org/neutron/v5/x/valset-pref/client/queryproto"
+	validatorprefkeeper "github.com/maany-xyz/maany-dex/v5/x/valset-pref"
+	"github.com/maany-xyz/maany-dex/v5/x/valset-pref/client/queryproto"
 )
 
 type Querier struct {

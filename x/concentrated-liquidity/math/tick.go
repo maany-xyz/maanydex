@@ -3,8 +3,8 @@ package math
 import (
 	"fmt"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
 )
 
 // TicksToSqrtPrice returns the sqrtPrice for the lower and upper ticks by

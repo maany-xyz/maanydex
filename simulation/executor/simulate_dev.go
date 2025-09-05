@@ -13,8 +13,8 @@ import (
 	tmtypes "github.com/cometbft/cometbft/types"
 	"github.com/cosmos/cosmos-sdk/types/simulation"
 
-	"github.com/neutron-org/neutron/v5/simulation/executor/internal/stats"
-	"github.com/neutron-org/neutron/v5/simulation/simtypes"
+	"github.com/maany-xyz/maany-dex/v5/simulation/executor/internal/stats"
+	"github.com/maany-xyz/maany-dex/v5/simulation/simtypes"
 )
 
 type simState struct {

@@ -12,11 +12,11 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/query"
 	"golang.org/x/exp/slices"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	"github.com/neutron-org/neutron/v5/osmoutils/accum"
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/model"
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/accum"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/model"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
 )
 
 // We choose 10^27 to allow sufficient buffer before the accumulator starts getting truncated again.

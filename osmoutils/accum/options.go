@@ -1,6 +1,6 @@
 package accum
 
-import "github.com/neutron-org/neutron/v5/osmomath"
+import "github.com/maany-xyz/maany-dex/v5/osmomath"
 
 var one = osmomath.OneDec()
 

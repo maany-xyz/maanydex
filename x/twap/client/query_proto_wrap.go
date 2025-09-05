@@ -5,8 +5,8 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/neutron-org/neutron/v5/x/twap"
-	"github.com/neutron-org/neutron/v5/x/twap/client/queryproto"
+	"github.com/maany-xyz/maany-dex/v5/x/twap"
+	"github.com/maany-xyz/maany-dex/v5/x/twap/client/queryproto"
 )
 
 // This file should evolve to being code gen'd, off of `proto/twap/v1beta/query.yml`

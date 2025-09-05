@@ -8,14 +8,14 @@ import (
 	legacysimulationtype "github.com/cosmos/cosmos-sdk/types/simulation"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 
-	appParams "github.com/neutron-org/neutron/v5/app/config"
-	"github.com/neutron-org/neutron/v5/osmomath"
-	osmosimtypes "github.com/neutron-org/neutron/v5/simulation/simtypes"
-	sdkrand "github.com/neutron-org/neutron/v5/simulation/simtypes/random"
-	clkeeper "github.com/neutron-org/neutron/v5/x/concentrated-liquidity"
-	clmodeltypes "github.com/neutron-org/neutron/v5/x/concentrated-liquidity/model"
-	cltypes "github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
-	minttypes "github.com/neutron-org/neutron/v5/x/mint/types"
+	appParams "github.com/maany-xyz/maany-dex/v5/app/config"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	osmosimtypes "github.com/maany-xyz/maany-dex/v5/simulation/simtypes"
+	sdkrand "github.com/maany-xyz/maany-dex/v5/simulation/simtypes/random"
+	clkeeper "github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity"
+	clmodeltypes "github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/model"
+	cltypes "github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
+	minttypes "github.com/maany-xyz/maany-dex/v5/x/mint/types"
 )
 
 // preparePoolConfig defines the parameters for creating a new pool

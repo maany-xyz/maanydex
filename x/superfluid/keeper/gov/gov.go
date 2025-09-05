@@ -6,10 +6,10 @@ import (
 	"sort"
 	"strings"
 
-	cltypes "github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
-	"github.com/neutron-org/neutron/v5/x/superfluid/keeper"
-	"github.com/neutron-org/neutron/v5/x/superfluid/keeper/internal/events"
-	"github.com/neutron-org/neutron/v5/x/superfluid/types"
+	cltypes "github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
+	"github.com/maany-xyz/maany-dex/v5/x/superfluid/keeper"
+	"github.com/maany-xyz/maany-dex/v5/x/superfluid/keeper/internal/events"
+	"github.com/maany-xyz/maany-dex/v5/x/superfluid/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )

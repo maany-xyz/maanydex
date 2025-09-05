@@ -9,11 +9,11 @@ import (
 	"cosmossdk.io/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	incentivetypes "github.com/neutron-org/neutron/v5/x/incentives/types"
-	lockuptypes "github.com/neutron-org/neutron/v5/x/lockup/types"
-	"github.com/neutron-org/neutron/v5/x/pool-incentives/types"
-	poolmanagertypes "github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	incentivetypes "github.com/maany-xyz/maany-dex/v5/x/incentives/types"
+	lockuptypes "github.com/maany-xyz/maany-dex/v5/x/lockup/types"
+	"github.com/maany-xyz/maany-dex/v5/x/pool-incentives/types"
+	poolmanagertypes "github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 )
 
 var _ types.QueryServer = Querier{}

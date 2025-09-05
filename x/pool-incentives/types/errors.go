@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	poolmanagertypes "github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	poolmanagertypes "github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 
 	errorsmod "cosmossdk.io/errors"
 )

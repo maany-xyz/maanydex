@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/neutron-org/neutron/v5/osmoutils/osmoassert"
-	lockuptypes "github.com/neutron-org/neutron/v5/x/lockup/types"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/osmoassert"
+	lockuptypes "github.com/maany-xyz/maany-dex/v5/x/lockup/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
@@ -163,7 +163,7 @@ func (m MsgCreateGroup) ValidateBasic() error {
 	}
 
 	// Temporarily disable non perpetual group creation
-	// https://github.com/neutron-org/neutron/v5/issues/6540
+	// https://github.com/maany-xyz/maany-dex/v5/issues/6540
 	if m.NumEpochsPaidOver != PerpetualNumEpochsPaidOver {
 		return errors.New("non-perpetual group creation is disabled")
 	}

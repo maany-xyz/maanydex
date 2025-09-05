@@ -6,7 +6,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/neutron-org/neutron/v5/osmoutils"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
 )
 
 func TestMax(t *testing.T) {

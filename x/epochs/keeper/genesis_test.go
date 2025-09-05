@@ -6,7 +6,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/neutron-org/neutron/v5/x/epochs/types"
+	"github.com/maany-xyz/maany-dex/v5/x/epochs/types"
 )
 
 func TestEpochsExportGenesis(t *testing.T) {

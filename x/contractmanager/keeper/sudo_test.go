@@ -5,16 +5,16 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/neutron-org/neutron/v5/app/config"
+	"github.com/maany-xyz/maany-dex/v5/app/config"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/require"
 
-	"github.com/neutron-org/neutron/v5/testutil"
-	keepertest "github.com/neutron-org/neutron/v5/testutil/contractmanager/keeper"
-	mock_types "github.com/neutron-org/neutron/v5/testutil/mocks/contractmanager/types"
-	"github.com/neutron-org/neutron/v5/x/contractmanager/types"
+	"github.com/maany-xyz/maany-dex/v5/testutil"
+	keepertest "github.com/maany-xyz/maany-dex/v5/testutil/contractmanager/keeper"
+	mock_types "github.com/maany-xyz/maany-dex/v5/testutil/mocks/contractmanager/types"
+	"github.com/maany-xyz/maany-dex/v5/x/contractmanager/types"
 )
 
 func init() {

@@ -7,8 +7,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	lockuptypes "github.com/neutron-org/neutron/v5/x/lockup/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	lockuptypes "github.com/maany-xyz/maany-dex/v5/x/lockup/types"
 )
 
 // StakingInterface expected staking keeper.

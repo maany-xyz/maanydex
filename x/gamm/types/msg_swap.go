@@ -1,6 +1,6 @@
 package types
 
-import poolmanagertypes "github.com/neutron-org/neutron/v5/x/poolmanager/types"
+import poolmanagertypes "github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 
 // SwapMsg defines a simple interface for getting the token denoms on a swap message route.
 type SwapMsgRoute = poolmanagertypes.SwapMsgRoute

@@ -3,11 +3,11 @@ package twap
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	concentratedliquiditytypes "github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
-	epochtypes "github.com/neutron-org/neutron/v5/x/epochs/types"
-	gammtypes "github.com/neutron-org/neutron/v5/x/gamm/types"
-	"github.com/neutron-org/neutron/v5/x/twap/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	concentratedliquiditytypes "github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
+	epochtypes "github.com/maany-xyz/maany-dex/v5/x/epochs/types"
+	gammtypes "github.com/maany-xyz/maany-dex/v5/x/gamm/types"
+	"github.com/maany-xyz/maany-dex/v5/x/twap/types"
 )
 
 var (

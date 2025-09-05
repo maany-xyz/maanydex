@@ -7,8 +7,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/msgservice"
 
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
-	poolmanagertypes "github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
+	poolmanagertypes "github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 )
 
 func RegisterCodec(cdc *codec.LegacyAmino) {

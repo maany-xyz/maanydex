@@ -11,7 +11,7 @@ import (
 
 	storetypes "cosmossdk.io/store/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
 
 	"cosmossdk.io/store"
 	"github.com/cosmos/gogoproto/proto"

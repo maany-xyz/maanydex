@@ -13,7 +13,7 @@ import (
 	proto "github.com/cosmos/gogoproto/proto"
 	types3 "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
 	types1 "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	types2 "github.com/neutron-org/neutron/v5/x/feerefunder/types"
+	types2 "github.com/maany-xyz/maany-dex/v5/x/feerefunder/types"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"

@@ -8,11 +8,11 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	gammtypes "github.com/neutron-org/neutron/v5/x/gamm/types"
-	lockuptypes "github.com/neutron-org/neutron/v5/x/lockup/types"
+	gammtypes "github.com/maany-xyz/maany-dex/v5/x/gamm/types"
+	lockuptypes "github.com/maany-xyz/maany-dex/v5/x/lockup/types"
 
-	"github.com/neutron-org/neutron/v5/x/superfluid/keeper/internal/events"
-	"github.com/neutron-org/neutron/v5/x/superfluid/types"
+	"github.com/maany-xyz/maany-dex/v5/x/superfluid/keeper/internal/events"
+	"github.com/maany-xyz/maany-dex/v5/x/superfluid/types"
 )
 
 type msgServer struct {

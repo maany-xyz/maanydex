@@ -3,12 +3,12 @@ package main
 import (
 	"os"
 
-	"github.com/neutron-org/neutron/v5/app/config"
+	"github.com/maany-xyz/maany-dex/v5/app/config"
 
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
 
 	//authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	"github.com/neutron-org/neutron/v5/app"
+	"github.com/maany-xyz/maany-dex/v5/app"
 )
 
 func main() {

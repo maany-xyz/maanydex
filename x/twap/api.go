@@ -5,8 +5,8 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/x/twap/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/x/twap/types"
 )
 
 // GetArithmeticTwap returns an arithmetic time weighted average price.

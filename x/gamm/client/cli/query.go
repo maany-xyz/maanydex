@@ -15,9 +15,9 @@ import (
 	flag "github.com/spf13/pflag"
 	"gopkg.in/yaml.v2"
 
-	"github.com/neutron-org/neutron/v5/osmoutils/osmocli"
-	"github.com/neutron-org/neutron/v5/x/gamm/pool-models/balancer"
-	"github.com/neutron-org/neutron/v5/x/gamm/types"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/osmocli"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/pool-models/balancer"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/types"
 )
 
 // GetQueryCmd returns the cli query commands for this module.

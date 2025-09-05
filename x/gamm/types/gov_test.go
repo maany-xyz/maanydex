@@ -6,8 +6,8 @@ import (
 	proto "github.com/cosmos/gogoproto/proto"
 	"github.com/stretchr/testify/require"
 
-	"github.com/neutron-org/neutron/v5/x/gamm/types"
-	gammmigration "github.com/neutron-org/neutron/v5/x/gamm/types/migration"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/types"
+	gammmigration "github.com/maany-xyz/maany-dex/v5/x/gamm/types/migration"
 )
 
 func TestUpdateMigrationRecordsProposalMarshalUnmarshal(t *testing.T) {

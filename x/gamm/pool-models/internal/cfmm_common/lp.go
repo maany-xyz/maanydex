@@ -8,8 +8,8 @@ import (
 	errorsmod "cosmossdk.io/errors"
 	"cosmossdk.io/math"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/x/gamm/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/types"
 )
 
 const errMsgFormatSharesLargerThanMax = "cannot exit all shares in a pool. Attempted to exit %s shares, max allowed is %s"

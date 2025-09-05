@@ -6,7 +6,7 @@ import (
 	proto "github.com/cosmos/gogoproto/proto"
 	"github.com/stretchr/testify/require"
 
-	"github.com/neutron-org/neutron/v5/x/incentives/types"
+	"github.com/maany-xyz/maany-dex/v5/x/incentives/types"
 )
 
 var (

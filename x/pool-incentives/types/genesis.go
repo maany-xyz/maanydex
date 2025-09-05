@@ -8,7 +8,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/codec"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
 )
 
 func NewGenesisState(params Params, lockableDurations []time.Duration, distrInfo *DistrInfo) *GenesisState {

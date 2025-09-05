@@ -28,9 +28,9 @@ import (
 
 	"cosmossdk.io/core/appmodule"
 
-	"github.com/neutron-org/neutron/v5/x/pool-incentives/client/cli"
-	"github.com/neutron-org/neutron/v5/x/pool-incentives/keeper"
-	"github.com/neutron-org/neutron/v5/x/pool-incentives/types"
+	"github.com/maany-xyz/maany-dex/v5/x/pool-incentives/client/cli"
+	"github.com/maany-xyz/maany-dex/v5/x/pool-incentives/keeper"
+	"github.com/maany-xyz/maany-dex/v5/x/pool-incentives/types"
 )
 
 var (

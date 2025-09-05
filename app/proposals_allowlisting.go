@@ -19,18 +19,18 @@ import (
 	feemarkettypes "github.com/skip-mev/feemarket/x/feemarket/types"
 	marketmaptypes "github.com/skip-mev/slinky/x/marketmap/types"
 
-	ibcratelimittypes "github.com/neutron-org/neutron/v5/x/ibc-rate-limit/types"
+	ibcratelimittypes "github.com/maany-xyz/maany-dex/v5/x/ibc-rate-limit/types"
 
-	dynamicfeestypes "github.com/neutron-org/neutron/v5/x/dynamicfees/types"
-	globalfeetypes "github.com/neutron-org/neutron/v5/x/globalfee/types"
+	dynamicfeestypes "github.com/maany-xyz/maany-dex/v5/x/dynamicfees/types"
+	globalfeetypes "github.com/maany-xyz/maany-dex/v5/x/globalfee/types"
 
-	contractmanagertypes "github.com/neutron-org/neutron/v5/x/contractmanager/types"
-	crontypes "github.com/neutron-org/neutron/v5/x/cron/types"
-	feeburnertypes "github.com/neutron-org/neutron/v5/x/feeburner/types"
-	feerefundertypes "github.com/neutron-org/neutron/v5/x/feerefunder/types"
-	interchainqueriestypes "github.com/neutron-org/neutron/v5/x/interchainqueries/types"
-	interchaintxstypes "github.com/neutron-org/neutron/v5/x/interchaintxs/types"
-	tokenfactorytypes "github.com/neutron-org/neutron/v5/x/tokenfactory/types"
+	contractmanagertypes "github.com/maany-xyz/maany-dex/v5/x/contractmanager/types"
+	crontypes "github.com/maany-xyz/maany-dex/v5/x/cron/types"
+	feeburnertypes "github.com/maany-xyz/maany-dex/v5/x/feeburner/types"
+	feerefundertypes "github.com/maany-xyz/maany-dex/v5/x/feerefunder/types"
+	interchainqueriestypes "github.com/maany-xyz/maany-dex/v5/x/interchainqueries/types"
+	interchaintxstypes "github.com/maany-xyz/maany-dex/v5/x/interchaintxs/types"
+	tokenfactorytypes "github.com/maany-xyz/maany-dex/v5/x/tokenfactory/types"
 )
 
 func IsConsumerProposalAllowlisted(content govtypes.Content) bool {

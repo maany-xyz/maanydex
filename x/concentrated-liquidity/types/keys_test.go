@@ -6,8 +6,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
 
-	"github.com/neutron-org/neutron/v5/osmoutils/accum"
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/accum"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
 )
 
 // TestReverseRelationTickIndexToBytes tests if TickIndexToBytes and TickIndexFromBytes

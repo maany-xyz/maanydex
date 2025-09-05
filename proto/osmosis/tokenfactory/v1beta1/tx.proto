@@ -9,7 +9,7 @@ import "cosmos_proto/cosmos.proto";
 import "gogoproto/gogo.proto";
 import "osmosis/tokenfactory/v1beta1/params.proto";
 
-option go_package = "github.com/neutron-org/neutron/v5/x/tokenfactory/types/v1beta1";
+option go_package = "github.com/maany-xyz/maany-dex/v5/x/tokenfactory/types/v1beta1";
 
 // Msg defines the tokefactory module's gRPC message service.
 service Msg {

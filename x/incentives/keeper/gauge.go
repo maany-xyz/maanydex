@@ -15,12 +15,12 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	appparams "github.com/neutron-org/neutron/v5/app/config"
-	"github.com/neutron-org/neutron/v5/osmomath"
-	epochtypes "github.com/neutron-org/neutron/v5/x/epochs/types"
-	"github.com/neutron-org/neutron/v5/x/incentives/types"
-	lockuptypes "github.com/neutron-org/neutron/v5/x/lockup/types"
-	poolmanagertypes "github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	appparams "github.com/maany-xyz/maany-dex/v5/app/config"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	epochtypes "github.com/maany-xyz/maany-dex/v5/x/epochs/types"
+	"github.com/maany-xyz/maany-dex/v5/x/incentives/types"
+	lockuptypes "github.com/maany-xyz/maany-dex/v5/x/lockup/types"
+	poolmanagertypes "github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 )
 
 var byGroupQueryCondition = lockuptypes.QueryCondition{LockQueryType: lockuptypes.ByGroup}
@@ -277,7 +277,7 @@ func (k Keeper) CreateGauge(ctx sdk.Context, isPerpetual bool, owner sdk.AccAddr
 	// 1. It is not used anywhere in the codebase.
 	// 2. There is a bug where we initHooks after we init gov routes. Therefore,
 	// if we attempt to call a method that calls a hook via a gov prop, it will panic.
-	// https://github.com/neutron-org/neutron/v5/issues/6580
+	// https://github.com/maany-xyz/maany-dex/v5/issues/6580
 	// k.hooks.AfterCreateGauge(ctx, gauge.Id)
 	return gauge.Id, nil
 }

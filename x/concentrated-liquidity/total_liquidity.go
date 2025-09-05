@@ -4,8 +4,8 @@ import (
 	"cosmossdk.io/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
 )
 
 func (k Keeper) GetTotalLiquidity(ctx sdk.Context) (sdk.Coins, error) {

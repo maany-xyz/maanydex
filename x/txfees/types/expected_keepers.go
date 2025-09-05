@@ -7,8 +7,8 @@ import (
 
 	consensustypes "github.com/cosmos/cosmos-sdk/x/consensus/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	poolmanagertypes "github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	poolmanagertypes "github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 )
 
 // SpotPriceCalculator defines the contract that must be fulfilled by a spot price calculator

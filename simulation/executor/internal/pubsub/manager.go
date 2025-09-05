@@ -4,7 +4,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"go.uber.org/multierr"
 
-	"github.com/neutron-org/neutron/v5/simulation/simtypes"
+	"github.com/maany-xyz/maany-dex/v5/simulation/simtypes"
 )
 
 var _ simtypes.PubSubManager = &Manager{}

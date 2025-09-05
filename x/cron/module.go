@@ -20,9 +20,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 
-	"github.com/neutron-org/neutron/v5/x/cron/client/cli"
-	"github.com/neutron-org/neutron/v5/x/cron/keeper"
-	"github.com/neutron-org/neutron/v5/x/cron/types"
+	"github.com/maany-xyz/maany-dex/v5/x/cron/client/cli"
+	"github.com/maany-xyz/maany-dex/v5/x/cron/keeper"
+	"github.com/maany-xyz/maany-dex/v5/x/cron/types"
 )
 
 var (

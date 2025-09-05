@@ -10,10 +10,10 @@ import (
 	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/x/gamm/pool-models/internal/cfmm_common"
-	"github.com/neutron-org/neutron/v5/x/gamm/types"
-	poolmanagertypes "github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/pool-models/internal/cfmm_common"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/types"
+	poolmanagertypes "github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 )
 
 //nolint:deadcode

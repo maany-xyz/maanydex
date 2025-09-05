@@ -3,7 +3,7 @@ package types
 import (
 	"fmt"
 
-	appparams "github.com/neutron-org/neutron/v5/app/config"
+	appparams "github.com/maany-xyz/maany-dex/v5/app/config"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"

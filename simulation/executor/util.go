@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/neutron-org/neutron/v5/simulation/simtypes"
+	"github.com/maany-xyz/maany-dex/v5/simulation/simtypes"
 )
 
 //nolint:unparam

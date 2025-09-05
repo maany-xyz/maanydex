@@ -14,10 +14,10 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/types/query"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	gammtypes "github.com/neutron-org/neutron/v5/x/gamm/types"
-	"github.com/neutron-org/neutron/v5/x/incentives/types"
-	lockuptypes "github.com/neutron-org/neutron/v5/x/lockup/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	gammtypes "github.com/maany-xyz/maany-dex/v5/x/gamm/types"
+	"github.com/maany-xyz/maany-dex/v5/x/incentives/types"
+	lockuptypes "github.com/maany-xyz/maany-dex/v5/x/lockup/types"
 )
 
 var _ types.QueryServer = Querier{}

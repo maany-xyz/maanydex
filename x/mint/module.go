@@ -25,10 +25,10 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 
-	"github.com/neutron-org/neutron/v5/x/mint/client/cli"
-	"github.com/neutron-org/neutron/v5/x/mint/keeper"
-	"github.com/neutron-org/neutron/v5/x/mint/simulation"
-	"github.com/neutron-org/neutron/v5/x/mint/types"
+	"github.com/maany-xyz/maany-dex/v5/x/mint/client/cli"
+	"github.com/maany-xyz/maany-dex/v5/x/mint/keeper"
+	"github.com/maany-xyz/maany-dex/v5/x/mint/simulation"
+	"github.com/maany-xyz/maany-dex/v5/x/mint/types"
 )
 
 var (

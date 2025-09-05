@@ -1,6 +1,6 @@
 package types
 
-import "github.com/neutron-org/neutron/v5/osmoutils/observability"
+import "github.com/maany-xyz/maany-dex/v5/osmoutils/observability"
 
 var (
 	// incentives_group_gauge_sync_failure

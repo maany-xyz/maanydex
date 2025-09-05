@@ -27,9 +27,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 
-	"github.com/neutron-org/neutron/v5/x/epochs/client/cli"
-	"github.com/neutron-org/neutron/v5/x/epochs/keeper"
-	"github.com/neutron-org/neutron/v5/x/epochs/types"
+	"github.com/maany-xyz/maany-dex/v5/x/epochs/client/cli"
+	"github.com/maany-xyz/maany-dex/v5/x/epochs/keeper"
+	"github.com/maany-xyz/maany-dex/v5/x/epochs/types"
 )
 
 var (

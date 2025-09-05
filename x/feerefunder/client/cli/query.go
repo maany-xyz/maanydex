@@ -10,7 +10,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/client"
 
-	"github.com/neutron-org/neutron/v5/x/feerefunder/types"
+	"github.com/maany-xyz/maany-dex/v5/x/feerefunder/types"
 )
 
 // GetQueryCmd returns the cli query commands for this module

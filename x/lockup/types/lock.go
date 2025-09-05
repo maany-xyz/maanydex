@@ -11,7 +11,7 @@ import (
 
 	sdkmath "cosmossdk.io/math"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
 )
 
 // defaultOwnerReceiverPlaceholder is used as a place holder for default owner receiver for the

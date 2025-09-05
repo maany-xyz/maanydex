@@ -11,8 +11,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/cosmos/cosmos-sdk/types/tx/signing"
 
-	"github.com/neutron-org/neutron/v5/app/params"
-	tokenfactorytypes "github.com/neutron-org/neutron/v5/x/tokenfactory/types"
+	"github.com/maany-xyz/maany-dex/v5/app/params"
+	tokenfactorytypes "github.com/maany-xyz/maany-dex/v5/x/tokenfactory/types"
 
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	authsign "github.com/cosmos/cosmos-sdk/x/auth/signing"

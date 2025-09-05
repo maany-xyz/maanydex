@@ -9,7 +9,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
 )
 
 // constants.

@@ -15,12 +15,12 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 
-	"github.com/neutron-org/neutron/v5/x/twap"
-	twapclient "github.com/neutron-org/neutron/v5/x/twap/client"
-	twapcli "github.com/neutron-org/neutron/v5/x/twap/client/cli"
-	"github.com/neutron-org/neutron/v5/x/twap/client/grpc"
-	"github.com/neutron-org/neutron/v5/x/twap/client/queryproto"
-	"github.com/neutron-org/neutron/v5/x/twap/types"
+	"github.com/maany-xyz/maany-dex/v5/x/twap"
+	twapclient "github.com/maany-xyz/maany-dex/v5/x/twap/client"
+	twapcli "github.com/maany-xyz/maany-dex/v5/x/twap/client/cli"
+	"github.com/maany-xyz/maany-dex/v5/x/twap/client/grpc"
+	"github.com/maany-xyz/maany-dex/v5/x/twap/client/queryproto"
+	"github.com/maany-xyz/maany-dex/v5/x/twap/types"
 )
 
 var (

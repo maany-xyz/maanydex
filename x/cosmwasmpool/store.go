@@ -8,9 +8,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
 
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	"github.com/neutron-org/neutron/v5/x/cosmwasmpool/model"
-	"github.com/neutron-org/neutron/v5/x/cosmwasmpool/types"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	"github.com/maany-xyz/maany-dex/v5/x/cosmwasmpool/model"
+	"github.com/maany-xyz/maany-dex/v5/x/cosmwasmpool/types"
 )
 
 // SetPool stores the given pool in state.

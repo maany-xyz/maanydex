@@ -8,8 +8,8 @@ import (
 	storetypes "cosmossdk.io/store/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
 )
 
 type Keeper struct {

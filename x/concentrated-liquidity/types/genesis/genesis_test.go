@@ -5,8 +5,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types/genesis"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types/genesis"
 )
 
 func TestValidateGenesis(t *testing.T) {

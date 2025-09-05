@@ -26,11 +26,11 @@ import (
 
 	cmtproto "github.com/cometbft/cometbft/proto/tendermint/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/x/txfees/client/cli"
-	"github.com/neutron-org/neutron/v5/x/txfees/keeper"
-	mempool1559 "github.com/neutron-org/neutron/v5/x/txfees/keeper/mempool-1559"
-	"github.com/neutron-org/neutron/v5/x/txfees/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/x/txfees/client/cli"
+	"github.com/maany-xyz/maany-dex/v5/x/txfees/keeper"
+	mempool1559 "github.com/maany-xyz/maany-dex/v5/x/txfees/keeper/mempool-1559"
+	"github.com/maany-xyz/maany-dex/v5/x/txfees/types"
 )
 
 var (

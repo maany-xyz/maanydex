@@ -3,9 +3,9 @@ package cli
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/neutron-org/neutron/v5/osmoutils/osmocli"
-	"github.com/neutron-org/neutron/v5/x/cosmwasmpool/client/queryproto"
-	"github.com/neutron-org/neutron/v5/x/cosmwasmpool/types"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/osmocli"
+	"github.com/maany-xyz/maany-dex/v5/x/cosmwasmpool/client/queryproto"
+	"github.com/maany-xyz/maany-dex/v5/x/cosmwasmpool/types"
 )
 
 // NewQueryCmd returns the cli query commands for this module.

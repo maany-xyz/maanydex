@@ -12,11 +12,11 @@ import (
 	icacontrollertypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/controller/types"
 	ibctransfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
 
-	appparams "github.com/neutron-org/neutron/v5/app/config"
-	"github.com/neutron-org/neutron/v5/osmomath"
-	mempool1559 "github.com/neutron-org/neutron/v5/x/txfees/keeper/mempool-1559"
-	"github.com/neutron-org/neutron/v5/x/txfees/keeper/txfee_filters"
-	"github.com/neutron-org/neutron/v5/x/txfees/types"
+	appparams "github.com/maany-xyz/maany-dex/v5/app/config"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	mempool1559 "github.com/maany-xyz/maany-dex/v5/x/txfees/keeper/mempool-1559"
+	"github.com/maany-xyz/maany-dex/v5/x/txfees/keeper/txfee_filters"
+	"github.com/maany-xyz/maany-dex/v5/x/txfees/types"
 
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 )

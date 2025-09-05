@@ -8,9 +8,9 @@ import (
 	storetypes "cosmossdk.io/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	types "github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	types "github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
 )
 
 // --- Pool Hooks ---

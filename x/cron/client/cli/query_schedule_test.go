@@ -12,10 +12,10 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/neutron-org/neutron/v5/testutil/common/nullify"
-	"github.com/neutron-org/neutron/v5/testutil/cron/network"
-	"github.com/neutron-org/neutron/v5/x/cron/client/cli"
-	"github.com/neutron-org/neutron/v5/x/cron/types"
+	"github.com/maany-xyz/maany-dex/v5/testutil/common/nullify"
+	"github.com/maany-xyz/maany-dex/v5/testutil/cron/network"
+	"github.com/maany-xyz/maany-dex/v5/x/cron/client/cli"
+	"github.com/maany-xyz/maany-dex/v5/x/cron/types"
 )
 
 func networkWithScheduleObjects(t *testing.T, n int) (*network.Network, []types.Schedule) {

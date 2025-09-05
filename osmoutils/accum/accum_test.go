@@ -13,11 +13,11 @@ import (
 	"github.com/cosmos/iavl"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	accumPackage "github.com/neutron-org/neutron/v5/osmoutils/accum"
-	"github.com/neutron-org/neutron/v5/osmoutils/osmoassert"
-	"github.com/neutron-org/neutron/v5/osmoutils/wrapper"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	accumPackage "github.com/maany-xyz/maany-dex/v5/osmoutils/accum"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/osmoassert"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/wrapper"
 )
 
 type AccumTestSuite struct {

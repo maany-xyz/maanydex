@@ -24,14 +24,14 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 
-	"github.com/neutron-org/neutron/v5/simulation/simtypes"
-	"github.com/neutron-org/neutron/v5/x/gamm/client/cli"
-	"github.com/neutron-org/neutron/v5/x/gamm/keeper"
-	"github.com/neutron-org/neutron/v5/x/gamm/pool-models/balancer"
-	"github.com/neutron-org/neutron/v5/x/gamm/pool-models/stableswap"
-	simulation "github.com/neutron-org/neutron/v5/x/gamm/simulation"
-	"github.com/neutron-org/neutron/v5/x/gamm/types"
-	"github.com/neutron-org/neutron/v5/x/gamm/v2types"
+	"github.com/maany-xyz/maany-dex/v5/simulation/simtypes"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/client/cli"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/keeper"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/pool-models/balancer"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/pool-models/stableswap"
+	simulation "github.com/maany-xyz/maany-dex/v5/x/gamm/simulation"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/types"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/v2types"
 )
 
 var (

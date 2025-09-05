@@ -3,8 +3,8 @@ package keeper
 import (
 	"time"
 
-	"github.com/neutron-org/neutron/v5/x/incentives/types"
-	lockuptypes "github.com/neutron-org/neutron/v5/x/lockup/types"
+	"github.com/maany-xyz/maany-dex/v5/x/incentives/types"
+	lockuptypes "github.com/maany-xyz/maany-dex/v5/x/lockup/types"
 
 	storetypes "cosmossdk.io/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"

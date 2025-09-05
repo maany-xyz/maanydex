@@ -7,13 +7,13 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
 
 	storetypes "cosmossdk.io/store/types"
 
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	"github.com/neutron-org/neutron/v5/x/poolmanager/types"
-	takerfeetypes "github.com/neutron-org/neutron/v5/x/takerfee/types"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	"github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
+	takerfeetypes "github.com/maany-xyz/maany-dex/v5/x/takerfee/types"
 )
 
 var zero = osmomath.ZeroInt()

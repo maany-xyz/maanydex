@@ -8,7 +8,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/neutron-org/neutron/v5/x/epochs/types"
+	"github.com/maany-xyz/maany-dex/v5/x/epochs/types"
 )
 
 var _ types.QueryServer = Querier{}

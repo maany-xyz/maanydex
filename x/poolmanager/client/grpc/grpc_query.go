@@ -11,8 +11,8 @@ import (
 	"google.golang.org/grpc/status"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/neutron-org/neutron/v5/x/poolmanager/client"
-	"github.com/neutron-org/neutron/v5/x/poolmanager/client/queryproto"
+	"github.com/maany-xyz/maany-dex/v5/x/poolmanager/client"
+	"github.com/maany-xyz/maany-dex/v5/x/poolmanager/client/queryproto"
 )
 
 type Querier struct {

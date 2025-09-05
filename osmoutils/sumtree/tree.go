@@ -9,7 +9,7 @@ import (
 
 	"github.com/cosmos/gogoproto/proto"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
 
 	store "cosmossdk.io/store"
 	stypes "cosmossdk.io/store/types"

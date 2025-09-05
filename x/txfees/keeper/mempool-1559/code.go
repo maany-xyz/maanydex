@@ -10,7 +10,7 @@ import (
 
 	"cosmossdk.io/log"
 
-	osmomath "github.com/neutron-org/neutron/v5/osmomath"
+	osmomath "github.com/maany-xyz/maany-dex/v5/osmomath"
 )
 
 /*

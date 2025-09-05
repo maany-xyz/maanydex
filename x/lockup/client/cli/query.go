@@ -15,9 +15,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/version"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/osmoutils/osmocli"
-	"github.com/neutron-org/neutron/v5/x/lockup/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/osmocli"
+	"github.com/maany-xyz/maany-dex/v5/x/lockup/types"
 )
 
 // GetQueryCmd returns the cli query commands for this module.

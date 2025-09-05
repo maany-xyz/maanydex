@@ -7,8 +7,8 @@ import (
 
 	govtypesv1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 
-	"github.com/neutron-org/neutron/v5/x/gamm/keeper"
-	"github.com/neutron-org/neutron/v5/x/gamm/types"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/keeper"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/types"
 )
 
 // NewGammProposalHandler is a handler for governance proposals for the GAMM module.

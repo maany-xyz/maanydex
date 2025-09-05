@@ -7,9 +7,9 @@ import (
 
 	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	gammtypes "github.com/neutron-org/neutron/v5/x/gamm/types"
-	poolmanagertypes "github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	gammtypes "github.com/maany-xyz/maany-dex/v5/x/gamm/types"
+	poolmanagertypes "github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )

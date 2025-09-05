@@ -7,10 +7,10 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	osmosimtypes "github.com/neutron-org/neutron/v5/simulation/simtypes"
-	valsetkeeper "github.com/neutron-org/neutron/v5/x/valset-pref"
-	"github.com/neutron-org/neutron/v5/x/valset-pref/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	osmosimtypes "github.com/maany-xyz/maany-dex/v5/simulation/simtypes"
+	valsetkeeper "github.com/maany-xyz/maany-dex/v5/x/valset-pref"
+	"github.com/maany-xyz/maany-dex/v5/x/valset-pref/types"
 )
 
 func RandomMsgSetValSetPreference(k valsetkeeper.Keeper, sim *osmosimtypes.SimCtx, ctx sdk.Context) (*types.MsgSetValidatorSetPreference, error) {

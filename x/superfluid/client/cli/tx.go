@@ -9,10 +9,10 @@ import (
 	"github.com/spf13/cobra"
 	flag "github.com/spf13/pflag"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	"github.com/neutron-org/neutron/v5/osmoutils/osmocli"
-	"github.com/neutron-org/neutron/v5/x/superfluid/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/osmocli"
+	"github.com/maany-xyz/maany-dex/v5/x/superfluid/types"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
@@ -22,8 +22,8 @@ import (
 	v1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1"
 	govtypesv1beta1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 
-	cltypes "github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
-	gammtypes "github.com/neutron-org/neutron/v5/x/gamm/types"
+	cltypes "github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
+	gammtypes "github.com/maany-xyz/maany-dex/v5/x/gamm/types"
 )
 
 // GetTxCmd returns the transaction commands for this module.

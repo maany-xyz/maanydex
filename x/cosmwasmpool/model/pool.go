@@ -5,12 +5,12 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/neutron-org/neutron/v5/x/cosmwasmpool/cosmwasm/msg"
-	"github.com/neutron-org/neutron/v5/x/cosmwasmpool/types"
-	poolmanagertypes "github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	"github.com/maany-xyz/maany-dex/v5/x/cosmwasmpool/cosmwasm/msg"
+	"github.com/maany-xyz/maany-dex/v5/x/cosmwasmpool/types"
+	poolmanagertypes "github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	cosmwasmutils "github.com/neutron-org/neutron/v5/osmoutils/cosmwasm"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	cosmwasmutils "github.com/maany-xyz/maany-dex/v5/osmoutils/cosmwasm"
 )
 
 // Pool encapsulates all data and behavior for interacting with a CW pool.

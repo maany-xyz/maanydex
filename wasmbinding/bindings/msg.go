@@ -7,9 +7,9 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	paramChange "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
 
-	feetypes "github.com/neutron-org/neutron/v5/x/feerefunder/types"
-	icqtypes "github.com/neutron-org/neutron/v5/x/interchainqueries/types"
-	transferwrappertypes "github.com/neutron-org/neutron/v5/x/transfer/types"
+	feetypes "github.com/maany-xyz/maany-dex/v5/x/feerefunder/types"
+	icqtypes "github.com/maany-xyz/maany-dex/v5/x/interchainqueries/types"
+	transferwrappertypes "github.com/maany-xyz/maany-dex/v5/x/transfer/types"
 )
 
 // ProtobufAny is a hack-struct to serialize protobuf Any message into JSON object

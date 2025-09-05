@@ -8,13 +8,13 @@ import (
 	db "github.com/cosmos/cosmos-db"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/client/queryproto"
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/math"
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/model"
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/swapstrategy"
-	types "github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/client/queryproto"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/math"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/model"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/swapstrategy"
+	types "github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
 )
 
 const invalidTickIndex = int64(-1)

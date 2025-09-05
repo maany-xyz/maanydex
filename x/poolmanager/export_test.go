@@ -5,9 +5,9 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	alloyedpooltypes "github.com/neutron-org/neutron/v5/x/cosmwasmpool/cosmwasm/msg/v3"
-	"github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	alloyedpooltypes "github.com/maany-xyz/maany-dex/v5/x/cosmwasmpool/cosmwasm/msg/v3"
+	"github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 )
 
 var IntMaxValue = intMaxValue

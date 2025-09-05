@@ -6,10 +6,10 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	cl "github.com/neutron-org/neutron/v5/x/concentrated-liquidity"
-	clquery "github.com/neutron-org/neutron/v5/x/concentrated-liquidity/client/queryproto"
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/model"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	cl "github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity"
+	clquery "github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/client/queryproto"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/model"
 )
 
 // Querier defines a wrapper around the x/concentrated-liquidity keeper providing gRPC method

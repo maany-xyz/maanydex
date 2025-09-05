@@ -12,11 +12,11 @@ import (
 	"github.com/cosmos/cosmos-sdk/telemetry"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/osmoutils/coinutil"
-	"github.com/neutron-org/neutron/v5/x/incentives/types"
-	lockuptypes "github.com/neutron-org/neutron/v5/x/lockup/types"
-	poolmanagertypes "github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/coinutil"
+	"github.com/maany-xyz/maany-dex/v5/x/incentives/types"
+	lockuptypes "github.com/maany-xyz/maany-dex/v5/x/lockup/types"
+	poolmanagertypes "github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 
 	sdkmath "cosmossdk.io/math"
 )
@@ -70,7 +70,7 @@ func (k Keeper) AllocateAcrossGauges(ctx sdk.Context, activeGroups []types.Group
 
 		// Refetch group
 		// TODO: consider mutating receiver of syncGroupWeights instead of refetching.
-		// https://github.com/neutron-org/neutron/v5/issues/6556
+		// https://github.com/maany-xyz/maany-dex/v5/issues/6556
 		group, err := k.GetGroupByGaugeID(ctx, group.GroupGaugeId)
 		if err != nil {
 			return err
@@ -130,7 +130,7 @@ func (k Keeper) AllocateAcrossGauges(ctx sdk.Context, activeGroups []types.Group
 		for gaugeIndex, distrRecord := range group.InternalGaugeInfo.GaugeRecords {
 			// Between 0 and 1. to determine the pro-rata share of the total amount to distribute
 			// TODO: handle division by zero gracefully and update test
-			// https://github.com/neutron-org/neutron/v5/issues/6558
+			// https://github.com/maany-xyz/maany-dex/v5/issues/6558
 			gaugeDistributionRatio := distrRecord.CurrentWeight.ToLegacyDec().Quo(totalGroupWeight.ToLegacyDec())
 
 			// Loop through `coinsToDistribute` and get the amount to distribute to the current gauge
@@ -491,7 +491,7 @@ func (k Keeper) calculateGroupWeights(ctx sdk.Context, group types.Group) (types
 		} else {
 			// Otherwise, it's a balancer pool so we set it to longest lockable duration
 			// TODO: add support for CW pools once there's clarity around default gauge type.
-			// Tracked in issue https://github.com/neutron-org/neutron/v5/issues/6403
+			// Tracked in issue https://github.com/maany-xyz/maany-dex/v5/issues/6403
 			gaugeDuration, err = k.pik.GetLongestLockableDuration(ctx)
 			if err != nil {
 				return types.Group{}, err

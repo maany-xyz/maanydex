@@ -7,7 +7,7 @@ import (
 
 	wasmvmtypes "github.com/CosmWasm/wasmvm/v2/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
 )
 
 // Action prefixes for pool actions

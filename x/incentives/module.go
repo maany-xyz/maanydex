@@ -25,11 +25,11 @@ import (
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	osmosimtypes "github.com/neutron-org/neutron/v5/simulation/simtypes"
-	"github.com/neutron-org/neutron/v5/x/incentives/client/cli"
-	"github.com/neutron-org/neutron/v5/x/incentives/keeper"
-	"github.com/neutron-org/neutron/v5/x/incentives/simulation"
-	"github.com/neutron-org/neutron/v5/x/incentives/types"
+	osmosimtypes "github.com/maany-xyz/maany-dex/v5/simulation/simtypes"
+	"github.com/maany-xyz/maany-dex/v5/x/incentives/client/cli"
+	"github.com/maany-xyz/maany-dex/v5/x/incentives/keeper"
+	"github.com/maany-xyz/maany-dex/v5/x/incentives/simulation"
+	"github.com/maany-xyz/maany-dex/v5/x/incentives/types"
 )
 
 var (

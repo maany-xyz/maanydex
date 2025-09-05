@@ -16,9 +16,9 @@ import (
 
 	iavlstore "cosmossdk.io/store/iavl"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/osmoutils/sumtree"
-	"github.com/neutron-org/neutron/v5/osmoutils/wrapper"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/sumtree"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/wrapper"
 )
 
 type TreeTestSuite struct {

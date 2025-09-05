@@ -3,9 +3,9 @@ package keeper
 import (
 	"github.com/cosmos/gogoproto/proto"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	gammtypes "github.com/neutron-org/neutron/v5/x/gamm/types"
-	"github.com/neutron-org/neutron/v5/x/superfluid/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	gammtypes "github.com/maany-xyz/maany-dex/v5/x/gamm/types"
+	"github.com/maany-xyz/maany-dex/v5/x/superfluid/types"
 
 	"cosmossdk.io/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"

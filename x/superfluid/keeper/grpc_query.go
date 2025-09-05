@@ -15,18 +15,18 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	appparams "github.com/neutron-org/neutron/v5/app/config"
-	"github.com/neutron-org/neutron/v5/osmomath"
+	appparams "github.com/maany-xyz/maany-dex/v5/app/config"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
 
 	"cosmossdk.io/store/prefix"
 	"github.com/cosmos/cosmos-sdk/types/query"
 
 	storetypes "cosmossdk.io/store/types"
 
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/model"
-	cltypes "github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
-	lockuptypes "github.com/neutron-org/neutron/v5/x/lockup/types"
-	"github.com/neutron-org/neutron/v5/x/superfluid/types"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/model"
+	cltypes "github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
+	lockuptypes "github.com/maany-xyz/maany-dex/v5/x/lockup/types"
+	"github.com/maany-xyz/maany-dex/v5/x/superfluid/types"
 )
 
 var _ types.QueryServer = Querier{}

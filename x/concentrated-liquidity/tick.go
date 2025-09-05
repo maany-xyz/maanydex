@@ -5,13 +5,13 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	"github.com/neutron-org/neutron/v5/osmoutils/accum"
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/math"
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/model"
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types/genesis"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/accum"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/math"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/model"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types/genesis"
 )
 
 // initOrUpdateTick retrieves the tickInfo from the specified tickIndex and updates both the liquidityNet and LiquidityGross.

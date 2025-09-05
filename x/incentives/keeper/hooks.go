@@ -3,9 +3,9 @@ package keeper
 import (
 	"fmt"
 
-	epochstypes "github.com/neutron-org/neutron/v5/x/epochs/types"
-	"github.com/neutron-org/neutron/v5/x/incentives/types"
-	lockuptypes "github.com/neutron-org/neutron/v5/x/lockup/types"
+	epochstypes "github.com/maany-xyz/maany-dex/v5/x/epochs/types"
+	"github.com/maany-xyz/maany-dex/v5/x/incentives/types"
+	lockuptypes "github.com/maany-xyz/maany-dex/v5/x/lockup/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )

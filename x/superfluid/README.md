@@ -14,7 +14,7 @@ bank module.
 ### The process
 
 All of the below methods are found under the [Superfluid
-modules](https://github.com/neutron-org/neutron/v5/tree/main/x/superfluid).
+modules](https://github.com/maany-xyz/maany-dex/v5/tree/main/x/superfluid).
 
 - The `SuperfluidDelegate` method stores your share of bonded
   liquidity pool tokens, with `validateLock` as a verifier for lockup
@@ -76,7 +76,7 @@ value of their GAMM pool tokens. This method is accurate because
 querying the value OSMO every day allows for burning and minting
 according to the difference in value of OSMO relative to the expected
 delegation amount (as seen with
-[GetExpectedDelegationAmount](https://github.com/neutron-org/neutron/v5/blob/main/x/superfluid/keeper/stake.go)).
+[GetExpectedDelegationAmount](https://github.com/maany-xyz/maany-dex/v5/blob/main/x/superfluid/keeper/stake.go)).
 It's like having a price oracle for fairly calculating the amount the
 user has superfluidly staked.
 

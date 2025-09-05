@@ -9,14 +9,14 @@ import (
 
 	addresscodec "cosmossdk.io/core/address"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/model"
-	cltypes "github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
-	epochstypes "github.com/neutron-org/neutron/v5/x/epochs/types"
-	gammtypes "github.com/neutron-org/neutron/v5/x/gamm/types"
-	gammmigration "github.com/neutron-org/neutron/v5/x/gamm/types/migration"
-	incentivestypes "github.com/neutron-org/neutron/v5/x/incentives/types"
-	lockuptypes "github.com/neutron-org/neutron/v5/x/lockup/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/model"
+	cltypes "github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
+	epochstypes "github.com/maany-xyz/maany-dex/v5/x/epochs/types"
+	gammtypes "github.com/maany-xyz/maany-dex/v5/x/gamm/types"
+	gammmigration "github.com/maany-xyz/maany-dex/v5/x/gamm/types/migration"
+	incentivestypes "github.com/maany-xyz/maany-dex/v5/x/incentives/types"
+	lockuptypes "github.com/maany-xyz/maany-dex/v5/x/lockup/types"
 )
 
 // LockupKeeper defines the expected interface needed to retrieve locks.

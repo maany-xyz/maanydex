@@ -15,9 +15,9 @@ import (
 	v1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1"
 	govtypesv1beta1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 
-	"github.com/neutron-org/neutron/v5/osmoutils/osmocli"
-	clmodel "github.com/neutron-org/neutron/v5/x/concentrated-liquidity/model"
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/osmocli"
+	clmodel "github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/model"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
 )
 
 func NewTxCmd() *cobra.Command {

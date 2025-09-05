@@ -1,7 +1,7 @@
 keeper:
-  path: "github.com/neutron-org/neutron/v5/x/poolmanager"
+  path: "github.com/maany-xyz/maany-dex/v5/x/poolmanager"
   struct: "Keeper"
-client_path: "github.com/neutron-org/neutron/v5/x/poolmanager/client"
+client_path: "github.com/maany-xyz/maany-dex/v5/x/poolmanager/client"
 queries:
   Params:
     proto_wrapper:
@@ -16,7 +16,7 @@ queries:
   EstimateSwapExactAmountInWithPrimitiveTypes:
     proto_wrapper:
       query_func: "k.EstimateSwapExactAmountInWithPrimitiveTypes"
-      response: "*queryproto.EstimateSwapExactAmountInResponse"
+      response: "*types.EstimateSwapExactAmountInResponse"
     cli:
       cmd: "EstimateSwapExactAmountInWithPrimitiveTypes"
   EstimateSwapExactAmountOut:
@@ -27,19 +27,19 @@ queries:
   EstimateSwapExactAmountOutWithPrimitiveTypes:
     proto_wrapper:
       query_func: "k.EstimateSwapExactAmountOutWithPrimitiveTypes"
-      response: "*queryproto.EstimateSwapExactAmountOutResponse"
+      response: "*types.EstimateSwapExactAmountOutResponse"
     cli:
       cmd: "EstimateSwapExactAmountOutWithPrimitiveTypes"
   EstimateSinglePoolSwapExactAmountIn:
     proto_wrapper:
       query_func: "k.EstimateSinglePoolSwapExactAmountIn"
-      response: "*queryproto.EstimateSwapExactAmountInResponse"
+      response: "*types.EstimateSwapExactAmountInResponse"
     cli:
       cmd: "EstimateSinglePoolSwapExactAmountIn"
   EstimateSinglePoolSwapExactAmountOut:
     proto_wrapper:
       query_func: "k.EstimateSinglePoolSwapExactAmountOutTEST"
-      response: "*queryproto.EstimateSwapExactAmountOutResponse"
+      response: "*types.EstimateSwapExactAmountOutResponse"
     cli:
       cmd: "EstimateSinglePoolSwapExactAmountOut"
   NumPools:
@@ -80,7 +80,7 @@ queries:
   EstimateTradeBasedOnPriceImpact:
     proto_wrapper:
       query_func: "k.EstimateTradeBasedOnPriceImpact"
-      response: "*queryproto.EstimateTradeBasedOnPriceImpactResponse"
+      response: "*types.EstimateTradeBasedOnPriceImpactResponse"
     cli:
       cmd: "EstimateTradeBasedOnPriceImpact"
   TradingPairTakerFee:

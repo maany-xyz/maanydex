@@ -6,8 +6,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/x/gamm/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/types"
 )
 
 func createTestPool(t *testing.T, poolLiquidity sdk.Coins, spreadFactor, exitFee osmomath.Dec, scalingFactors []uint64) types.CFMMPoolI {

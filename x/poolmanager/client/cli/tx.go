@@ -23,11 +23,11 @@ import (
 	v1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1"
 	govtypesv1beta1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/osmoutils/osmocli"
-	"github.com/neutron-org/neutron/v5/x/gamm/pool-models/balancer"
-	"github.com/neutron-org/neutron/v5/x/gamm/pool-models/stableswap"
-	"github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/osmocli"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/pool-models/balancer"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/pool-models/stableswap"
+	"github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 )
 
 func NewTxCmd() *cobra.Command {

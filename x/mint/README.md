@@ -48,7 +48,7 @@ the following formula:
 
 ### Minter
 
-The [`Minter`](https://github.com/neutron-org/neutron/v5/blob/cbb683e8395655042b4421355cd54a8c96bfa507/x/mint/types/mint.pb.go#L30) is an abstraction for holding current rewards information.
+The [`Minter`](https://github.com/maany-xyz/maany-dex/v5/blob/cbb683e8395655042b4421355cd54a8c96bfa507/x/mint/types/mint.pb.go#L30) is an abstraction for holding current rewards information.
 
 ```go
 type Minter struct {
@@ -58,7 +58,7 @@ type Minter struct {
 
 ### Params
 
-Minting [`Params`](https://github.com/neutron-org/neutron/v5/blob/cbb683e8395655042b4421355cd54a8c96bfa507/x/mint/types/mint.pb.go#L168) are held in the global params store.
+Minting [`Params`](https://github.com/maany-xyz/maany-dex/v5/blob/cbb683e8395655042b4421355cd54a8c96bfa507/x/mint/types/mint.pb.go#L168) are held in the global params store.
 
 ### LastReductionEpoch
 

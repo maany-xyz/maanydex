@@ -15,16 +15,16 @@ import (
 
 	"cosmossdk.io/core/appmodule"
 
-	"github.com/neutron-org/neutron/v5/simulation/simtypes"
-	gammsimulation "github.com/neutron-org/neutron/v5/x/gamm/simulation"
-	"github.com/neutron-org/neutron/v5/x/poolmanager"
-	pmclient "github.com/neutron-org/neutron/v5/x/poolmanager/client"
-	"github.com/neutron-org/neutron/v5/x/poolmanager/client/cli"
-	"github.com/neutron-org/neutron/v5/x/poolmanager/client/grpc"
-	"github.com/neutron-org/neutron/v5/x/poolmanager/client/grpcv2"
-	"github.com/neutron-org/neutron/v5/x/poolmanager/client/queryproto"
-	"github.com/neutron-org/neutron/v5/x/poolmanager/client/queryprotov2"
-	"github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	"github.com/maany-xyz/maany-dex/v5/simulation/simtypes"
+	gammsimulation "github.com/maany-xyz/maany-dex/v5/x/gamm/simulation"
+	"github.com/maany-xyz/maany-dex/v5/x/poolmanager"
+	pmclient "github.com/maany-xyz/maany-dex/v5/x/poolmanager/client"
+	"github.com/maany-xyz/maany-dex/v5/x/poolmanager/client/cli"
+	"github.com/maany-xyz/maany-dex/v5/x/poolmanager/client/grpc"
+	"github.com/maany-xyz/maany-dex/v5/x/poolmanager/client/grpcv2"
+	"github.com/maany-xyz/maany-dex/v5/x/poolmanager/client/queryproto"
+	"github.com/maany-xyz/maany-dex/v5/x/poolmanager/client/queryprotov2"
+	"github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 )
 
 var (

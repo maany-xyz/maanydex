@@ -1,7 +1,7 @@
 package client
 
 import (
-	"github.com/neutron-org/neutron/v5/x/superfluid/client/cli"
+	"github.com/maany-xyz/maany-dex/v5/x/superfluid/client/cli"
 
 	govclient "github.com/cosmos/cosmos-sdk/x/gov/client"
 )

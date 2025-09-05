@@ -10,10 +10,10 @@ import (
 
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	epochstypes "github.com/neutron-org/neutron/v5/x/epochs/types"
-	txfeestypes "github.com/neutron-org/neutron/v5/x/txfees/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	epochstypes "github.com/maany-xyz/maany-dex/v5/x/epochs/types"
+	txfeestypes "github.com/maany-xyz/maany-dex/v5/x/txfees/types"
 )
 
 var zeroDec = osmomath.ZeroDec()

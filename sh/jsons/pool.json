@@ -1,6 +1,6 @@
 {
-  "weights": "50stake,50tokenB",
-  "initial-deposit": "100000stake,100000tokenB",
+  "weights": "50umaany,50tokenB",
+  "initial-deposit": "100000umaany,100000tokenB",
   "swap-fee": "0.01",
   "future-governor": ""
 }

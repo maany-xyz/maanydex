@@ -3,8 +3,8 @@ package v500
 import (
 	storetypes "cosmossdk.io/store/types"
 
-	"github.com/neutron-org/neutron/v5/app/upgrades"
-	ibcratelimittypes "github.com/neutron-org/neutron/v5/x/ibc-rate-limit/types"
+	"github.com/maany-xyz/maany-dex/v5/app/upgrades"
+	ibcratelimittypes "github.com/maany-xyz/maany-dex/v5/x/ibc-rate-limit/types"
 )
 
 const (

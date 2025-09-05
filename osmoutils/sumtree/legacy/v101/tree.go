@@ -10,8 +10,8 @@ import (
 	storetypes "cosmossdk.io/store/types"
 	stypes "cosmossdk.io/store/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/osmoutils/sumtree"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/sumtree"
 )
 
 type Child struct {

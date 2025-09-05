@@ -3,9 +3,9 @@ package types
 import (
 	"fmt"
 
-	appparams "github.com/neutron-org/neutron/v5/app/config"
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/osmoutils"
+	appparams "github.com/maany-xyz/maany-dex/v5/app/config"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"

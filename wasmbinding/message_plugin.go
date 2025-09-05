@@ -4,16 +4,16 @@ import (
 	"encoding/json"
 	"fmt"
 
-	contractmanagerkeeper "github.com/neutron-org/neutron/v5/x/contractmanager/keeper"
+	contractmanagerkeeper "github.com/maany-xyz/maany-dex/v5/x/contractmanager/keeper"
 
 	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
 
 	"cosmossdk.io/errors"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 
-	crontypes "github.com/neutron-org/neutron/v5/x/cron/types"
+	crontypes "github.com/maany-xyz/maany-dex/v5/x/cron/types"
 
-	cronkeeper "github.com/neutron-org/neutron/v5/x/cron/keeper"
+	cronkeeper "github.com/maany-xyz/maany-dex/v5/x/cron/keeper"
 
 	paramChange "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
 
@@ -26,19 +26,19 @@ import (
 	adminmodulekeeper "github.com/cosmos/admin-module/v2/x/adminmodule/keeper"
 	admintypes "github.com/cosmos/admin-module/v2/x/adminmodule/types"
 
-	contractmanagertypes "github.com/neutron-org/neutron/v5/x/contractmanager/types"
+	contractmanagertypes "github.com/maany-xyz/maany-dex/v5/x/contractmanager/types"
 
 	bankkeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"
 	//nolint:staticcheck
 
-	"github.com/neutron-org/neutron/v5/wasmbinding/bindings"
-	icqkeeper "github.com/neutron-org/neutron/v5/x/interchainqueries/keeper"
-	icqtypes "github.com/neutron-org/neutron/v5/x/interchainqueries/types"
-	ictxkeeper "github.com/neutron-org/neutron/v5/x/interchaintxs/keeper"
-	ictxtypes "github.com/neutron-org/neutron/v5/x/interchaintxs/types"
+	"github.com/maany-xyz/maany-dex/v5/wasmbinding/bindings"
+	icqkeeper "github.com/maany-xyz/maany-dex/v5/x/interchainqueries/keeper"
+	icqtypes "github.com/maany-xyz/maany-dex/v5/x/interchainqueries/types"
+	ictxkeeper "github.com/maany-xyz/maany-dex/v5/x/interchaintxs/keeper"
+	ictxtypes "github.com/maany-xyz/maany-dex/v5/x/interchaintxs/types"
 
-	tokenfactorykeeper "github.com/neutron-org/neutron/v5/x/tokenfactory/keeper"
-	tokenfactorytypes "github.com/neutron-org/neutron/v5/x/tokenfactory/types"
+	tokenfactorykeeper "github.com/maany-xyz/maany-dex/v5/x/tokenfactory/keeper"
+	tokenfactorytypes "github.com/maany-xyz/maany-dex/v5/x/tokenfactory/types"
 )
 
 func CustomMessageDecorator(

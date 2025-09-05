@@ -3,7 +3,7 @@ package partialord
 import (
 	"sort"
 
-	"github.com/neutron-org/neutron/v5/osmoutils/partialord/internal/dag"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/partialord/internal/dag"
 )
 
 type PartialOrdering struct {

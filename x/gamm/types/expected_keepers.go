@@ -7,12 +7,12 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	cltypes "github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
-	epochtypes "github.com/neutron-org/neutron/v5/x/epochs/types"
-	incentivestypes "github.com/neutron-org/neutron/v5/x/incentives/types"
-	"github.com/neutron-org/neutron/v5/x/pool-incentives/types"
-	poolmanagertypes "github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	cltypes "github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
+	epochtypes "github.com/maany-xyz/maany-dex/v5/x/epochs/types"
+	incentivestypes "github.com/maany-xyz/maany-dex/v5/x/incentives/types"
+	"github.com/maany-xyz/maany-dex/v5/x/pool-incentives/types"
+	poolmanagertypes "github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 )
 
 // AccountKeeper defines the account contract that must be fulfilled when

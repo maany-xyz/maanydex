@@ -7,10 +7,10 @@ import (
 
 	errorsmod "cosmossdk.io/errors"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	"github.com/neutron-org/neutron/v5/x/mint/types"
-	poolincentivestypes "github.com/neutron-org/neutron/v5/x/pool-incentives/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	"github.com/maany-xyz/maany-dex/v5/x/mint/types"
+	poolincentivestypes "github.com/maany-xyz/maany-dex/v5/x/pool-incentives/types"
 
 	storetypes "cosmossdk.io/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -202,7 +202,7 @@ func (k Keeper) distributeToModule(ctx sdk.Context, recipientModule string, mint
 // If no developer reward receivers given, funds the community pool instead.
 // Returns the total amount distributed from the developer vesting module account.
 // Updates supply offsets to reflect the amount of coins distributed. This is done so because the developer rewards distributions are
-// allocated from its own module account, not the mint module account (TODO: next step in https://github.com/neutron-org/neutron/v5/issues/1916).
+// allocated from its own module account, not the mint module account (TODO: next step in https://github.com/maany-xyz/maany-dex/v5/issues/1916).
 // Returns nil on success, error otherwise.
 // With respect to input parameters, errors occur when:
 // - developerRewardsProportion is greater than 1.
@@ -225,7 +225,7 @@ func (k Keeper) distributeDeveloperRewards(ctx sdk.Context, totalMintedCoin sdk.
 	}
 
 	devRewardCoins := sdk.NewCoins(devRewardCoin)
-	// TODO: https://github.com/neutron-org/neutron/v5/issues/2025
+	// TODO: https://github.com/maany-xyz/maany-dex/v5/issues/2025
 	// Avoid over-allocating from the mint module address and have to later burn it here:
 	if err := k.bankKeeper.BurnCoins(ctx, types.ModuleName, devRewardCoins); err != nil {
 		return osmomath.Int{}, err

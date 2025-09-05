@@ -8,8 +8,8 @@ import (
 
 	govtypesv1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	gammmigration "github.com/neutron-org/neutron/v5/x/gamm/types/migration"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	gammmigration "github.com/maany-xyz/maany-dex/v5/x/gamm/types/migration"
 )
 
 const (

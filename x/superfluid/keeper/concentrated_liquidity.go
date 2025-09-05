@@ -5,9 +5,9 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	cltypes "github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
-	"github.com/neutron-org/neutron/v5/x/superfluid/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	cltypes "github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
+	"github.com/maany-xyz/maany-dex/v5/x/superfluid/types"
 )
 
 // addToConcentratedLiquiditySuperfluidPosition adds the specified amounts of tokens to an existing superfluid staked

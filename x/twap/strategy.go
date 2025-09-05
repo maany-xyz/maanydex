@@ -1,10 +1,10 @@
 package twap
 
 import (
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/x/twap/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/x/twap/types"
 
-	gammtypes "github.com/neutron-org/neutron/v5/x/gamm/types"
+	gammtypes "github.com/maany-xyz/maany-dex/v5/x/gamm/types"
 )
 
 // twapStrategy is an interface for computing TWAPs.

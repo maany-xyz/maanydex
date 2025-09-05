@@ -1,4 +1,4 @@
-module github.com/neutron-org/neutron/v5/tests/feemarket
+module github.com/maany-xyz/maany-dex/v5/tests/feemarket
 
 go 1.22.6
 

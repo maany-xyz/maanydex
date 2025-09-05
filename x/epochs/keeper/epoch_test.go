@@ -3,7 +3,7 @@ package keeper_test
 import (
 	"time"
 
-	"github.com/neutron-org/neutron/v5/x/epochs/types"
+	"github.com/maany-xyz/maany-dex/v5/x/epochs/types"
 )
 
 func (s *KeeperTestSuite) TestAddEpochInfo() {

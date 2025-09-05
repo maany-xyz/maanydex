@@ -7,9 +7,9 @@ import (
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/cosmos/cosmos-sdk/x/simulation"
 
-	gammtypes "github.com/neutron-org/neutron/v5/x/gamm/types"
-	"github.com/neutron-org/neutron/v5/x/superfluid/keeper"
-	"github.com/neutron-org/neutron/v5/x/superfluid/types"
+	gammtypes "github.com/maany-xyz/maany-dex/v5/x/gamm/types"
+	"github.com/maany-xyz/maany-dex/v5/x/superfluid/keeper"
+	"github.com/maany-xyz/maany-dex/v5/x/superfluid/types"
 )
 
 const (

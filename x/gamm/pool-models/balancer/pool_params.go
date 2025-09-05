@@ -3,8 +3,8 @@ package balancer
 import (
 	"errors"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/x/gamm/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/types"
 )
 
 func NewPoolParams(spreadFactor, exitFee osmomath.Dec, params *SmoothWeightChangeParams) PoolParams {

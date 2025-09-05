@@ -7,8 +7,8 @@ import (
 
 	"gopkg.in/yaml.v2"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/x/gamm/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/types"
 
 	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -27,7 +27,7 @@ func (pa PoolAsset) validateWeight() error {
 	}
 
 	// TODO: add validation for asset weight overflow:
-	// https://github.com/neutron-org/neutron/v5/issues/1958
+	// https://github.com/maany-xyz/maany-dex/v5/issues/1958
 
 	return nil
 }

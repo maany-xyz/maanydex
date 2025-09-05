@@ -6,8 +6,8 @@ import (
 
 	errorsmod "cosmossdk.io/errors"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	cltypes "github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	cltypes "github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
 )
 
 // x/superfluid module errors.

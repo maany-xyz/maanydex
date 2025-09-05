@@ -1,7 +1,7 @@
 package types
 
 import (
-	"github.com/neutron-org/neutron/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
 )
 
 const (

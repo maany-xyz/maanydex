@@ -15,7 +15,7 @@ import (
 	_ "github.com/cosmos/gogoproto/gogoproto"
 	proto "github.com/cosmos/gogoproto/proto"
 	github_com_cosmos_gogoproto_types "github.com/cosmos/gogoproto/types"
-	github_com_osmosis_labs_osmosis_osmomath "github.com/neutron-org/neutron/v5/osmomath"
+	github_com_osmosis_labs_osmosis_osmomath "github.com/maany-xyz/maany-dex/v5/osmomath"
 	_ "google.golang.org/protobuf/types/known/timestamppb"
 	io "io"
 	math "math"
@@ -47,7 +47,7 @@ type Pool struct {
 	CurrentTickLiquidity cosmossdk_io_math.LegacyDec                     `protobuf:"bytes,5,opt,name=current_tick_liquidity,json=currentTickLiquidity,proto3,customtype=cosmossdk.io/math.LegacyDec" json:"current_tick_liquidity" yaml:"current_tick_liquidity"`
 	Token0               string                                          `protobuf:"bytes,6,opt,name=token0,proto3" json:"token0,omitempty"`
 	Token1               string                                          `protobuf:"bytes,7,opt,name=token1,proto3" json:"token1,omitempty"`
-	CurrentSqrtPrice     github_com_osmosis_labs_osmosis_osmomath.BigDec `protobuf:"bytes,8,opt,name=current_sqrt_price,json=currentSqrtPrice,proto3,customtype=github.com/neutron-org/neutron/v5/osmomath.BigDec" json:"current_sqrt_price" yaml:"spot_price"`
+	CurrentSqrtPrice     github_com_osmosis_labs_osmosis_osmomath.BigDec `protobuf:"bytes,8,opt,name=current_sqrt_price,json=currentSqrtPrice,proto3,customtype=github.com/maany-xyz/maany-dex/v5/osmomath.BigDec" json:"current_sqrt_price" yaml:"spot_price"`
 	CurrentTick          int64                                           `protobuf:"varint,9,opt,name=current_tick,json=currentTick,proto3" json:"current_tick,omitempty" yaml:"current_tick"`
 	// tick_spacing must be one of the authorized_tick_spacing values set in the
 	// concentrated-liquidity parameters

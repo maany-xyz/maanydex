@@ -3,9 +3,9 @@ package keeper
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	gammtypes "github.com/neutron-org/neutron/v5/x/gamm/types"
-	minttypes "github.com/neutron-org/neutron/v5/x/mint/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	gammtypes "github.com/maany-xyz/maany-dex/v5/x/gamm/types"
+	minttypes "github.com/maany-xyz/maany-dex/v5/x/mint/types"
 )
 
 type Hooks struct {

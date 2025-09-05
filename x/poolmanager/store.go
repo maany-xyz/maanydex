@@ -11,10 +11,10 @@ import (
 
 	storetypes "cosmossdk.io/store/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	v3 "github.com/neutron-org/neutron/v5/x/cosmwasmpool/cosmwasm/msg/v3"
-	"github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	v3 "github.com/maany-xyz/maany-dex/v5/x/cosmwasmpool/cosmwasm/msg/v3"
+	"github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 )
 
 //

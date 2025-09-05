@@ -13,7 +13,7 @@ import (
 	_ "github.com/cosmos/gogoproto/gogoproto"
 	grpc1 "github.com/cosmos/gogoproto/grpc"
 	proto "github.com/cosmos/gogoproto/proto"
-	types1 "github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	types1 "github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"

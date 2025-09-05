@@ -11,8 +11,8 @@ import (
 	cosmosdb "github.com/cosmos/cosmos-db"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 
-	"github.com/neutron-org/neutron/v5/simulation/executor/internal/stats"
-	"github.com/neutron-org/neutron/v5/simulation/simtypes/simlogger"
+	"github.com/maany-xyz/maany-dex/v5/simulation/executor/internal/stats"
+	"github.com/maany-xyz/maany-dex/v5/simulation/simtypes/simlogger"
 )
 
 const SimAppChainID = "osmosis-test"

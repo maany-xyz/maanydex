@@ -13,9 +13,9 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	sdkrand "github.com/neutron-org/neutron/v5/simulation/simtypes/random"
-	"github.com/neutron-org/neutron/v5/x/gamm/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	sdkrand "github.com/maany-xyz/maany-dex/v5/simulation/simtypes/random"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/types"
 )
 
 // CfmmCommonTestSuite is the common test suite struct of Constant Function Market Maker,

@@ -13,7 +13,7 @@ import (
 	porttypes "github.com/cosmos/ibc-go/v8/modules/core/05-port/types"
 
 	"github.com/cosmos/ibc-go/v8/modules/core/exported"
-	mintburn "github.com/neutron-org/neutron/v5/x/mintburn/keeper"
+	mintburn "github.com/maany-xyz/maany-dex/v5/x/mintburn/keeper"
 
 	ibctmtypes "github.com/cosmos/ibc-go/v8/modules/light-clients/07-tendermint"
 )

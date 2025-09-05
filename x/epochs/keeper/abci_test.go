@@ -6,11 +6,11 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/neutron-org/neutron/v5/x/epochs/types"
+	"github.com/maany-xyz/maany-dex/v5/x/epochs/types"
 
 	"golang.org/x/exp/maps"
 
-	"github.com/neutron-org/neutron/v5/osmoutils"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
 )
 
 // This test is responsible for testing how epochs increment based off

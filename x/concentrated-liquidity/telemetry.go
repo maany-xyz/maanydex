@@ -6,8 +6,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/telemetry"
 	"github.com/hashicorp/go-metrics"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	types "github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	types "github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
 )
 
 // emitAccumulatorUpdateTelemetry emits telemetry for accumulator updates

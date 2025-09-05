@@ -3,8 +3,8 @@ package keeper
 import (
 	"fmt"
 
-	epochstypes "github.com/neutron-org/neutron/v5/x/epochs/types"
-	"github.com/neutron-org/neutron/v5/x/mint/types"
+	epochstypes "github.com/maany-xyz/maany-dex/v5/x/epochs/types"
+	"github.com/maany-xyz/maany-dex/v5/x/mint/types"
 
 	"github.com/cosmos/cosmos-sdk/telemetry"
 	sdk "github.com/cosmos/cosmos-sdk/types"

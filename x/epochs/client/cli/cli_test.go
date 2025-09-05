@@ -3,9 +3,9 @@ package cli_test
 import (
 	"testing"
 
-	"github.com/neutron-org/neutron/v5/osmoutils/osmocli"
-	"github.com/neutron-org/neutron/v5/x/epochs/client/cli"
-	"github.com/neutron-org/neutron/v5/x/epochs/types"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/osmocli"
+	"github.com/maany-xyz/maany-dex/v5/x/epochs/client/cli"
+	"github.com/maany-xyz/maany-dex/v5/x/epochs/types"
 )
 
 func TestGetCmdCurrentEpoch(t *testing.T) {

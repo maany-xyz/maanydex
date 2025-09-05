@@ -7,8 +7,8 @@ import (
 
 	errorsmod "cosmossdk.io/errors"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/x/gamm/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/types"
 )
 
 // subPoolAssetWeights subtracts the weights of two different pool asset slices.

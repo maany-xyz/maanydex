@@ -15,13 +15,13 @@ import (
 	"cosmossdk.io/core/appmodule"
 	"github.com/spf13/cobra"
 
-	"github.com/neutron-org/neutron/v5/simulation/simtypes"
-	keeper "github.com/neutron-org/neutron/v5/x/valset-pref"
-	validatorprefclient "github.com/neutron-org/neutron/v5/x/valset-pref/client"
-	valsetprefcli "github.com/neutron-org/neutron/v5/x/valset-pref/client/cli"
-	"github.com/neutron-org/neutron/v5/x/valset-pref/client/grpc"
-	"github.com/neutron-org/neutron/v5/x/valset-pref/client/queryproto"
-	"github.com/neutron-org/neutron/v5/x/valset-pref/types"
+	"github.com/maany-xyz/maany-dex/v5/simulation/simtypes"
+	keeper "github.com/maany-xyz/maany-dex/v5/x/valset-pref"
+	validatorprefclient "github.com/maany-xyz/maany-dex/v5/x/valset-pref/client"
+	valsetprefcli "github.com/maany-xyz/maany-dex/v5/x/valset-pref/client/cli"
+	"github.com/maany-xyz/maany-dex/v5/x/valset-pref/client/grpc"
+	"github.com/maany-xyz/maany-dex/v5/x/valset-pref/client/queryproto"
+	"github.com/maany-xyz/maany-dex/v5/x/valset-pref/types"
 )
 
 var (

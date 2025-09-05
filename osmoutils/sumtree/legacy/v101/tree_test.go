@@ -19,10 +19,10 @@ import (
 	iavlstore "cosmossdk.io/store/iavl"
 	storetypes "cosmossdk.io/store/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/osmoutils/sumtree"
-	v101 "github.com/neutron-org/neutron/v5/osmoutils/sumtree/legacy/v101"
-	"github.com/neutron-org/neutron/v5/osmoutils/wrapper"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/sumtree"
+	v101 "github.com/maany-xyz/maany-dex/v5/osmoutils/sumtree/legacy/v101"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/wrapper"
 )
 
 func setupStore() storetypes.KVStore {

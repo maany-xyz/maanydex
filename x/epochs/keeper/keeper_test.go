@@ -14,8 +14,8 @@ import (
 
 	cdcutil "github.com/cosmos/cosmos-sdk/codec/testutil"
 
-	epochskeeper "github.com/neutron-org/neutron/v5/x/epochs/keeper"
-	"github.com/neutron-org/neutron/v5/x/epochs/types"
+	epochskeeper "github.com/maany-xyz/maany-dex/v5/x/epochs/keeper"
+	"github.com/maany-xyz/maany-dex/v5/x/epochs/types"
 )
 
 type KeeperTestSuite struct {

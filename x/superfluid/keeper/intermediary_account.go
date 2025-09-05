@@ -5,8 +5,8 @@ import (
 
 	"github.com/cosmos/gogoproto/proto"
 
-	lockuptypes "github.com/neutron-org/neutron/v5/x/lockup/types"
-	"github.com/neutron-org/neutron/v5/x/superfluid/types"
+	lockuptypes "github.com/maany-xyz/maany-dex/v5/x/lockup/types"
+	"github.com/maany-xyz/maany-dex/v5/x/superfluid/types"
 
 	"cosmossdk.io/store/prefix"
 	storetypes "cosmossdk.io/store/types"

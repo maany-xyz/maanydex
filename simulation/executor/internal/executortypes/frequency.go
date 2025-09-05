@@ -1,6 +1,6 @@
 package executortypes
 
-import "github.com/neutron-org/neutron/v5/simulation/simtypes"
+import "github.com/maany-xyz/maany-dex/v5/simulation/simtypes"
 
 func totalFrequency(actions []simtypes.ActionsWithMetadata) int {
 	totalFrequency := 0

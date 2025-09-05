@@ -8,11 +8,11 @@ import (
 	"cosmossdk.io/log"
 	"github.com/hashicorp/go-metrics"
 
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	gammtypes "github.com/neutron-org/neutron/v5/x/gamm/types"
-	incentivestypes "github.com/neutron-org/neutron/v5/x/incentives/types"
-	lockuptypes "github.com/neutron-org/neutron/v5/x/lockup/types"
-	"github.com/neutron-org/neutron/v5/x/pool-incentives/types"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	gammtypes "github.com/maany-xyz/maany-dex/v5/x/gamm/types"
+	incentivestypes "github.com/maany-xyz/maany-dex/v5/x/incentives/types"
+	lockuptypes "github.com/maany-xyz/maany-dex/v5/x/lockup/types"
+	"github.com/maany-xyz/maany-dex/v5/x/pool-incentives/types"
 
 	"github.com/cosmos/cosmos-sdk/telemetry"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -20,7 +20,7 @@ import (
 
 	storetypes "cosmossdk.io/store/types"
 
-	poolmanagertypes "github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	poolmanagertypes "github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 )
 
 type Keeper struct {

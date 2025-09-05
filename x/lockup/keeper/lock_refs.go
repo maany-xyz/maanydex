@@ -1,7 +1,7 @@
 package keeper
 
 import (
-	"github.com/neutron-org/neutron/v5/x/lockup/types"
+	"github.com/maany-xyz/maany-dex/v5/x/lockup/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )

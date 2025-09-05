@@ -7,7 +7,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/types/module"
 
-	"github.com/neutron-org/neutron/v5/x/incentives/types"
+	"github.com/maany-xyz/maany-dex/v5/x/incentives/types"
 )
 
 // Simulation parameter constants.

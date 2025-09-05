@@ -9,7 +9,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/neutron-org/neutron/v5/simulation/simtypes"
+	"github.com/maany-xyz/maany-dex/v5/simulation/simtypes"
 )
 
 type selectActionFn func(r *rand.Rand) simtypes.ActionsWithMetadata

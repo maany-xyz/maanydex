@@ -6,7 +6,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	lockuptypes "github.com/neutron-org/neutron/v5/x/lockup/types"
+	lockuptypes "github.com/maany-xyz/maany-dex/v5/x/lockup/types"
 )
 
 type MigrationType int

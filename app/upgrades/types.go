@@ -18,15 +18,15 @@ import (
 	feemarketkeeper "github.com/skip-mev/feemarket/x/feemarket/keeper"
 	marketmapkeeper "github.com/skip-mev/slinky/x/marketmap/keeper"
 
-	ibcratelimitkeeper "github.com/neutron-org/neutron/v5/x/ibc-rate-limit/keeper"
+	ibcratelimitkeeper "github.com/maany-xyz/maany-dex/v5/x/ibc-rate-limit/keeper"
 
-	dynamicfeeskeeper "github.com/neutron-org/neutron/v5/x/dynamicfees/keeper"
+	dynamicfeeskeeper "github.com/maany-xyz/maany-dex/v5/x/dynamicfees/keeper"
 
-	contractmanagerkeeper "github.com/neutron-org/neutron/v5/x/contractmanager/keeper"
-	cronkeeper "github.com/neutron-org/neutron/v5/x/cron/keeper"
-	feeburnerkeeper "github.com/neutron-org/neutron/v5/x/feeburner/keeper"
-	icqkeeper "github.com/neutron-org/neutron/v5/x/interchainqueries/keeper"
-	tokenfactorykeeper "github.com/neutron-org/neutron/v5/x/tokenfactory/keeper"
+	contractmanagerkeeper "github.com/maany-xyz/maany-dex/v5/x/contractmanager/keeper"
+	cronkeeper "github.com/maany-xyz/maany-dex/v5/x/cron/keeper"
+	feeburnerkeeper "github.com/maany-xyz/maany-dex/v5/x/feeburner/keeper"
+	icqkeeper "github.com/maany-xyz/maany-dex/v5/x/interchainqueries/keeper"
+	tokenfactorykeeper "github.com/maany-xyz/maany-dex/v5/x/tokenfactory/keeper"
 
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 	transferkeeper "github.com/cosmos/ibc-go/v8/modules/apps/transfer/keeper"

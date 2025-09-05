@@ -9,7 +9,7 @@ import (
 
 	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
 
-	"github.com/neutron-org/neutron/v5/x/cosmwasmpool/types"
+	"github.com/maany-xyz/maany-dex/v5/x/cosmwasmpool/types"
 )
 
 func NewCosmWasmPoolProposalHandler(k Keeper) govtypesv1.Handler {

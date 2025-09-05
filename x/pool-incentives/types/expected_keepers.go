@@ -6,11 +6,11 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	epochstypes "github.com/neutron-org/neutron/v5/x/epochs/types"
-	gammmigration "github.com/neutron-org/neutron/v5/x/gamm/types/migration"
-	incentivestypes "github.com/neutron-org/neutron/v5/x/incentives/types"
-	lockuptypes "github.com/neutron-org/neutron/v5/x/lockup/types"
-	poolmanagertypes "github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	epochstypes "github.com/maany-xyz/maany-dex/v5/x/epochs/types"
+	gammmigration "github.com/maany-xyz/maany-dex/v5/x/gamm/types/migration"
+	incentivestypes "github.com/maany-xyz/maany-dex/v5/x/incentives/types"
+	lockuptypes "github.com/maany-xyz/maany-dex/v5/x/lockup/types"
+	poolmanagertypes "github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 )
 
 // AccountKeeper interface contains functions for getting accounts and the module address

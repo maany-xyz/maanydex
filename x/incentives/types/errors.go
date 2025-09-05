@@ -3,8 +3,8 @@ package types
 import (
 	fmt "fmt"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	lockuptypes "github.com/neutron-org/neutron/v5/x/lockup/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	lockuptypes "github.com/maany-xyz/maany-dex/v5/x/lockup/types"
 )
 
 var (

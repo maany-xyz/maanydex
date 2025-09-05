@@ -7,10 +7,10 @@ import (
 
 	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/osmoutils/osmoassert"
-	"github.com/neutron-org/neutron/v5/x/incentives/types"
-	lockuptypes "github.com/neutron-org/neutron/v5/x/lockup/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/osmoassert"
+	"github.com/maany-xyz/maany-dex/v5/x/incentives/types"
+	lockuptypes "github.com/maany-xyz/maany-dex/v5/x/lockup/types"
 )
 
 var emptyCoins = sdk.NewCoins()
@@ -243,7 +243,7 @@ func (k Keeper) GetPoolIdAndDurationFromGaugeRecord(ctx sdk.Context, gaugeRecord
 	} else if gaugeType == lockuptypes.ByDuration {
 		// Otherwise, it's a balancer pool so we set it to longest lockable duration
 		// TODO: add support for CW pools once there's clarity around default gauge type.
-		// Tracked in issue https://github.com/neutron-org/neutron/v5/issues/6403
+		// Tracked in issue https://github.com/maany-xyz/maany-dex/v5/issues/6403
 		gaugeDuration, err = k.pik.GetLongestLockableDuration(ctx)
 		if err != nil {
 			return 0, 0, err

@@ -27,12 +27,12 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/neutron-org/neutron/v5/simulation/simtypes"
-	"github.com/neutron-org/neutron/v5/x/lockup/client/cli"
-	"github.com/neutron-org/neutron/v5/x/lockup/keeper"
+	"github.com/maany-xyz/maany-dex/v5/simulation/simtypes"
+	"github.com/maany-xyz/maany-dex/v5/x/lockup/client/cli"
+	"github.com/maany-xyz/maany-dex/v5/x/lockup/keeper"
 
-	simulation "github.com/neutron-org/neutron/v5/x/lockup/simulation"
-	"github.com/neutron-org/neutron/v5/x/lockup/types"
+	simulation "github.com/maany-xyz/maany-dex/v5/x/lockup/simulation"
+	"github.com/maany-xyz/maany-dex/v5/x/lockup/types"
 )
 
 var (

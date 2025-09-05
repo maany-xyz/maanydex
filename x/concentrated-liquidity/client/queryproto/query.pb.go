@@ -15,9 +15,9 @@ import (
 	_ "github.com/cosmos/gogoproto/gogoproto"
 	grpc1 "github.com/cosmos/gogoproto/grpc"
 	proto "github.com/cosmos/gogoproto/proto"
-	github_com_osmosis_labs_osmosis_osmomath "github.com/neutron-org/neutron/v5/osmomath"
-	model "github.com/neutron-org/neutron/v5/x/concentrated-liquidity/model"
-	types1 "github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
+	github_com_osmosis_labs_osmosis_osmomath "github.com/maany-xyz/maany-dex/v5/osmomath"
+	model "github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/model"
+	types1 "github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -695,7 +695,7 @@ type LiquidityNetInDirectionResponse struct {
 	LiquidityDepths  []TickLiquidityNet                              `protobuf:"bytes,1,rep,name=liquidity_depths,json=liquidityDepths,proto3" json:"liquidity_depths"`
 	CurrentTick      int64                                           `protobuf:"varint,2,opt,name=current_tick,json=currentTick,proto3" json:"current_tick,omitempty"`
 	CurrentLiquidity cosmossdk_io_math.LegacyDec                     `protobuf:"bytes,3,opt,name=current_liquidity,json=currentLiquidity,proto3,customtype=cosmossdk.io/math.LegacyDec" json:"current_liquidity" yaml:"current_liquidity"`
-	CurrentSqrtPrice github_com_osmosis_labs_osmosis_osmomath.BigDec `protobuf:"bytes,4,opt,name=current_sqrt_price,json=currentSqrtPrice,proto3,customtype=github.com/neutron-org/neutron/v5/osmomath.BigDec" json:"current_sqrt_price" yaml:"current_sqrt_price"`
+	CurrentSqrtPrice github_com_osmosis_labs_osmosis_osmomath.BigDec `protobuf:"bytes,4,opt,name=current_sqrt_price,json=currentSqrtPrice,proto3,customtype=github.com/maany-xyz/maany-dex/v5/osmomath.BigDec" json:"current_sqrt_price" yaml:"current_sqrt_price"`
 }
 
 func (m *LiquidityNetInDirectionResponse) Reset()         { *m = LiquidityNetInDirectionResponse{} }

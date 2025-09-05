@@ -20,10 +20,10 @@ import (
 	storetypes "cosmossdk.io/store/types"
 	addresscodec "github.com/cosmos/cosmos-sdk/codec/address"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	"github.com/neutron-org/neutron/v5/osmoutils/noapptest"
-	"github.com/neutron-org/neutron/v5/osmoutils/osmoassert"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/noapptest"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/osmoassert"
 )
 
 // We need to setup a test suite with account keeper

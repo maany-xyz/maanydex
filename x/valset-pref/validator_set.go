@@ -10,11 +10,11 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/cosmos/gogoproto/proto"
 
-	appParams "github.com/neutron-org/neutron/v5/app/config"
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	lockuptypes "github.com/neutron-org/neutron/v5/x/lockup/types"
-	"github.com/neutron-org/neutron/v5/x/valset-pref/types"
+	appParams "github.com/maany-xyz/maany-dex/v5/app/config"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	lockuptypes "github.com/maany-xyz/maany-dex/v5/x/lockup/types"
+	"github.com/maany-xyz/maany-dex/v5/x/valset-pref/types"
 )
 
 type valSet struct {
@@ -133,7 +133,7 @@ func (k Keeper) DelegateToValidatorSet(ctx sdk.Context, delegatorAddr string, co
 // NOTE: check README.md for more verbose description of the algorithm.
 // TODO: This is currently disabled.
 // Properly implement for vratio > 1 to hit steps 5-7, then re-enable
-// https://github.com/neutron-org/neutron/v5/issues/6686
+// https://github.com/maany-xyz/maany-dex/v5/issues/6686
 func (k Keeper) UndelegateFromValidatorSet(ctx sdk.Context, delegatorAddr string, undelegation sdk.Coin) error {
 	// TODO: Change to GetDelegationPreferences
 	existingSet, err := k.GetValSetPreferencesWithDelegations(ctx, delegatorAddr)

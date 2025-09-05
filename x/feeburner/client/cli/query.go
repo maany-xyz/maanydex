@@ -7,7 +7,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/client"
 
-	"github.com/neutron-org/neutron/v5/x/feeburner/types"
+	"github.com/maany-xyz/maany-dex/v5/x/feeburner/types"
 )
 
 // GetQueryCmd returns the cli query commands for this module

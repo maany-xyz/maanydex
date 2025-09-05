@@ -7,8 +7,8 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 
-	v502 "github.com/neutron-org/neutron/v5/app/upgrades/v5.0.2"
-	"github.com/neutron-org/neutron/v5/testutil"
+	v502 "github.com/maany-xyz/maany-dex/v5/app/upgrades/v5.0.2"
+	"github.com/maany-xyz/maany-dex/v5/testutil"
 )
 
 type UpgradeTestSuite struct {

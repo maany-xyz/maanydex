@@ -5,8 +5,8 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/neutron-org/neutron/v5/x/cosmwasmpool/model"
-	"github.com/neutron-org/neutron/v5/x/cosmwasmpool/types"
+	"github.com/maany-xyz/maany-dex/v5/x/cosmwasmpool/model"
+	"github.com/maany-xyz/maany-dex/v5/x/cosmwasmpool/types"
 )
 
 type msgServer struct {

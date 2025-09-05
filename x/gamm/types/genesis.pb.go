@@ -10,7 +10,7 @@ import (
 	_ "github.com/cosmos/cosmos-sdk/types"
 	_ "github.com/cosmos/gogoproto/gogoproto"
 	proto "github.com/cosmos/gogoproto/proto"
-	migration "github.com/neutron-org/neutron/v5/x/gamm/types/migration"
+	migration "github.com/maany-xyz/maany-dex/v5/x/gamm/types/migration"
 	io "io"
 	math "math"
 	math_bits "math/bits"

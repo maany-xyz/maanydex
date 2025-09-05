@@ -6,14 +6,14 @@ import (
 	db "github.com/cosmos/cosmos-db"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/osmoutils/accum"
-	events "github.com/neutron-org/neutron/v5/x/poolmanager/events"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/accum"
+	events "github.com/maany-xyz/maany-dex/v5/x/poolmanager/events"
 
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/math"
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/swapstrategy"
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
-	poolmanagertypes "github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/math"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/swapstrategy"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
+	poolmanagertypes "github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 )
 
 // SwapState defines the state of a swap.

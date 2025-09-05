@@ -10,9 +10,9 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	"github.com/neutron-org/neutron/v5/osmoutils/osmocli"
-	"github.com/neutron-org/neutron/v5/x/valset-pref/types"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/osmocli"
+	"github.com/maany-xyz/maany-dex/v5/x/valset-pref/types"
 )
 
 func GetTxCmd() *cobra.Command {
@@ -20,7 +20,7 @@ func GetTxCmd() *cobra.Command {
 	osmocli.AddTxCmd(txCmd, NewSetValSetCmd)
 	osmocli.AddTxCmd(txCmd, NewDelValSetCmd)
 	// TODO: Uncomment when undelegate is implemented
-	// https://github.com/neutron-org/neutron/v5/issues/6686
+	// https://github.com/maany-xyz/maany-dex/v5/issues/6686
 	//osmocli.AddTxCmd(txCmd, NewUnDelValSetCmd)
 	osmocli.AddTxCmd(txCmd, NewUndelRebalancedValSetCmd)
 	osmocli.AddTxCmd(txCmd, NewReDelValSetCmd)
@@ -48,7 +48,7 @@ func NewDelValSetCmd() (*osmocli.TxCliDesc, *types.MsgDelegateToValidatorSet) {
 }
 
 // TODO: Uncomment when undelegate is implemented
-// https://github.com/neutron-org/neutron/v5/issues/6686
+// https://github.com/maany-xyz/maany-dex/v5/issues/6686
 // func NewUnDelValSetCmd() (*osmocli.TxCliDesc, *types.MsgUndelegateFromValidatorSet) {
 // 	return &osmocli.TxCliDesc{
 // 		Use:     "undelegate-valset",

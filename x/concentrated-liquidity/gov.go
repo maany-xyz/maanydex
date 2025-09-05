@@ -7,7 +7,7 @@ import (
 
 	govtypesv1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
 )
 
 // HandleTickSpacingDecreaseProposal handles a tick spacing decrease proposal to the corresponding keeper method.

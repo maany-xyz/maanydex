@@ -3,7 +3,7 @@ package types
 import (
 	fmt "fmt"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
 )
 
 // GetConcentratedLockupDenomFromPoolId returns the concentrated lockup denom for a given pool id.

@@ -7,7 +7,7 @@ import "amino/amino.proto";
 import "osmosis/gamm/poolmodels/stableswap/v1beta1/stableswap_pool.proto";
 import "cosmos/msg/v1/msg.proto";
 
-option go_package = "github.com/neutron-org/neutron/v5/x/gamm/pool-models/stableswap";
+option go_package = "github.com/maany-xyz/maany-dex/v5/x/gamm/pool-models/stableswap;stableswap";
 
 service Msg {
   rpc CreateStableswapPool(MsgCreateStableswapPool)

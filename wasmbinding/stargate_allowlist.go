@@ -10,18 +10,18 @@ import (
 	ibcconnectiontypes "github.com/cosmos/ibc-go/v8/modules/core/03-connection/types"
 	ibcchanneltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
 	consumertypes "github.com/cosmos/interchain-security/v5/x/ccv/consumer/types"
-	globalfeetypes "github.com/neutron-org/neutron/v5/x/globalfee/types"
+	globalfeetypes "github.com/maany-xyz/maany-dex/v5/x/globalfee/types"
 	feemarkettypes "github.com/skip-mev/feemarket/x/feemarket/types"
 	marketmaptypes "github.com/skip-mev/slinky/x/marketmap/types"
 	oracletypes "github.com/skip-mev/slinky/x/oracle/types"
 
-	dynamicfeestypes "github.com/neutron-org/neutron/v5/x/dynamicfees/types"
+	dynamicfeestypes "github.com/maany-xyz/maany-dex/v5/x/dynamicfees/types"
 
-	crontypes "github.com/neutron-org/neutron/v5/x/cron/types"
-	feeburnertypes "github.com/neutron-org/neutron/v5/x/feeburner/types"
-	interchainqueriestypes "github.com/neutron-org/neutron/v5/x/interchainqueries/types"
-	interchaintxstypes "github.com/neutron-org/neutron/v5/x/interchaintxs/types"
-	tokenfactorytypes "github.com/neutron-org/neutron/v5/x/tokenfactory/types"
+	crontypes "github.com/maany-xyz/maany-dex/v5/x/cron/types"
+	feeburnertypes "github.com/maany-xyz/maany-dex/v5/x/feeburner/types"
+	interchainqueriestypes "github.com/maany-xyz/maany-dex/v5/x/interchainqueries/types"
+	interchaintxstypes "github.com/maany-xyz/maany-dex/v5/x/interchaintxs/types"
+	tokenfactorytypes "github.com/maany-xyz/maany-dex/v5/x/tokenfactory/types"
 )
 
 func AcceptedStargateQueries() wasmkeeper.AcceptedQueries {

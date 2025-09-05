@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"fmt"
 
-	"github.com/neutron-org/neutron/v5/x/mint/types"
+	"github.com/maany-xyz/maany-dex/v5/x/mint/types"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cosmos/cosmos-sdk/types/kv"

@@ -5,9 +5,9 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/x/gamm/pool-models/internal/cfmm_common"
-	types "github.com/neutron-org/neutron/v5/x/gamm/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/pool-models/internal/cfmm_common"
+	types "github.com/maany-xyz/maany-dex/v5/x/gamm/types"
 )
 
 // Simplified multi-asset CFMM is xy(x^2 + y^2 + w) = k,

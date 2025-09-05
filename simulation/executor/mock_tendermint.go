@@ -14,7 +14,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/simulation"
 	"golang.org/x/exp/maps"
 
-	markov "github.com/neutron-org/neutron/v5/simulation/simtypes/transitionmatrix"
+	markov "github.com/maany-xyz/maany-dex/v5/simulation/simtypes/transitionmatrix"
 )
 
 type mockValidator struct {

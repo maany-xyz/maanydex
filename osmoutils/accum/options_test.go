@@ -1,6 +1,6 @@
 package accum_test
 
-import "github.com/neutron-org/neutron/v5/osmoutils/accum"
+import "github.com/maany-xyz/maany-dex/v5/osmoutils/accum"
 
 // TestOptionsValidate tests that the options are validated correctly.
 func (suite *AccumTestSuite) TestOptionsValidate() {

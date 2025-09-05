@@ -6,11 +6,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	cl "github.com/neutron-org/neutron/v5/x/concentrated-liquidity"
-	cltypes "github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
-	lockuptypes "github.com/neutron-org/neutron/v5/x/lockup/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	cl "github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity"
+	cltypes "github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
+	lockuptypes "github.com/maany-xyz/maany-dex/v5/x/lockup/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )

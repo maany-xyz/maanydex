@@ -3,7 +3,7 @@ package lockup
 import (
 	abci "github.com/cometbft/cometbft/abci/types"
 
-	"github.com/neutron-org/neutron/v5/x/lockup/keeper"
+	"github.com/maany-xyz/maany-dex/v5/x/lockup/keeper"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )

@@ -10,12 +10,12 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	"github.com/neutron-org/neutron/v5/x/gamm/pool-models/balancer"
-	"github.com/neutron-org/neutron/v5/x/gamm/pool-models/stableswap"
-	"github.com/neutron-org/neutron/v5/x/gamm/types"
-	poolmanagertypes "github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/pool-models/balancer"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/pool-models/stableswap"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/types"
+	poolmanagertypes "github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 )
 
 func (k Keeper) MarshalPool(pool poolmanagertypes.PoolI) ([]byte, error) {

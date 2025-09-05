@@ -8,12 +8,12 @@ import (
 
 	legacysimulationtype "github.com/cosmos/cosmos-sdk/types/simulation"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/simulation/simtypes"
-	"github.com/neutron-org/neutron/v5/x/gamm/keeper"
-	balancertypes "github.com/neutron-org/neutron/v5/x/gamm/pool-models/balancer"
-	"github.com/neutron-org/neutron/v5/x/gamm/types"
-	poolmanagertypes "github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/simulation/simtypes"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/keeper"
+	balancertypes "github.com/maany-xyz/maany-dex/v5/x/gamm/pool-models/balancer"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/types"
+	poolmanagertypes "github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 )
 
 var PoolCreationFee = sdk.NewInt64Coin("stake", 10_000_000)

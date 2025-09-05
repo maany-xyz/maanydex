@@ -5,7 +5,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/neutron-org/neutron/v5/x/gamm/types"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/types"
 )
 
 // Emit swap event. Note that we emit these at the layer of each pool module rather than the poolmanager module

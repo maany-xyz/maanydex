@@ -14,7 +14,7 @@ BUILDDIR ?= $(CURDIR)/build
 # for dockerized protobuf tools
 DOCKER := $(shell which docker)
 BUILDDIR ?= $(CURDIR)/build
-HTTPS_GIT := https://github.com/neutron-org/neutron.git
+HTTPS_GIT := https://github.com/maany-xyz/maany-dex.git
 
 GO_SYSTEM_VERSION = $(shell go version | cut -c 14- | cut -d' ' -f1 | cut -d'.' -f1-2)
 REQUIRE_GO_VERSION = $(GO_VERSION)

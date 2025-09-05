@@ -9,14 +9,14 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkquery "github.com/cosmos/cosmos-sdk/types/query"
 
-	contractmanagertypes "github.com/neutron-org/neutron/v5/x/contractmanager/types"
+	contractmanagertypes "github.com/maany-xyz/maany-dex/v5/x/contractmanager/types"
 
 	marketmapkeeper "github.com/skip-mev/slinky/x/marketmap/keeper"
 	oraclekeeper "github.com/skip-mev/slinky/x/oracle/keeper"
 
-	"github.com/neutron-org/neutron/v5/wasmbinding/bindings"
-	"github.com/neutron-org/neutron/v5/x/interchainqueries/types"
-	icatypes "github.com/neutron-org/neutron/v5/x/interchaintxs/types"
+	"github.com/maany-xyz/maany-dex/v5/wasmbinding/bindings"
+	"github.com/maany-xyz/maany-dex/v5/x/interchainqueries/types"
+	icatypes "github.com/maany-xyz/maany-dex/v5/x/interchaintxs/types"
 )
 
 func (qp *QueryPlugin) GetInterchainQueryResult(ctx sdk.Context, queryID uint64) (*bindings.QueryRegisteredQueryResultResponse, error) {

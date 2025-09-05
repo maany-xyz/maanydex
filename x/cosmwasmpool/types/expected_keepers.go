@@ -8,7 +8,7 @@ import (
 
 	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
 
-	poolmanagertypes "github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	poolmanagertypes "github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 )
 
 // AccountKeeper defines the contract needed for AccountKeeper related APIs.

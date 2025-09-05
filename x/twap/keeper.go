@@ -9,7 +9,7 @@ import (
 
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 
-	"github.com/neutron-org/neutron/v5/x/twap/types"
+	"github.com/maany-xyz/maany-dex/v5/x/twap/types"
 
 	storetypes "cosmossdk.io/store/types"
 )

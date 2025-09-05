@@ -9,12 +9,12 @@ import (
 	addresscodec "cosmossdk.io/core/address"
 	errorsmod "cosmossdk.io/errors"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	gammtypes "github.com/neutron-org/neutron/v5/x/gamm/types"
-	lockuptypes "github.com/neutron-org/neutron/v5/x/lockup/types"
-	"github.com/neutron-org/neutron/v5/x/superfluid/types"
-	valsettypes "github.com/neutron-org/neutron/v5/x/valset-pref/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	gammtypes "github.com/maany-xyz/maany-dex/v5/x/gamm/types"
+	lockuptypes "github.com/maany-xyz/maany-dex/v5/x/lockup/types"
+	"github.com/maany-xyz/maany-dex/v5/x/superfluid/types"
+	valsettypes "github.com/maany-xyz/maany-dex/v5/x/valset-pref/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"

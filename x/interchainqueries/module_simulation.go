@@ -7,9 +7,9 @@ import (
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/cosmos/cosmos-sdk/x/simulation"
 
-	"github.com/neutron-org/neutron/v5/testutil/common/sample"
-	interchainqueriessimulation "github.com/neutron-org/neutron/v5/x/interchainqueries/simulation"
-	"github.com/neutron-org/neutron/v5/x/interchainqueries/types"
+	"github.com/maany-xyz/maany-dex/v5/testutil/common/sample"
+	interchainqueriessimulation "github.com/maany-xyz/maany-dex/v5/x/interchainqueries/simulation"
+	"github.com/maany-xyz/maany-dex/v5/x/interchainqueries/types"
 )
 
 // avoid unused import issue

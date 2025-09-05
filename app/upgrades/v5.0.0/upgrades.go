@@ -13,9 +13,9 @@ import (
 	marketmapkeeper "github.com/skip-mev/slinky/x/marketmap/keeper"
 	marketmaptypes "github.com/skip-mev/slinky/x/marketmap/types"
 
-	"github.com/neutron-org/neutron/v5/app/upgrades"
-	ibcratelimitkeeper "github.com/neutron-org/neutron/v5/x/ibc-rate-limit/keeper"
-	ibcratelimittypes "github.com/neutron-org/neutron/v5/x/ibc-rate-limit/types"
+	"github.com/maany-xyz/maany-dex/v5/app/upgrades"
+	ibcratelimitkeeper "github.com/maany-xyz/maany-dex/v5/x/ibc-rate-limit/keeper"
+	ibcratelimittypes "github.com/maany-xyz/maany-dex/v5/x/ibc-rate-limit/types"
 )
 
 func CreateUpgradeHandler(

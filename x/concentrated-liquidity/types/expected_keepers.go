@@ -7,9 +7,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	lockuptypes "github.com/neutron-org/neutron/v5/x/lockup/types"
-	poolmanagertypes "github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	lockuptypes "github.com/maany-xyz/maany-dex/v5/x/lockup/types"
+	poolmanagertypes "github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 )
 
 type AccountKeeper interface {

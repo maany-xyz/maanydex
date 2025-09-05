@@ -1,7 +1,7 @@
 package genesis
 
 import (
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
 )
 
 // DefaultGenesis returns the default GenesisState for the concentrated-liquidity module.

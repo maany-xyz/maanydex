@@ -6,10 +6,10 @@ import (
 
 	legacysimulationtype "github.com/cosmos/cosmos-sdk/types/simulation"
 
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	"github.com/neutron-org/neutron/v5/simulation/simtypes"
-	"github.com/neutron-org/neutron/v5/x/lockup/keeper"
-	"github.com/neutron-org/neutron/v5/x/lockup/types"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	"github.com/maany-xyz/maany-dex/v5/simulation/simtypes"
+	"github.com/maany-xyz/maany-dex/v5/x/lockup/keeper"
+	"github.com/maany-xyz/maany-dex/v5/x/lockup/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )

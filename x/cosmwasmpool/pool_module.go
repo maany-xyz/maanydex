@@ -4,15 +4,15 @@ package cosmwasmpool
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	"github.com/neutron-org/neutron/v5/x/cosmwasmpool/cosmwasm/msg"
-	"github.com/neutron-org/neutron/v5/x/cosmwasmpool/model"
-	"github.com/neutron-org/neutron/v5/x/cosmwasmpool/types"
-	"github.com/neutron-org/neutron/v5/x/poolmanager/events"
-	poolmanagertypes "github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	"github.com/maany-xyz/maany-dex/v5/x/cosmwasmpool/cosmwasm/msg"
+	"github.com/maany-xyz/maany-dex/v5/x/cosmwasmpool/model"
+	"github.com/maany-xyz/maany-dex/v5/x/cosmwasmpool/types"
+	"github.com/maany-xyz/maany-dex/v5/x/poolmanager/events"
+	poolmanagertypes "github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 
-	"github.com/neutron-org/neutron/v5/osmoutils/cosmwasm"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/cosmwasm"
 )
 
 var (

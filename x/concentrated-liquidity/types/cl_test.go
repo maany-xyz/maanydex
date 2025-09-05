@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
 )
 
 func TestGetConcentratedLockupDenomFromPoolId(t *testing.T) {

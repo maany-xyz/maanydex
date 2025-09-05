@@ -1,9 +1,9 @@
 package keeper
 
 import (
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	"github.com/neutron-org/neutron/v5/x/superfluid/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	"github.com/maany-xyz/maany-dex/v5/x/superfluid/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
@@ -15,7 +15,7 @@ import (
 //
 // It should eventually begin unwinding all of the synthetic lockups for that asset
 // and queue them for deletion.
-// See https://github.com/neutron-org/neutron/v5/issues/864
+// See https://github.com/maany-xyz/maany-dex/v5/issues/864
 func (k Keeper) BeginUnwindSuperfluidAsset(ctx sdk.Context, epochNum int64, asset types.SuperfluidAsset) {
 	// Right now set the TWAP to 0, and delete the asset.
 	k.SetOsmoEquivalentMultiplier(ctx, epochNum, asset.Denom, osmomath.ZeroDec())

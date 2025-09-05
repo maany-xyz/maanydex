@@ -12,7 +12,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/simulation"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	markov "github.com/neutron-org/neutron/v5/simulation/simtypes/transitionmatrix"
+	markov "github.com/maany-xyz/maany-dex/v5/simulation/simtypes/transitionmatrix"
 )
 
 const (

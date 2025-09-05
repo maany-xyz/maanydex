@@ -5,11 +5,11 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	gammtypes "github.com/neutron-org/neutron/v5/x/gamm/types"
-	lockuptypes "github.com/neutron-org/neutron/v5/x/lockup/types"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	gammtypes "github.com/maany-xyz/maany-dex/v5/x/gamm/types"
+	lockuptypes "github.com/maany-xyz/maany-dex/v5/x/lockup/types"
 
-	"github.com/neutron-org/neutron/v5/x/superfluid/types"
+	"github.com/maany-xyz/maany-dex/v5/x/superfluid/types"
 )
 
 // Returns a list of newly created lockIDs, or an error.

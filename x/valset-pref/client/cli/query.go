@@ -3,9 +3,9 @@ package valsetprefcli
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/neutron-org/neutron/v5/osmoutils/osmocli"
-	"github.com/neutron-org/neutron/v5/x/valset-pref/client/queryproto"
-	"github.com/neutron-org/neutron/v5/x/valset-pref/types"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/osmocli"
+	"github.com/maany-xyz/maany-dex/v5/x/valset-pref/client/queryproto"
+	"github.com/maany-xyz/maany-dex/v5/x/valset-pref/types"
 )
 
 // GetQueryCmd returns the cli query commands for this module.

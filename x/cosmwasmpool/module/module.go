@@ -14,14 +14,14 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/spf13/cobra"
 
-	"github.com/neutron-org/neutron/v5/simulation/simtypes"
-	cosmwasmpool "github.com/neutron-org/neutron/v5/x/cosmwasmpool"
-	moduleclient "github.com/neutron-org/neutron/v5/x/cosmwasmpool/client"
-	"github.com/neutron-org/neutron/v5/x/cosmwasmpool/client/cli"
-	"github.com/neutron-org/neutron/v5/x/cosmwasmpool/client/grpc"
-	"github.com/neutron-org/neutron/v5/x/cosmwasmpool/client/queryproto"
-	"github.com/neutron-org/neutron/v5/x/cosmwasmpool/model"
-	"github.com/neutron-org/neutron/v5/x/cosmwasmpool/types"
+	"github.com/maany-xyz/maany-dex/v5/simulation/simtypes"
+	cosmwasmpool "github.com/maany-xyz/maany-dex/v5/x/cosmwasmpool"
+	moduleclient "github.com/maany-xyz/maany-dex/v5/x/cosmwasmpool/client"
+	"github.com/maany-xyz/maany-dex/v5/x/cosmwasmpool/client/cli"
+	"github.com/maany-xyz/maany-dex/v5/x/cosmwasmpool/client/grpc"
+	"github.com/maany-xyz/maany-dex/v5/x/cosmwasmpool/client/queryproto"
+	"github.com/maany-xyz/maany-dex/v5/x/cosmwasmpool/model"
+	"github.com/maany-xyz/maany-dex/v5/x/cosmwasmpool/types"
 )
 
 var (

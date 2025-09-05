@@ -3,7 +3,7 @@ package math
 import (
 	"fmt"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
 )
 
 // liquidity0 takes an amount of asset0 in the pool as well as the sqrtpCur and the nextPrice

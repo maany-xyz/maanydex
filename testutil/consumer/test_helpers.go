@@ -20,7 +20,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/testutil/network"
 
-	"github.com/neutron-org/neutron/v5/app"
+	"github.com/maany-xyz/maany-dex/v5/app"
 )
 
 // This function creates consumer module genesis state that is used as starting point for modifications

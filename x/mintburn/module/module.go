@@ -14,8 +14,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	keeper "github.com/neutron-org/neutron/v5/x/mintburn/keeper"
-	mintburntypes "github.com/neutron-org/neutron/v5/x/mintburn/types"
+	keeper "github.com/maany-xyz/maany-dex/v5/x/mintburn/keeper"
+	mintburntypes "github.com/maany-xyz/maany-dex/v5/x/mintburn/types"
 )
 
 var (

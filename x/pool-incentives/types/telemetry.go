@@ -1,6 +1,6 @@
 package types
 
-import "github.com/neutron-org/neutron/v5/osmoutils/observability"
+import "github.com/maany-xyz/maany-dex/v5/osmoutils/observability"
 
 var (
 	// pool_incentives_no_pool_id_for_gauge

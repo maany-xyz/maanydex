@@ -6,8 +6,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"golang.org/x/exp/constraints"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	sdkrand "github.com/neutron-org/neutron/v5/simulation/simtypes/random"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	sdkrand "github.com/maany-xyz/maany-dex/v5/simulation/simtypes/random"
 )
 
 func RandLTBound[T constraints.Integer](sim *SimCtx, upperbound T) T {

@@ -11,13 +11,13 @@ import (
 
 	errorsmod "cosmossdk.io/errors"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	"github.com/neutron-org/neutron/v5/osmoutils/accum"
-	"github.com/neutron-org/neutron/v5/x/concentrated-liquidity/model"
-	types "github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
-	lockuptypes "github.com/neutron-org/neutron/v5/x/lockup/types"
-	poolmanagertypes "github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/accum"
+	"github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/model"
+	types "github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
+	lockuptypes "github.com/maany-xyz/maany-dex/v5/x/lockup/types"
+	poolmanagertypes "github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 )
 
 // InitializePool initializes a new concentrated liquidity pool with the given PoolI interface and creator address.

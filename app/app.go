@@ -8,28 +8,28 @@ import (
 	"os"
 	"path/filepath"
 
-	v502 "github.com/neutron-org/neutron/v5/app/upgrades/v5.0.2"
-	v504 "github.com/neutron-org/neutron/v5/app/upgrades/v5.0.4"
-	v505 "github.com/neutron-org/neutron/v5/app/upgrades/v5.0.5"
+	v502 "github.com/maany-xyz/maany-dex/v5/app/upgrades/v5.0.2"
+	v504 "github.com/maany-xyz/maany-dex/v5/app/upgrades/v5.0.4"
+	v505 "github.com/maany-xyz/maany-dex/v5/app/upgrades/v5.0.5"
 
-	// dynamicfeestypes "github.com/neutron-org/neutron/v5/x/dynamicfees/types"
+	// dynamicfeestypes "github.com/maany-xyz/maany-dex/v5/x/dynamicfees/types"
 
-	mintburn "github.com/neutron-org/neutron/v5/x/mintburn/keeper"
-	mintburnmodule "github.com/neutron-org/neutron/v5/x/mintburn/module"
-	mintburntypes "github.com/neutron-org/neutron/v5/x/mintburn/types"
+	mintburn "github.com/maany-xyz/maany-dex/v5/x/mintburn/keeper"
+	mintburnmodule "github.com/maany-xyz/maany-dex/v5/x/mintburn/module"
+	mintburntypes "github.com/maany-xyz/maany-dex/v5/x/mintburn/types"
 
 	// "github.com/skip-mev/feemarket/x/feemarket"
 	// feemarketkeeper "github.com/skip-mev/feemarket/x/feemarket/keeper"
 	// feemarkettypes "github.com/skip-mev/feemarket/x/feemarket/types"
 
-	// "github.com/neutron-org/neutron/v5/x/dynamicfees"
-	ibcratelimit "github.com/neutron-org/neutron/v5/x/ibc-rate-limit"
+	// "github.com/maany-xyz/maany-dex/v5/x/dynamicfees"
+	ibcratelimit "github.com/maany-xyz/maany-dex/v5/x/ibc-rate-limit"
 
 	"cosmossdk.io/client/v2/autocli"
 	"cosmossdk.io/core/appmodule"
 	authcodec "github.com/cosmos/cosmos-sdk/x/auth/codec"
 
-	appconfig "github.com/neutron-org/neutron/v5/app/config"
+	appconfig "github.com/maany-xyz/maany-dex/v5/app/config"
 
 	// "github.com/skip-mev/slinky/x/oracle"
 
@@ -41,9 +41,9 @@ import (
 	// oracleclient "github.com/skip-mev/slinky/service/clients/oracle"
 	// servicemetrics "github.com/skip-mev/slinky/service/metrics"
 
-	v500 "github.com/neutron-org/neutron/v5/app/upgrades/v5.0.0"
-	"github.com/neutron-org/neutron/v5/x/globalfee"
-	globalfeetypes "github.com/neutron-org/neutron/v5/x/globalfee/types"
+	v500 "github.com/maany-xyz/maany-dex/v5/app/upgrades/v5.0.0"
+	"github.com/maany-xyz/maany-dex/v5/x/globalfee"
+	globalfeetypes "github.com/maany-xyz/maany-dex/v5/x/globalfee/types"
 
 	"cosmossdk.io/log"
 	db "github.com/cosmos/cosmos-db"
@@ -61,11 +61,11 @@ import (
 	genutiltypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
 	tendermint "github.com/cosmos/ibc-go/v8/modules/light-clients/07-tendermint"
 
-	"github.com/neutron-org/neutron/v5/docs"
+	"github.com/maany-xyz/maany-dex/v5/docs"
 
-	"github.com/neutron-org/neutron/v5/app/upgrades"
+	"github.com/maany-xyz/maany-dex/v5/app/upgrades"
 
-	"github.com/neutron-org/neutron/v5/x/cron"
+	"github.com/maany-xyz/maany-dex/v5/x/cron"
 
 	"cosmossdk.io/x/evidence"
 	evidencekeeper "cosmossdk.io/x/evidence/keeper"
@@ -136,8 +136,8 @@ import (
 	ibcclienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types" //nolint:staticcheck
 	ibcconnectiontypes "github.com/cosmos/ibc-go/v8/modules/core/03-connection/types"
 
-	ibcratelimitkeeper "github.com/neutron-org/neutron/v5/x/ibc-rate-limit/keeper"
-	ibcratelimittypes "github.com/neutron-org/neutron/v5/x/ibc-rate-limit/types"
+	ibcratelimitkeeper "github.com/maany-xyz/maany-dex/v5/x/ibc-rate-limit/keeper"
+	ibcratelimittypes "github.com/maany-xyz/maany-dex/v5/x/ibc-rate-limit/types"
 
 	//nolint:staticcheck
 	ibcporttypes "github.com/cosmos/ibc-go/v8/modules/core/05-port/types"
@@ -148,12 +148,12 @@ import (
 
 	govv1beta1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 
-	cronkeeper "github.com/neutron-org/neutron/v5/x/cron/keeper"
-	crontypes "github.com/neutron-org/neutron/v5/x/cron/types"
+	cronkeeper "github.com/maany-xyz/maany-dex/v5/x/cron/keeper"
+	crontypes "github.com/maany-xyz/maany-dex/v5/x/cron/types"
 
-	// "github.com/neutron-org/neutron/v5/x/tokenfactory"
-	// tokenfactorykeeper "github.com/neutron-org/neutron/v5/x/tokenfactory/keeper"
-	// tokenfactorytypes "github.com/neutron-org/neutron/v5/x/tokenfactory/types"
+	// "github.com/maany-xyz/maany-dex/v5/x/tokenfactory"
+	// tokenfactorykeeper "github.com/maany-xyz/maany-dex/v5/x/tokenfactory/keeper"
+	// tokenfactorytypes "github.com/maany-xyz/maany-dex/v5/x/tokenfactory/types"
 
 	"github.com/cosmos/admin-module/v2/x/adminmodule"
 	adminmodulecli "github.com/cosmos/admin-module/v2/x/adminmodule/client/cli"
@@ -162,31 +162,31 @@ import (
 	govclient "github.com/cosmos/cosmos-sdk/x/gov/client"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 
-	appparams "github.com/neutron-org/neutron/v5/app/params"
-	"github.com/neutron-org/neutron/v5/wasmbinding"
-	"github.com/neutron-org/neutron/v5/x/contractmanager"
-	contractmanagermodulekeeper "github.com/neutron-org/neutron/v5/x/contractmanager/keeper"
-	contractmanagermoduletypes "github.com/neutron-org/neutron/v5/x/contractmanager/types"
+	appparams "github.com/maany-xyz/maany-dex/v5/app/params"
+	"github.com/maany-xyz/maany-dex/v5/wasmbinding"
+	"github.com/maany-xyz/maany-dex/v5/x/contractmanager"
+	contractmanagermodulekeeper "github.com/maany-xyz/maany-dex/v5/x/contractmanager/keeper"
+	contractmanagermoduletypes "github.com/maany-xyz/maany-dex/v5/x/contractmanager/types"
 
-	// dynamicfeeskeeper "github.com/neutron-org/neutron/v5/x/dynamicfees/keeper"
+	// dynamicfeeskeeper "github.com/maany-xyz/maany-dex/v5/x/dynamicfees/keeper"
 
-	"github.com/neutron-org/neutron/v5/x/feeburner"
-	feeburnerkeeper "github.com/neutron-org/neutron/v5/x/feeburner/keeper"
-	feeburnertypes "github.com/neutron-org/neutron/v5/x/feeburner/types"
-	"github.com/neutron-org/neutron/v5/x/feerefunder"
-	feekeeper "github.com/neutron-org/neutron/v5/x/feerefunder/keeper"
-	ibchooks "github.com/neutron-org/neutron/v5/x/ibc-hooks"
-	ibchookstypes "github.com/neutron-org/neutron/v5/x/ibc-hooks/types"
-	"github.com/neutron-org/neutron/v5/x/interchainqueries"
-	interchainqueriesmodulekeeper "github.com/neutron-org/neutron/v5/x/interchainqueries/keeper"
-	interchainqueriesmoduletypes "github.com/neutron-org/neutron/v5/x/interchainqueries/types"
-	"github.com/neutron-org/neutron/v5/x/interchaintxs"
-	interchaintxskeeper "github.com/neutron-org/neutron/v5/x/interchaintxs/keeper"
-	interchaintxstypes "github.com/neutron-org/neutron/v5/x/interchaintxs/types"
-	transferSudo "github.com/neutron-org/neutron/v5/x/transfer"
-	wrapkeeper "github.com/neutron-org/neutron/v5/x/transfer/keeper"
+	"github.com/maany-xyz/maany-dex/v5/x/feeburner"
+	feeburnerkeeper "github.com/maany-xyz/maany-dex/v5/x/feeburner/keeper"
+	feeburnertypes "github.com/maany-xyz/maany-dex/v5/x/feeburner/types"
+	"github.com/maany-xyz/maany-dex/v5/x/feerefunder"
+	feekeeper "github.com/maany-xyz/maany-dex/v5/x/feerefunder/keeper"
+	ibchooks "github.com/maany-xyz/maany-dex/v5/x/ibc-hooks"
+	ibchookstypes "github.com/maany-xyz/maany-dex/v5/x/ibc-hooks/types"
+	"github.com/maany-xyz/maany-dex/v5/x/interchainqueries"
+	interchainqueriesmodulekeeper "github.com/maany-xyz/maany-dex/v5/x/interchainqueries/keeper"
+	interchainqueriesmoduletypes "github.com/maany-xyz/maany-dex/v5/x/interchainqueries/types"
+	"github.com/maany-xyz/maany-dex/v5/x/interchaintxs"
+	interchaintxskeeper "github.com/maany-xyz/maany-dex/v5/x/interchaintxs/keeper"
+	interchaintxstypes "github.com/maany-xyz/maany-dex/v5/x/interchaintxs/types"
+	transferSudo "github.com/maany-xyz/maany-dex/v5/x/transfer"
+	wrapkeeper "github.com/maany-xyz/maany-dex/v5/x/transfer/keeper"
 
-	feetypes "github.com/neutron-org/neutron/v5/x/feerefunder/types"
+	feetypes "github.com/maany-xyz/maany-dex/v5/x/feerefunder/types"
 
 	ccvconsumer "github.com/cosmos/interchain-security/v5/x/ccv/consumer"
 	ccvconsumerkeeper "github.com/cosmos/interchain-security/v5/x/ccv/consumer/keeper"
@@ -199,12 +199,12 @@ import (
 	pfmkeeper "github.com/cosmos/ibc-apps/middleware/packet-forward-middleware/v8/packetforward/keeper"
 	pfmtypes "github.com/cosmos/ibc-apps/middleware/packet-forward-middleware/v8/packetforward/types"
 
-	// "github.com/neutron-org/neutron/v5/x/dex"
-	// dexkeeper "github.com/neutron-org/neutron/v5/x/dex/keeper"
-	// dextypes "github.com/neutron-org/neutron/v5/x/dex/types"
+	// "github.com/maany-xyz/maany-dex/v5/x/dex"
+	// dexkeeper "github.com/maany-xyz/maany-dex/v5/x/dex/keeper"
+	// dextypes "github.com/maany-xyz/maany-dex/v5/x/dex/types"
 
-	globalfeekeeper "github.com/neutron-org/neutron/v5/x/globalfee/keeper"
-	gmpmiddleware "github.com/neutron-org/neutron/v5/x/gmp"
+	globalfeekeeper "github.com/maany-xyz/maany-dex/v5/x/globalfee/keeper"
+	gmpmiddleware "github.com/maany-xyz/maany-dex/v5/x/gmp"
 
 	// Block-sdk imports
 	// blocksdkabci "github.com/skip-mev/block-sdk/v2/abci"
@@ -226,15 +226,15 @@ import (
 
 	runtimeservices "github.com/cosmos/cosmos-sdk/runtime/services"
 
-	gamm "github.com/neutron-org/neutron/v5/x/gamm"
-	gammkeeper "github.com/neutron-org/neutron/v5/x/gamm/keeper"
-	gammtypes "github.com/neutron-org/neutron/v5/x/gamm/types"
+	gamm "github.com/maany-xyz/maany-dex/v5/x/gamm"
+	gammkeeper "github.com/maany-xyz/maany-dex/v5/x/gamm/keeper"
+	gammtypes "github.com/maany-xyz/maany-dex/v5/x/gamm/types"
 
-	"github.com/neutron-org/neutron/v5/x/poolmanager"
-	poolmanagermodule "github.com/neutron-org/neutron/v5/x/poolmanager/module"
-	poolmanagertypes "github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	"github.com/maany-xyz/maany-dex/v5/x/poolmanager"
+	poolmanagermodule "github.com/maany-xyz/maany-dex/v5/x/poolmanager/module"
+	poolmanagertypes "github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 
-	takerfeetypes "github.com/neutron-org/neutron/v5/x/takerfee/types"
+	takerfeetypes "github.com/maany-xyz/maany-dex/v5/x/takerfee/types"
 )
 
 const (

@@ -35,7 +35,7 @@ until the timer has caught up.
 
 ## State
 
-The Epochs module keeps a single [`EpochInfo`](https://github.com/neutron-org/neutron/v5/blob/b4befe4f3eb97ebb477323234b910c4afafab9b7/proto/osmosis/epochs/genesis.proto#L12) per identifier.
+The Epochs module keeps a single [`EpochInfo`](https://github.com/maany-xyz/maany-dex/v5/blob/b4befe4f3eb97ebb477323234b910c4afafab9b7/proto/osmosis/epochs/genesis.proto#L12) per identifier.
 This contains the current state of the timer with the corresponding identifier.
 Its fields are modified at every timer tick.
 EpochInfos are initialized as part of genesis initialization or upgrade logic,

@@ -7,11 +7,11 @@ import (
 
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/x/poolmanager"
-	"github.com/neutron-org/neutron/v5/x/poolmanager/client/queryproto"
-	"github.com/neutron-org/neutron/v5/x/poolmanager/client/queryprotov2"
-	"github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/x/poolmanager"
+	"github.com/maany-xyz/maany-dex/v5/x/poolmanager/client/queryproto"
+	"github.com/maany-xyz/maany-dex/v5/x/poolmanager/client/queryprotov2"
+	"github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 )
 
 // This file should evolve to being code gen'd, off of `proto/poolmanager/v1beta/query.yml`

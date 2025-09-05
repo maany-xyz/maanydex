@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"strings"
 
-	gammtypes "github.com/neutron-org/neutron/v5/x/gamm/types"
+	gammtypes "github.com/maany-xyz/maany-dex/v5/x/gamm/types"
 
 	govtypesv1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 
-	cltypes "github.com/neutron-org/neutron/v5/x/concentrated-liquidity/types"
+	cltypes "github.com/maany-xyz/maany-dex/v5/x/concentrated-liquidity/types"
 )
 
 const (

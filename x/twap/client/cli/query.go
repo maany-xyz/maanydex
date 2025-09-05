@@ -10,10 +10,10 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/spf13/cobra"
 
-	"github.com/neutron-org/neutron/v5/osmoutils/osmocli"
-	poolmanager "github.com/neutron-org/neutron/v5/x/poolmanager/client/queryproto"
-	"github.com/neutron-org/neutron/v5/x/twap/client/queryproto"
-	"github.com/neutron-org/neutron/v5/x/twap/types"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils/osmocli"
+	poolmanager "github.com/maany-xyz/maany-dex/v5/x/poolmanager/client/queryproto"
+	"github.com/maany-xyz/maany-dex/v5/x/twap/client/queryproto"
+	"github.com/maany-xyz/maany-dex/v5/x/twap/types"
 )
 
 // twapQueryParseArgs represents the outcome

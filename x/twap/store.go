@@ -9,8 +9,8 @@ import (
 
 	storetypes "cosmossdk.io/store/types"
 
-	"github.com/neutron-org/neutron/v5/osmoutils"
-	"github.com/neutron-org/neutron/v5/x/twap/types"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
+	"github.com/maany-xyz/maany-dex/v5/x/twap/types"
 )
 
 // NumRecordsToPrunePerBlock is the number of twap records indexed by pool ID to prune per block.

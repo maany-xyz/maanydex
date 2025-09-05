@@ -3,16 +3,16 @@ package keeper
 import (
 	"fmt"
 
-	"github.com/neutron-org/neutron/v5/osmoutils"
+	"github.com/maany-xyz/maany-dex/v5/osmoutils"
 
 	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 
-	"github.com/neutron-org/neutron/v5/osmomath"
-	"github.com/neutron-org/neutron/v5/x/gamm/types"
-	poolmanagertypes "github.com/neutron-org/neutron/v5/x/poolmanager/types"
+	"github.com/maany-xyz/maany-dex/v5/osmomath"
+	"github.com/maany-xyz/maany-dex/v5/x/gamm/types"
+	poolmanagertypes "github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 )
 
 // CalculateSpotPrice returns the spot price of the quote asset in terms of the base asset,
@@ -48,7 +48,7 @@ func (k Keeper) CalculateSpotPrice(
 	}
 
 	// TODO: this is done to maintain state-compatibility with v19.x
-	// Remove after https://github.com/neutron-org/neutron/v5/issues/6064 is complete.
+	// Remove after https://github.com/maany-xyz/maany-dex/v5/issues/6064 is complete.
 	spotPrice.ChopPrecisionMut(osmomath.DecPrecision)
 
 	// if spotPrice greater than max spot price, return an error
