@@ -31,7 +31,6 @@ gamm's msg_server.go -> `SwapExactAmountIn` -> poolmanager's router.go `RouteExa
 
 # TODO:
 
-1. clean up neutron modules and wiring (see https://chatgpt.com/g/g-p-67604629f8c4819180a372ebb3e3a84e-maany/c/68b85f3f-c464-8329-a89f-fe636b10ffee)
 2. Change project name (from ../neutrond to actual github repo name)
 3. Change BIN name
 4. Change denom "umaany"

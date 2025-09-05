@@ -4,11 +4,11 @@ import sdk "github.com/cosmos/cosmos-sdk/types"
 
 const (
 	HumanCoinUnit     = "MAANY"        
-	BaseCoinUnit      = "stake"       
+	BaseCoinUnit      = "umaany"       
 	DefaultBondDenom  = BaseCoinUnit  
 	DefaultExponent   = 6 
 	// Bech32MainPrefix defines the main SDK Bech32 prefix of an account's address
-	Bech32MainPrefix = "neutron"
+	Bech32MainPrefix = "maany-dex"
 	// PrefixValidator is the prefix for validator keys
 	PrefixValidator = "val"
 	// PrefixConsensus is the prefix for consensus keys

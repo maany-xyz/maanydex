@@ -71,6 +71,14 @@ func NewAnteHandler(options HandlerOptions, logger log.Logger) (sdk.AnteHandler,
 		ante.NewTxTimeoutHeightDecorator(),
 		ante.NewValidateMemoDecorator(options.AccountKeeper),
 		ante.NewConsumeGasForTxSizeDecorator(options.AccountKeeper),
+
+		globalfeeante.NewFeeDecorator(options.GlobalFeeKeeper),
+		ante.NewDeductFeeDecorator(
+			options.AccountKeeper,
+			options.BankKeeper,
+			options.FeegrantKeeper,
+			options.TxFeeChecker,
+		),
 		// feemarketante.NewFeeMarketCheckDecorator(
 		// 	options.AccountKeeper,
 		// 	options.BankKeeper,
