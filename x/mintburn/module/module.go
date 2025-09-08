@@ -3,8 +3,6 @@ package mintburn
 import (
 	"encoding/json"
 
-	"cosmossdk.io/log"
-
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 
 	abci "github.com/cometbft/cometbft/abci/types"
@@ -13,86 +11,95 @@ import (
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
-	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	keeper "github.com/maany-xyz/maany-dex/v5/x/mintburn/keeper"
-	mintburntypes "github.com/maany-xyz/maany-dex/v5/x/mintburn/types"
+
+	mintburn "github.com/maany-xyz/maany-dex/v5/x/mintburn/keeper"
+	"github.com/maany-xyz/maany-dex/v5/x/mintburn/types"
 )
 
 var (
-    _ module.AppModule      = (*AppModule)(nil)
-    _ module.AppModuleBasic = (*AppModuleBasic)(nil)
-    _ module.HasABCIGenesis = (*AppModule)(nil)
+	_ module.AppModuleBasic = (*AppModuleBasic)(nil)
+	_ module.AppModule      = (*AppModule)(nil)
+	_ module.HasABCIGenesis = (*AppModule)(nil)
 )
 
-// AppModuleBasic defines the basic application module used by the mintburn module.
+// -----------------------------
+// AppModuleBasic
+// -----------------------------
+
 type AppModuleBasic struct{}
 
-// IsOnePerModuleType implements the depinject.OnePerModuleType interface.
+func (AppModuleBasic) Name() string { return types.ModuleName }
+
+func (AppModuleBasic) RegisterLegacyAminoCodec(_ *codec.LegacyAmino) {}
+
+func (AppModuleBasic) RegisterInterfaces(_ cdctypes.InterfaceRegistry) {}
+
 func (am AppModule) IsOnePerModuleType() {}
 
 func (am AppModule) IsAppModule() {}
 
-// Name returns the mintburn module's name.
-func (AppModuleBasic) Name() string {
-    return mintburntypes.ModuleName
+// DefaultGenesis returns the module's default genesis as raw JSON bytes (no proto needed).
+func (AppModuleBasic) DefaultGenesis(_ codec.JSONCodec) json.RawMessage {
+	bz, err := json.Marshal(types.DefaultGenesis())
+	if err != nil {
+		panic(err)
+	}
+	return bz
 }
 
-// RegisterLegacyAminoCodec registers the mintburn module's types for Amino.
-func (AppModuleBasic) RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {}
-
-// RegisterInterfaces registers the mintburn module's interface types.
-func (AppModuleBasic) RegisterInterfaces(registry cdctypes.InterfaceRegistry) {}
-
-// DefaultGenesis returns the mintburn module's default genesis state as raw bytes.
-func (AppModuleBasic) DefaultGenesis(cdc codec.JSONCodec) json.RawMessage {
-    return nil // Provide default genesis state if needed
+func (AppModuleBasic) ValidateGenesis(_ codec.JSONCodec, _ client.TxEncodingConfig, bz json.RawMessage) error {
+	var gs types.GenesisState
+	if err := json.Unmarshal(bz, &gs); err != nil {
+		return err
+	}
+	return gs.Validate()
 }
 
-// ValidateGenesis validates the mintburn module's genesis state.
-func (AppModuleBasic) ValidateGenesis(cdc codec.JSONCodec, config client.TxEncodingConfig, bz json.RawMessage) error {
-    return nil
-}
+func (AppModuleBasic) RegisterGRPCGatewayRoutes(_ client.Context, _ *runtime.ServeMux) {}
 
-func (AppModuleBasic) RegisterGRPCGatewayRoutes(clientCtx client.Context, mux *runtime.ServeMux) {
-	// err := providertypes.RegisterQueryHandlerClient(context.Background(), mux, providertypes.NewQueryClient(clientCtx))
-	// if err != nil {
-	// 	// same behavior as in cosmos-sdk
-	// 	panic(err)
-	// }
-}
+// (Optional for CLI)
+// func (AppModuleBasic) GetTxCmd() *cobra.Command    { return nil }
+// func (AppModuleBasic) GetQueryCmd() *cobra.Command { return nil }
 
-// AppModule implements the AppModule interface for the mintburn module.
+// -----------------------------
+// AppModule
+// -----------------------------
+
 type AppModule struct {
-	cdc codec.Codec
-    AppModuleBasic
-    keeper keeper.Keeper
+	cdc    codec.Codec
+	keeper mintburn.Keeper
+
+	AppModuleBasic
 }
 
-// NewAppModule creates a new AppModule object.
-func NewAppModule(cdc codec.Codec, k keeper.Keeper, appLogger log.Logger) AppModule {
-	// moduleName := mintburntypes.ModuleName
-    // moduleAccount := authtypes.NewEmptyModuleAccount(moduleName, authtypes.Minter, authtypes.Burner)
-    return AppModule{
-		cdc: cdc,
+func NewAppModule(cdc codec.Codec, k mintburn.Keeper) AppModule {
+	return AppModule{
+		cdc:            cdc,
+		keeper:         k,
 		AppModuleBasic: AppModuleBasic{},
-        keeper: k,
-    }
+	}
 }
 
-// RegisterServices registers module services.
-func (am AppModule) RegisterServices(cfg module.Configurator) {
-}
+func (am AppModule) RegisterServices(_ module.Configurator) {}
 
-func (am AppModule) InitGenesis(ctx sdk.Context, cdc codec.JSONCodec, data json.RawMessage) []abci.ValidatorUpdate {
-	moduleName := mintburntypes.ModuleName
-    moduleAccount := authtypes.NewEmptyModuleAccount(moduleName, authtypes.Minter, authtypes.Burner)
-	ctx.Logger().Info("the module account is", "mod", moduleAccount.String())
-	return []abci.ValidatorUpdate{}
-}
-
-// ExportGenesis exports the genesis state for the mintburn module.
-// module.
-func (am AppModule) ExportGenesis(ctx sdk.Context, cdc codec.JSONCodec) json.RawMessage {
-	ctx.Logger().Info("in export gen")
+// HasABCIGenesis: InitGenesis/ExportGenesis using JSON (no proto)
+func (am AppModule) InitGenesis(ctx sdk.Context, _ codec.JSONCodec, data json.RawMessage) []abci.ValidatorUpdate {
+	var gs types.GenesisState
+	if err := json.Unmarshal(data, &gs); err != nil {
+		panic(err)
+	}
+	am.keeper.InitGenesis(ctx, &gs)
 	return nil
 }
+
+func (am AppModule) ExportGenesis(ctx sdk.Context, _ codec.JSONCodec) json.RawMessage {
+	gs := am.keeper.ExportGenesis(ctx)
+	bz, err := json.Marshal(gs)
+	if err != nil {
+		panic(err)
+	}
+	return bz
+}
+
+// Optional but recommended: advertise a consensus version for migrations.
+func (am AppModule) ConsensusVersion() uint64 { return 1 }

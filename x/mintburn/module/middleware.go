@@ -16,6 +16,7 @@ import (
 	ibctmtypes "github.com/cosmos/ibc-go/v8/modules/light-clients/07-tendermint"
 
 	mintburn "github.com/maany-xyz/maany-dex/v5/x/mintburn/keeper"
+	"github.com/maany-xyz/maany-dex/v5/x/mintburn/types"
 )
 
 type IBCMiddleware struct {
@@ -60,6 +61,15 @@ func (im IBCMiddleware) OnChanOpenTry(
 	return im.app.OnChanOpenTry(ctx, order, connectionHops, portID, channelID, chanCap, counterparty, counterpartyVersion)
 }
 
+func contains(list []string, x string) bool {
+	for _, v := range list {
+		if v == x {
+			return true
+		}
+	}
+	return false
+}
+
 func (im IBCMiddleware) HandleChannelIdStorage(
 	ctx sdk.Context,
 	portID string,
@@ -89,9 +99,11 @@ func (im IBCMiddleware) HandleChannelIdStorage(
 		return fmt.Errorf("unexpected client state type")
 	}
 
+	params := im.keeper.GetParams(ctx)
+
 	// TODO: make this chain-id a Param instead of hardcoding.
-	if tmClientState.ChainId == "maany-mainnet" {
-		store := prefix.NewStore(ctx.KVStore(im.keeper.StoreKey), []byte("allowed-channel/"))
+	if contains(params.ProviderChainIDs, tmClientState.ChainId) {
+		store := prefix.NewStore(ctx.KVStore(im.keeper.StoreKey), types.KeyAllowedChan)
 		if isOpening {
 			store.Set([]byte(channelID), []byte{1})
 			ctx.Logger().Info("mintburn: set allowed channel", "channel_id", channelID)
@@ -188,15 +200,20 @@ func (im IBCMiddleware) OnRecvPacket(
 		return im.app.OnRecvPacket(ctx, packet, relayer)
 	}
 
+	params := im.keeper.GetParams(ctx)
+	if params.Pause {
+		return channeltypes.NewErrorAcknowledgement(fmt.Errorf("mintburn paused"))
+	}
+
+
 	// Resolve base denom (trace-aware)
 	baseDenom := data.Denom
 	if !ibctransfertypes.ReceiverChainIsSource(packet.GetSourcePort(), packet.GetSourceChannel(), data.Denom) {
 		trace := ibctransfertypes.ParseDenomTrace(data.Denom)
 		baseDenom = trace.BaseDenom
 	}
-	// TODO: make this allowed base denom a Param; for now expect provider's minimal denom.
-	if baseDenom != "stake" { // or "umaany" depending on your provider setup
-		ctx.Logger().Info("mintburn: unexpected base denom, forwarding to transfer app", "base", baseDenom)
+	if !contains(params.AllowedBaseDenoms, baseDenom) {
+		// Not our special path -> pass to ICS-20 app (will mint voucher)
 		return im.app.OnRecvPacket(ctx, packet, relayer)
 	}
 
@@ -218,7 +235,7 @@ func (im IBCMiddleware) OnRecvPacket(
 	}
 
 	// Mint mirrored native on DEX (use your DEX minimal denom here)
-	mintCoin := sdk.NewCoin("umaany", amt) // or "umaany" if that's your DEX denom
+	mintCoin := sdk.NewCoin(params.DexNativeDenom, amt) // or "umaany" if that's your DEX denom
 	if err := im.keeper.MintTokens(ctx, rcpt, mintCoin); err != nil {
 		ctx.Logger().Error("mintburn: mint failed", "err", err)
 		return channeltypes.NewErrorAcknowledgement(fmt.Errorf("mint failed"))

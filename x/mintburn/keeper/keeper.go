@@ -1,17 +1,21 @@
 package mintburn
 
 import (
+	"encoding/json"
+
 	"cosmossdk.io/log"
 	"cosmossdk.io/store/prefix"
 	storetypes "cosmossdk.io/store/types"
 
 	sdkmath "cosmossdk.io/math"
+	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	bankKeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"
 
 	connectiontypes "github.com/cosmos/ibc-go/v8/modules/core/03-connection/types"
 	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
 	ibcexported "github.com/cosmos/ibc-go/v8/modules/core/exported"
+	types "github.com/maany-xyz/maany-dex/v5/x/mintburn/types"
 )
 
 // ---- Keep your IBC keepers the same ----
@@ -33,6 +37,7 @@ type ClientKeeper interface {
 type Keeper struct {
 	ModuleName     string
 	StoreKey       storetypes.StoreKey
+	Cdc              codec.BinaryCodec
 	BankKeeper     bankKeeper.Keeper
 	ChannelKeeper  ChannelKeeper
 	ConnectionKeeper ConnectionKeeper
@@ -43,6 +48,7 @@ type Keeper struct {
 func NewKeeper(
 	moduleName string,
 	storeKey storetypes.StoreKey,
+	cdc codec.BinaryCodec,
 	bankKeeper bankKeeper.Keeper,
 	channelKeeper ChannelKeeper,
 	connectionKeeper ConnectionKeeper,
@@ -51,11 +57,40 @@ func NewKeeper(
 	return Keeper{
 		ModuleName:       moduleName,
 		StoreKey:         storeKey,
+		Cdc:              cdc,
 		BankKeeper:       bankKeeper,
 		ChannelKeeper:    channelKeeper,
 		ConnectionKeeper: connectionKeeper,
 		ClientKeeper:     clientKeeper,
 	}
+}
+
+
+func (k Keeper) GetParams(ctx sdk.Context) types.Params {
+    store := ctx.KVStore(k.StoreKey)
+    bz := store.Get(types.KeyParams)
+    if len(bz) == 0 {
+        return types.DefaultParams()
+    }
+    var p types.Params
+    if err := json.Unmarshal(bz, &p); err != nil {
+        // defensive fallback
+        ctx.Logger().Error("mintburn: failed to unmarshal params; using defaults", "err", err)
+        return types.DefaultParams()
+    }
+    return p
+}
+
+func (k Keeper) SetParams(ctx sdk.Context, p types.Params) {
+    if err := p.Validate(); err != nil {
+        panic(err)
+    }
+    bz, err := json.Marshal(p)
+    if err != nil {
+        panic(err)
+    }
+    store := ctx.KVStore(k.StoreKey)
+    store.Set(types.KeyParams, bz)
 }
 
 // Logger

@@ -661,6 +661,7 @@ func New(
 	app.MintBurnKeeper = mintburn.NewKeeper(
 		mintburntypes.ModuleName,
 		keys[mintburntypes.StoreKey],
+		appCodec,
 		app.BankKeeper, 
 		app.IBCKeeper.ChannelKeeper,
 		app.IBCKeeper.ConnectionKeeper, 
@@ -1015,7 +1016,7 @@ func New(
 		consensus.NewAppModule(appCodec, app.ConsensusParamsKeeper),
 		// always be last to make sure that it checks for all invariants and not only part of them
 		crisis.NewAppModule(&app.CrisisKeeper, skipGenesisInvariants, app.GetSubspace(crisistypes.ModuleName)),
-		mintburnmodule.NewAppModule(appCodec, app.MintBurnKeeper, app.Logger()),
+		mintburnmodule.NewAppModule(appCodec, app.MintBurnKeeper),
 		gamm.NewAppModule(appCodec, app.GAMMKeeper, app.AccountKeeper, app.BankKeeper),
 		poolmanagermodule.NewAppModule(*app.PoolManagerKeeper, app.GAMMKeeper),
 
