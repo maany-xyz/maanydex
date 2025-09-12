@@ -288,6 +288,7 @@ func (im IBCMiddleware) OnAcknowledgementPacket(
         trace := ibctransfertypes.ParseDenomTrace(data.Denom)
         baseDenom = trace.BaseDenom
     }
+	//TODO:
     // If you have params: compare with params.DexNativeDenom instead of hardcoding
     if baseDenom != "umaany" { // or "stake" depending on your DEX denom
         return im.app.OnAcknowledgementPacket(ctx, packet, acknowledgement, relayer)
