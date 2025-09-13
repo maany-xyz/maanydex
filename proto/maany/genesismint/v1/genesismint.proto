@@ -1,0 +1,46 @@
+syntax = "proto3";
+package maany.genesismint.v1;
+
+option go_package = "github.com/maany-xyz/maany-dex/v5/x/genesismint/types";
+
+import "gogoproto/gogo.proto";
+import "ibc/core/commitment/v1/commitment.proto"; // for MerkleProof
+import "google/protobuf/any.proto";
+
+// Params: what the consumer expects for provider+denoms
+message Params {
+  string provider_client_id       = 1 [(gogoproto.moretags) = "yaml:\"provider_client_id\""];
+  string provider_chain_id        = 2 [(gogoproto.moretags) = "yaml:\"provider_chain_id\""];
+  string allowed_provider_denom   = 3 [(gogoproto.moretags) = "yaml:\"allowed_provider_denom\""];
+  string mint_denom               = 4 [(gogoproto.moretags) = "yaml:\"mint_denom\""];
+}
+
+// A single mint instruction proven against provider state
+message MintIntent {
+  ibc.core.commitment.v1.MerkleProof  merkle_proof = 1;
+  uint64  proof_height_revision_number = 2;
+  uint64  proof_height_revision_height = 3;
+
+  // Key path pieces. First element must be the store name (e.g., "x-mintburn"),
+  // second element is hex of the KV key bytes (e.g., "0131").
+  repeated string key_path = 4;
+
+  // Base64-encoded value (provider KV value for that key)
+  string value = 5;
+
+  string provider_chain_id = 6;
+
+  // Minting details (mirror)
+  string amount_denom  = 7;
+  string amount_value  = 8; // uint as string to avoid JSON loss
+
+  string escrow_id = 9;     // for idempotency / claimed index
+  string recipient = 10;    // consumer address to receive the minted coins
+}
+
+// GenesisState accepts your bundle.json
+message GenesisState {
+  Params params = 1;
+  repeated MintIntent mints = 2;
+  repeated string claimed_escrow_ids = 3; // optional preload
+}

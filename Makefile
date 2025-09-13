@@ -223,6 +223,10 @@ proto-gen:
 	@echo "Generating Protobuf files"
 	@$(protoImage) sh ./scripts/protocgen.sh
 
+proto-gen-maany:
+	@echo "Generating Maany Protobuf files only"
+	@$(protoImage) sh /workspace/scripts/protocgen-maany.sh
+
 proto-swagger-gen:
 	@$(DOCKER) build proto/ -t swagger-gen
 	@$(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace swagger-gen ./scripts/protoc-swagger-gen.sh
