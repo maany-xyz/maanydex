@@ -235,6 +235,10 @@ import (
 	poolmanagertypes "github.com/maany-xyz/maany-dex/v5/x/poolmanager/types"
 
 	takerfeetypes "github.com/maany-xyz/maany-dex/v5/x/takerfee/types"
+
+	genesismintkeeper "github.com/maany-xyz/maany-dex/v5/x/genesismint/keeper"
+	genesismint "github.com/maany-xyz/maany-dex/v5/x/genesismint/module"
+	genesisminttypes "github.com/maany-xyz/maany-dex/v5/x/genesismint/types"
 )
 
 const (
@@ -348,6 +352,8 @@ var (
 		gammtypes.ModuleName:                          {authtypes.Minter, authtypes.Burner},
 		poolmanagertypes.ModuleName:				   {authtypes.Minter, authtypes.Burner},
 		takerfeetypes.ModuleName:					   {authtypes.Minter, authtypes.Burner},
+		genesisminttypes.ModuleName:                   {authtypes.Minter},
+
 	}
 )
 
@@ -461,6 +467,7 @@ type App struct {
 
 	// Adding the mintburn keeper
 	MintBurnKeeper mintburn.Keeper
+	GenesisMintKeeper genesismintkeeper.Keeper
 
 	GAMMKeeper gammkeeper.Keeper
 	PoolManagerKeeper            *poolmanager.Keeper
@@ -545,7 +552,7 @@ func New(
 		 //feemarkettypes.StoreKey, 
 		// dynamicfeestypes.StoreKey
 		globalfeetypes.StoreKey,
-		mintburntypes.StoreKey, gammtypes.StoreKey, poolmanagertypes.StoreKey,
+		mintburntypes.StoreKey, gammtypes.StoreKey, poolmanagertypes.StoreKey, genesisminttypes.StoreKey,
 	)
 	tkeys := storetypes.NewTransientStoreKeys(paramstypes.TStoreKey)
 	memKeys := storetypes.NewMemoryStoreKeys(capabilitytypes.MemStoreKey, feetypes.MemStoreKey)
@@ -667,6 +674,8 @@ func New(
 		app.IBCKeeper.ConnectionKeeper, 
 		app.IBCKeeper.ClientKeeper,
 	)
+
+	app.GenesisMintKeeper = genesismintkeeper.NewKeeper(appCodec, keys[genesisminttypes.StoreKey], app.BankKeeper, app.IBCKeeper.ClientKeeper)
 
 	// Feekeeper needs to be initialized before middlewares injection
 	app.FeeKeeper = feekeeper.NewKeeper(
@@ -1017,6 +1026,7 @@ func New(
 		// always be last to make sure that it checks for all invariants and not only part of them
 		crisis.NewAppModule(&app.CrisisKeeper, skipGenesisInvariants, app.GetSubspace(crisistypes.ModuleName)),
 		mintburnmodule.NewAppModule(appCodec, app.MintBurnKeeper),
+		genesismint.NewAppModule(appCodec, app.GenesisMintKeeper),
 		gamm.NewAppModule(appCodec, app.GAMMKeeper, app.AccountKeeper, app.BankKeeper),
 		poolmanagermodule.NewAppModule(*app.PoolManagerKeeper, app.GAMMKeeper),
 
@@ -1154,6 +1164,7 @@ func New(
 		mintburntypes.ModuleName,
 		gammtypes.ModuleName,
 		poolmanagertypes.ModuleName,
+		genesisminttypes.ModuleName,
 	)
 
 	app.mm.RegisterInvariants(&app.CrisisKeeper)

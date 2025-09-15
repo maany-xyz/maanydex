@@ -7,12 +7,21 @@ import "gogoproto/gogo.proto";
 import "ibc/core/commitment/v1/commitment.proto"; // for MerkleProof
 import "google/protobuf/any.proto";
 
+message TrustedRoot {
+  uint64 revision_number = 1;
+  uint64 revision_height = 2;
+  bytes  hash            = 3; // raw root bytes
+}
+
 // Params: what the consumer expects for provider+denoms
 message Params {
   string provider_client_id       = 1 [(gogoproto.moretags) = "yaml:\"provider_client_id\""];
   string provider_chain_id        = 2 [(gogoproto.moretags) = "yaml:\"provider_chain_id\""];
   string allowed_provider_denom   = 3 [(gogoproto.moretags) = "yaml:\"allowed_provider_denom\""];
   string mint_denom               = 4 [(gogoproto.moretags) = "yaml:\"mint_denom\""];
+
+  TrustedRoot genesis_trusted_root = 5; // optional
+  bool        use_genesis_trusted_root = 6; // default false
 }
 
 // A single mint instruction proven against provider state
