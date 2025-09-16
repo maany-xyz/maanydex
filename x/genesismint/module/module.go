@@ -1,10 +1,11 @@
 package genesismint
 
 import (
-	"encoding/json"
-	"fmt"
+    "context"
+    "encoding/json"
+    "fmt"
 
-	"cosmossdk.io/core/appmodule"
+    "cosmossdk.io/core/appmodule"
 	abci "github.com/cometbft/cometbft/abci/types"
 
 	"github.com/cosmos/cosmos-sdk/client"
@@ -24,11 +25,12 @@ import (
 /* ===== Interface assertions (SDK v0.50) ===== */
 
 var (
-	_ appmodule.AppModule         = AppModule{} // marker + Name()
-	_ module.HasABCIGenesis      = (*AppModule)(nil) // InitGenesis + ExportGenesis
-	_ module.HasServices         = (*AppModule)(nil)
-	_ module.HasInvariants       = (*AppModule)(nil)
-	_ module.HasConsensusVersion = (*AppModule)(nil)
+    _ appmodule.AppModule         = AppModule{} // marker + Name()
+    _ module.HasABCIGenesis      = (*AppModule)(nil) // InitGenesis + ExportGenesis
+    _ module.HasServices         = (*AppModule)(nil)
+    _ module.HasInvariants       = (*AppModule)(nil)
+    _ module.HasConsensusVersion = (*AppModule)(nil)
+    _ appmodule.HasBeginBlocker  = AppModule{}
 )
 
 /* ===== AppModuleBasic ===== */
@@ -85,25 +87,31 @@ func (am AppModule) ValidateGenesis(_ codec.JSONCodec, _ client.TxEncodingConfig
 }
 
 func (am AppModule) InitGenesis(
-	ctx sdk.Context,
-	cdc codec.JSONCodec,
-	data json.RawMessage,
+    ctx sdk.Context,
+    cdc codec.JSONCodec,
+    data json.RawMessage,
 ) []abci.ValidatorUpdate {
-	var gs types.GenesisState
-	cdc.MustUnmarshalJSON(data, &gs)
+    var gs types.GenesisState
+    cdc.MustUnmarshalJSON(data, &gs)
 
-	// ✅ validate here since HasGenesis isn't asserted
-	if err := gs.Validate(); err != nil {
-		panic(fmt.Errorf("genesismint genesis validate: %w", err))
-	}
+    // ✅ validate here since HasGenesis isn't asserted
+    if err := gs.Validate(); err != nil {
+        panic(fmt.Errorf("genesismint genesis validate: %w", err))
+    }
 
-	strict := true // set false if the provider client+consensus@height isn't in genesis yet
-	for _, m := range gs.Mints {
-		if err := am.keeper.ProcessGenesisMint(ctx, gs.Params, m, strict); err != nil {
-			panic(fmt.Errorf("genesismint: escrow_id=%s: %w", m.EscrowId, err))
-		}
-	}
-	return nil
+    strict := true // set false if the provider client+consensus@height isn't in genesis yet
+    ctx.Logger().Info("genesismint: InitGenesis start",
+        "mint_count", len(gs.Mints),
+        "strict_proof", strict,
+    )
+    for _, m := range gs.Mints {
+        if err := am.keeper.ProcessGenesisMint(ctx, gs.Params, m, strict); err != nil {
+            panic(fmt.Errorf("genesismint: escrow_id=%s: %w", m.EscrowId, err))
+        }
+        ctx.Logger().Info("genesismint: processed mint intent", "escrow_id", m.EscrowId)
+    }
+    ctx.Logger().Info("genesismint: InitGenesis done")
+    return nil
 }
 func (am AppModule) ExportGenesis(ctx sdk.Context, cdc codec.JSONCodec) json.RawMessage {
 	state := types.GenesisState{
@@ -112,4 +120,10 @@ func (am AppModule) ExportGenesis(ctx sdk.Context, cdc codec.JSONCodec) json.Raw
 		ClaimedEscrowIds: []string{},
 	}
 	return cdc.MustMarshalJSON(&state)
+}
+
+// ABCI hooks (v0.50 style)
+func (am AppModule) BeginBlock(ctx context.Context) error {
+    am.keeper.BeginBlocker(sdk.UnwrapSDKContext(ctx))
+    return nil
 }

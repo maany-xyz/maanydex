@@ -675,8 +675,6 @@ func New(
 		app.IBCKeeper.ClientKeeper,
 	)
 
-	app.GenesisMintKeeper = genesismintkeeper.NewKeeper(appCodec, keys[genesisminttypes.StoreKey], app.BankKeeper, app.IBCKeeper.ClientKeeper)
-
 	// Feekeeper needs to be initialized before middlewares injection
 	app.FeeKeeper = feekeeper.NewKeeper(
 		appCodec,
@@ -726,6 +724,17 @@ func New(
 		authtypes.NewModuleAddress(adminmoduletypes.ModuleName).String(),
 	)
 	app.ICAHostKeeper.WithQueryRouter(app.GRPCQueryRouter())
+
+    // Now that ICAControllerKeeper is initialized, create GenesisMintKeeper
+    app.GenesisMintKeeper = genesismintkeeper.NewKeeper(
+        appCodec,
+        keys[genesisminttypes.StoreKey],
+        app.BankKeeper,
+        app.IBCKeeper.ClientKeeper,
+        app.ICAControllerKeeper,
+        icacontrollerkeeper.NewMsgServerImpl(&app.ICAControllerKeeper),
+        app.IBCKeeper.ConnectionKeeper,
+    )
 
 	app.FeeBurnerKeeper = feeburnerkeeper.NewKeeper(
 		appCodec,
@@ -1060,6 +1069,7 @@ func New(
 		icatypes.ModuleName,
 		interchainqueriesmoduletypes.ModuleName,
 		interchaintxstypes.ModuleName,
+		genesisminttypes.ModuleName,
 		contractmanagermoduletypes.ModuleName,
 		wasmtypes.ModuleName,
 		feetypes.ModuleName,
