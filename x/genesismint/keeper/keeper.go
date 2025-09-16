@@ -4,6 +4,7 @@ import (
     "encoding/base64"
     "encoding/hex"
     "fmt"
+    "strconv"
     "time"
 
     sdkmath "cosmossdk.io/math"
@@ -53,6 +54,12 @@ func NewKeeper(
         connKeeper:   connKeeper,
     }
 }
+
+// Exported setters for InitGenesis config wiring
+func (k Keeper) SetICAConnectionID(ctx sdk.Context, v string) { k.setICAConnectionID(ctx, v) }
+func (k Keeper) SetICAOwner(ctx sdk.Context, v string)        { k.setICAOwner(ctx, v) }
+func (k Keeper) SetICATimeoutSeconds(ctx sdk.Context, v uint64) { k.setICATimeoutSeconds(ctx, v) }
+func (k Keeper) SetMaxClaimsPerBlock(ctx sdk.Context, v int)  { k.setMaxClaimsPerBlock(ctx, v) }
 
 // --- Claimed index ---
 
@@ -259,20 +266,65 @@ func (k Keeper) listPendingClaims(ctx sdk.Context, limit int) [][2]string {
     return out
 }
 
+// hasAnyPendingClaims returns true if there is at least one pending claim queued.
+func (k Keeper) hasAnyPendingClaims(ctx sdk.Context) bool {
+    store := ctx.KVStore(k.storeKey)
+    it := storetypes.KVStorePrefixIterator(store, types.PendingClaimPrefix)
+    defer it.Close()
+    return it.Valid()
+}
+
 // ---- ICA submission on BeginBlock ----
 
 const (
-    icaConnectionID    = "connection-0"
-    icaOwnerID          = "mintburn-claims"
-    icaTimeoutSeconds  = 300
-    maxClaimsPerBlock   = 10
+    defaultICAConnectionID   = "connection-0"
+    defaultICAOwnerID        = "mintburn-claims"
+    defaultICATimeoutSeconds = 300
+    defaultMaxClaimsPerBlock = 10
 )
+
+// ---- Config getters/setters ----
+func (k Keeper) getICAConnectionID(ctx sdk.Context) string {
+    bz := ctx.KVStore(k.storeKey).Get(types.ConfigICAConnectionIDKey())
+    if len(bz) == 0 { return defaultICAConnectionID }
+    return string(bz)
+}
+func (k Keeper) setICAConnectionID(ctx sdk.Context, v string) { ctx.KVStore(k.storeKey).Set(types.ConfigICAConnectionIDKey(), []byte(v)) }
+
+func (k Keeper) getICAOwner(ctx sdk.Context) string {
+    bz := ctx.KVStore(k.storeKey).Get(types.ConfigICAOwnerKey())
+    if len(bz) == 0 { return defaultICAOwnerID }
+    return string(bz)
+}
+func (k Keeper) setICAOwner(ctx sdk.Context, v string) { ctx.KVStore(k.storeKey).Set(types.ConfigICAOwnerKey(), []byte(v)) }
+
+func (k Keeper) getICATimeoutSeconds(ctx sdk.Context) uint64 {
+    bz := ctx.KVStore(k.storeKey).Get(types.ConfigICATimeoutSecondsKey())
+    if len(bz) == 0 { return defaultICATimeoutSeconds }
+    u, err := strconv.ParseUint(string(bz), 10, 64)
+    if err != nil { return defaultICATimeoutSeconds }
+    return u
+}
+func (k Keeper) setICATimeoutSeconds(ctx sdk.Context, v uint64) { ctx.KVStore(k.storeKey).Set(types.ConfigICATimeoutSecondsKey(), []byte(strconv.FormatUint(v,10))) }
+
+func (k Keeper) getMaxClaimsPerBlock(ctx sdk.Context) int {
+    bz := ctx.KVStore(k.storeKey).Get(types.ConfigMaxClaimsPerBlockKey())
+    if len(bz) == 0 { return defaultMaxClaimsPerBlock }
+    u, err := strconv.ParseUint(string(bz), 10, 32)
+    if err != nil { return defaultMaxClaimsPerBlock }
+    return int(u)
+}
+func (k Keeper) setMaxClaimsPerBlock(ctx sdk.Context, v int) { ctx.KVStore(k.storeKey).Set(types.ConfigMaxClaimsPerBlockKey(), []byte(strconv.FormatUint(uint64(v),10))) }
 
 // BeginBlocker attempts to ensure ICA registration and flush a few pending claims to provider.
 func (k Keeper) BeginBlocker(ctx sdk.Context) {
+    // If module finished its one-shot workflow, skip all further work.
+    if k.isDone(ctx) {
+        return
+    }
     ctx.Logger().Info("genesismint: begin block tick", "height", ctx.BlockHeight())
-    owner := icaOwnerID
-    conn := icaConnectionID
+    owner := k.getICAOwner(ctx)
+    conn := k.getICAConnectionID(ctx)
 
     // Ensure registration (idempotent)
     k.ensureICARegistered(ctx, conn, owner)
@@ -301,9 +353,11 @@ func (k Keeper) BeginBlocker(ctx sdk.Context) {
     }
 
     // Flush a bounded number of pending claims
-    pending := k.listPendingClaims(ctx, maxClaimsPerBlock)
+    pending := k.listPendingClaims(ctx, k.getMaxClaimsPerBlock(ctx))
     if len(pending) == 0 {
-        ctx.Logger().Info("genesismint: no pending claims to flush")
+        // No more claims to flush and ICA is active + address available: mark done to disable future checks.
+        k.setDone(ctx)
+        ctx.Logger().Info("genesismint: no pending claims; marking module done and disabling further BeginBlock work")
         return
     }
     ctx.Logger().Info("genesismint: flushing pending claims via ICA",
@@ -338,7 +392,7 @@ func (k Keeper) BeginBlocker(ctx sdk.Context) {
             Owner:           owner,
             ConnectionId:    conn,
             PacketData:      packet,
-            RelativeTimeout: uint64(time.Duration(icaTimeoutSeconds) * time.Second),
+            RelativeTimeout: uint64(time.Duration(k.getICATimeoutSeconds(ctx)) * time.Second),
         })
         if err != nil {
             ctx.Logger().Error("genesismint: ICA SendTx failed", "err", err, "escrow_id", escrowID)
@@ -474,4 +528,15 @@ func (k Keeper) ensureICARegistered(ctx sdk.Context, connectionID, owner string)
         k.setICAPending(ctx, connectionID, owner)
         ctx.Logger().Info("genesismint: initiated ICA registration", "connection", connectionID, "owner", owner, "port_id", portID)
     }
+}
+
+// ---- Done flag helpers ----
+func (k Keeper) setDone(ctx sdk.Context) {
+    store := ctx.KVStore(k.storeKey)
+    store.Set(types.DoneKey(), []byte{1})
+}
+
+func (k Keeper) isDone(ctx sdk.Context) bool {
+    store := ctx.KVStore(k.storeKey)
+    return store.Has(types.DoneKey())
 }

@@ -4,6 +4,7 @@ import (
     "context"
     "encoding/json"
     "fmt"
+    stdjson "encoding/json"
 
     "cosmossdk.io/core/appmodule"
 	abci "github.com/cometbft/cometbft/abci/types"
@@ -91,13 +92,104 @@ func (am AppModule) InitGenesis(
     cdc codec.JSONCodec,
     data json.RawMessage,
 ) []abci.ValidatorUpdate {
+    // 1) First, strip unsupported (non-proto) ICA config keys from params so proto unmarshal won't error.
+    sanitized := data
+    var extractedConn, extractedOwner string
+    var extractedTO uint64
+    var extractedMC int
+    var haveConn, haveOwner, haveTO, haveMC bool
+
+    var raw map[string]stdjson.RawMessage
+    if err := stdjson.Unmarshal(data, &raw); err == nil {
+        if pRaw, ok := raw["params"]; ok {
+            var pMap map[string]any
+            if err := stdjson.Unmarshal(pRaw, &pMap); err == nil {
+                // ica_controller_connection_id / icaControllerConnectionId
+                if s, ok := pMap["ica_controller_connection_id"].(string); ok && s != "" {
+                    extractedConn, haveConn = s, true
+                    delete(pMap, "ica_controller_connection_id")
+                } else if s, ok := pMap["icaControllerConnectionId"].(string); ok && s != "" {
+                    extractedConn, haveConn = s, true
+                    delete(pMap, "icaControllerConnectionId")
+                }
+                // ica_owner / icaOwner
+                if s, ok := pMap["ica_owner"].(string); ok && s != "" {
+                    extractedOwner, haveOwner = s, true
+                    delete(pMap, "ica_owner")
+                } else if s, ok := pMap["icaOwner"].(string); ok && s != "" {
+                    extractedOwner, haveOwner = s, true
+                    delete(pMap, "icaOwner")
+                }
+                // ica_tx_timeout_seconds / icaTxTimeoutSeconds
+                if v, ok := pMap["ica_tx_timeout_seconds"]; ok {
+                    switch t := v.(type) {
+                    case float64:
+                        extractedTO, haveTO = uint64(t), true
+                    case string:
+                        var u uint64; if _, err := fmt.Sscan(t, &u); err == nil { extractedTO, haveTO = u, true }
+                    }
+                    delete(pMap, "ica_tx_timeout_seconds")
+                } else if v, ok := pMap["icaTxTimeoutSeconds"]; ok {
+                    switch t := v.(type) {
+                    case float64:
+                        extractedTO, haveTO = uint64(t), true
+                    case string:
+                        var u uint64; if _, err := fmt.Sscan(t, &u); err == nil { extractedTO, haveTO = u, true }
+                    }
+                    delete(pMap, "icaTxTimeoutSeconds")
+                }
+                // ica_max_claims_per_block / icaMaxClaimsPerBlock / icaMaxClaimPerBlock
+                if v, ok := pMap["ica_max_claims_per_block"]; ok {
+                    switch t := v.(type) {
+                    case float64:
+                        extractedMC, haveMC = int(t), true
+                    case string:
+                        var u int; if _, err := fmt.Sscan(t, &u); err == nil { extractedMC, haveMC = u, true }
+                    }
+                    delete(pMap, "ica_max_claims_per_block")
+                } else if v, ok := pMap["icaMaxClaimsPerBlock"]; ok {
+                    switch t := v.(type) {
+                    case float64:
+                        extractedMC, haveMC = int(t), true
+                    case string:
+                        var u int; if _, err := fmt.Sscan(t, &u); err == nil { extractedMC, haveMC = u, true }
+                    }
+                    delete(pMap, "icaMaxClaimsPerBlock")
+                } else if v, ok := pMap["icaMaxClaimPerBlock"]; ok {
+                    switch t := v.(type) {
+                    case float64:
+                        extractedMC, haveMC = int(t), true
+                    case string:
+                        var u int; if _, err := fmt.Sscan(t, &u); err == nil { extractedMC, haveMC = u, true }
+                    }
+                    delete(pMap, "icaMaxClaimPerBlock")
+                }
+
+                // re-pack sanitized params back into raw and overall genesis
+                if sanitizedParams, err := stdjson.Marshal(pMap); err == nil {
+                    raw["params"] = sanitizedParams
+                    if sanitizedAll, err := stdjson.Marshal(raw); err == nil {
+                        sanitized = sanitizedAll
+                    }
+                }
+            }
+        }
+    }
+
+    // 2) Now proto-unmarshal the sanitized JSON into our typed genesis state.
     var gs types.GenesisState
-    cdc.MustUnmarshalJSON(data, &gs)
+    cdc.MustUnmarshalJSON(sanitized, &gs)
 
     // ✅ validate here since HasGenesis isn't asserted
     if err := gs.Validate(); err != nil {
         panic(fmt.Errorf("genesismint genesis validate: %w", err))
     }
+
+    // 3) Apply any extracted ICA config values.
+    if haveConn { am.keeper.SetICAConnectionID(ctx, extractedConn) }
+    if haveOwner { am.keeper.SetICAOwner(ctx, extractedOwner) }
+    if haveTO { am.keeper.SetICATimeoutSeconds(ctx, extractedTO) }
+    if haveMC { am.keeper.SetMaxClaimsPerBlock(ctx, extractedMC) }
 
     strict := true // set false if the provider client+consensus@height isn't in genesis yet
     ctx.Logger().Info("genesismint: InitGenesis start",
