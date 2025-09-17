@@ -297,6 +297,22 @@ func (k Keeper) hasAnyPendingClaims(ctx sdk.Context) bool {
     return it.Valid()
 }
 
+// ---- In-flight claim helpers ----
+func (k Keeper) setInflight(ctx sdk.Context, providerChainID, escrowID string) {
+    ctx.KVStore(k.storeKey).Set(types.InflightKey(providerChainID, escrowID), []byte{1})
+}
+func (k Keeper) clearInflight(ctx sdk.Context, providerChainID, escrowID string) {
+    ctx.KVStore(k.storeKey).Delete(types.InflightKey(providerChainID, escrowID))
+}
+func (k Keeper) isInflight(ctx sdk.Context, providerChainID, escrowID string) bool {
+    return ctx.KVStore(k.storeKey).Has(types.InflightKey(providerChainID, escrowID))
+}
+func (k Keeper) hasAnyInflight(ctx sdk.Context) bool {
+    it := storetypes.KVStorePrefixIterator(ctx.KVStore(k.storeKey), types.InflightPrefix)
+    defer it.Close()
+    return it.Valid()
+}
+
 // ---- ICA submission on BeginBlock ----
 
 const (
@@ -379,9 +395,11 @@ func (k Keeper) BeginBlocker(ctx sdk.Context) {
     // Flush a bounded number of pending claims
     pending := k.listPendingClaims(ctx, k.getMaxClaimsPerBlock(ctx))
     if len(pending) == 0 {
-        // No more claims to flush and ICA is active + address available: mark done to disable future checks.
-        k.setDone(ctx)
-        ctx.Logger().Info("genesismint: no pending claims; marking module done and disabling further BeginBlock work")
+        // Only stop if nothing pending and nothing in-flight.
+        if !k.hasAnyInflight(ctx) {
+            k.setDone(ctx)
+            ctx.Logger().Info("genesismint: no pending or inflight claims; marking module done and disabling further BeginBlock work")
+        }
         return
     }
     ctx.Logger().Info("genesismint: flushing pending claims via ICA",
@@ -389,6 +407,11 @@ func (k Keeper) BeginBlocker(ctx sdk.Context) {
     )
     for _, pair := range pending {
         providerChainID, escrowID := pair[0], pair[1]
+
+        // Skip claims already in-flight awaiting ack
+        if k.isInflight(ctx, providerChainID, escrowID) {
+            continue
+        }
 
         // Build provider message Any without importing provider module
         anyMsg, err := buildProviderMarkClaimAny(icaAddr, escrowID, ctx.ChainID())
@@ -429,6 +452,7 @@ func (k Keeper) BeginBlocker(ctx sdk.Context) {
             seq := resp.Sequence
             ch := channelID
             k.mapPacketToEscrow(ctx, ch, seq, providerChainID, escrowID)
+            k.setInflight(ctx, providerChainID, escrowID)
             ctx.Logger().Info("genesismint: mapped ICA packet to escrow",
                 "channel", ch, "sequence", seq, "escrow_id", escrowID,
             )
@@ -572,18 +596,20 @@ func (k Keeper) HandleICAAckSuccess(ctx sdk.Context, packet channeltypes.Packet)
     }
     // Remove pending claim now that provider acknowledged success
     ctx.Logger().Info("genesismint: provider ack success; removing pending claim", "escrow_id", escrowID, "provider_chain_id", providerChainID, "channel", channelID, "sequence", packet.Sequence)
+    k.clearInflight(ctx, providerChainID, escrowID)
     k.deletePendingClaim(ctx, providerChainID, escrowID)
     // Mark module done if queue empty
-    if !k.hasAnyPendingClaims(ctx) {
+    if !k.hasAnyPendingClaims(ctx) && !k.hasAnyInflight(ctx) {
         k.setDone(ctx)
     }
 }
 
 func (k Keeper) HandleICAAckError(ctx sdk.Context, packet channeltypes.Packet) {
     channelID := packet.SourceChannel
-    _, escrowID, ok := k.consumePacketMapping(ctx, channelID, packet.Sequence)
+    providerChainID, escrowID, ok := k.consumePacketMapping(ctx, channelID, packet.Sequence)
     if ok {
-        ctx.Logger().Error("genesismint: provider ack error; will retry pending claim", "escrow_id", escrowID, "channel", channelID, "sequence", packet.Sequence)
+        ctx.Logger().Error("genesismint: provider ack error; will retry pending claim", "escrow_id", escrowID, "provider_chain_id", providerChainID, "channel", channelID, "sequence", packet.Sequence)
+        k.clearInflight(ctx, providerChainID, escrowID)
     } else {
         ctx.Logger().Error("genesismint: provider ack error for unknown packet", "channel", channelID, "sequence", packet.Sequence)
     }

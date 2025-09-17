@@ -16,6 +16,7 @@ var (
     DonePrefix = []byte{0x14} // module completion flag
     ConfigPrefix = []byte{0x15} // module configuration
     ICAPacketPrefix = []byte{0x16} // mapping from (channel,seq) -> escrow id
+    InflightPrefix = []byte{0x17} // in-flight claims awaiting ack
 )
 
 // key: claimed/<provider_chain_id>/<escrow_id> -> []byte{1}
@@ -62,4 +63,12 @@ func ConfigMaxClaimsPerBlockKey() []byte { return append(ConfigPrefix, []byte("c
 func ICAPacketKey(channelID string, sequence uint64) []byte {
     s := fmt.Sprintf("pkt|%s|%d", channelID, sequence)
     return append(ICAPacketPrefix, []byte(s)...)
+}
+
+// key: inflight|<provider_chain_id>|<escrow_id> -> 1
+func InflightKey(providerChainID, escrowID string) []byte {
+    k := append([]byte("inflight|"), []byte(providerChainID)...)
+    k = append(k, '|')
+    k = append(k, []byte(escrowID)...)
+    return append(InflightPrefix, k...)
 }
