@@ -71,10 +71,10 @@ func contains(list []string, x string) bool {
 }
 
 func (im IBCMiddleware) HandleChannelIdStorage(
-	ctx sdk.Context,
-	portID string,
-	channelID string,
-	isOpening bool,
+    ctx sdk.Context,
+    portID string,
+    channelID string,
+    isOpening bool,
 ) error {
 	if portID != "transfer" {
 		return nil
@@ -99,20 +99,25 @@ func (im IBCMiddleware) HandleChannelIdStorage(
 		return fmt.Errorf("unexpected client state type")
 	}
 
-	params := im.keeper.GetParams(ctx)
+    params := im.keeper.GetParams(ctx)
 
-	// TODO: make this chain-id a Param instead of hardcoding.
-	if contains(params.ProviderChainIDs, tmClientState.ChainId) {
-		store := prefix.NewStore(ctx.KVStore(im.keeper.StoreKey), types.KeyAllowedChan)
-		if isOpening {
-			store.Set([]byte(channelID), []byte{1})
-			ctx.Logger().Info("mintburn: set allowed channel", "channel_id", channelID)
-		} else {
-			store.Delete([]byte(channelID))
-			ctx.Logger().Info("mintburn: removed allowed channel", "channel_id", channelID)
-		}
-	}
-	return nil
+    if contains(params.ProviderChainIDs, tmClientState.ChainId) {
+        store := prefix.NewStore(ctx.KVStore(im.keeper.StoreKey), types.KeyAllowedChan)
+        if isOpening {
+            store.Set([]byte(channelID), []byte{1})
+            ctx.Logger().Info("mintburn: set allowed channel", "channel_id", channelID)
+        } else {
+            store.Delete([]byte(channelID))
+            ctx.Logger().Info("mintburn: removed allowed channel", "channel_id", channelID)
+        }
+    } else {
+        ctx.Logger().Info("mintburn: ignored channel open; provider chain-id not allowed",
+            "channel_id", channelID,
+            "counterparty_chain_id", tmClientState.ChainId,
+            "allowed_provider_chain_ids", fmt.Sprintf("%v", params.ProviderChainIDs),
+        )
+    }
+    return nil
 }
 
 func (im IBCMiddleware) OnChanOpenAck(
@@ -180,9 +185,9 @@ func proofID(pkt channeltypes.Packet) []byte {
 }
 
 func (im IBCMiddleware) OnRecvPacket(
-	ctx sdk.Context,
-	packet channeltypes.Packet,
-	relayer sdk.AccAddress,
+    ctx sdk.Context,
+    packet channeltypes.Packet,
+    relayer sdk.AccAddress,
 ) exported.Acknowledgement {
 	okAck := channeltypes.NewResultAcknowledgement([]byte{byte(1)})
 
@@ -193,17 +198,29 @@ func (im IBCMiddleware) OnRecvPacket(
 		return channeltypes.NewErrorAcknowledgement(fmt.Errorf("invalid packet data"))
 	}
 
-	// Fast-path filter: only handle transfer packets on allowed channel
-	if packet.SourcePort != "transfer" || !im.keeper.IsAllowedChannel(ctx, packet.SourceChannel) {
-		ctx.Logger().Info("mintburn: non-mint path, forwarding to transfer app",
-			"src_port", packet.SourcePort, "src_channel", packet.SourceChannel)
-		return im.app.OnRecvPacket(ctx, packet, relayer)
-	}
+    // Fast-path filter: only handle transfer packets on an allowed LOCAL channel.
+    // On the receiver chain, DestinationChannel is the local channel-id.
+    localAllowed := im.keeper.IsAllowedChannel(ctx, packet.DestinationChannel)
+    if packet.DestinationPort != "transfer" {
+        ctx.Logger().Info("mintburn: non-transfer destination port; forwarding",
+            "dst_port", packet.DestinationPort, "dst_channel", packet.DestinationChannel,
+            "src_port", packet.SourcePort, "src_channel", packet.SourceChannel,
+        )
+        return im.app.OnRecvPacket(ctx, packet, relayer)
+    }
+    if !localAllowed {
+        ctx.Logger().Info("mintburn: channel not allowlisted; forwarding",
+            "dst_channel", packet.DestinationChannel,
+            "src_channel", packet.SourceChannel,
+        )
+        return im.app.OnRecvPacket(ctx, packet, relayer)
+    }
 
-	params := im.keeper.GetParams(ctx)
-	if params.Pause {
-		return channeltypes.NewErrorAcknowledgement(fmt.Errorf("mintburn paused"))
-	}
+    params := im.keeper.GetParams(ctx)
+    if params.Pause {
+        ctx.Logger().Info("mintburn: paused; rejecting packet")
+        return channeltypes.NewErrorAcknowledgement(fmt.Errorf("mintburn paused"))
+    }
 
 
 	// Resolve base denom (trace-aware)
@@ -212,27 +229,32 @@ func (im IBCMiddleware) OnRecvPacket(
 		trace := ibctransfertypes.ParseDenomTrace(data.Denom)
 		baseDenom = trace.BaseDenom
 	}
-	if !contains(params.AllowedBaseDenoms, baseDenom) {
-		// Not our special path -> pass to ICS-20 app (will mint voucher)
-		return im.app.OnRecvPacket(ctx, packet, relayer)
-	}
+    if !contains(params.AllowedBaseDenoms, baseDenom) {
+        // Not our special path -> pass to ICS-20 app (will mint voucher)
+        ctx.Logger().Info("mintburn: base denom not allowed; forwarding",
+            "base_denom", baseDenom, "allowed", fmt.Sprintf("%v", params.AllowedBaseDenoms),
+        )
+        return im.app.OnRecvPacket(ctx, packet, relayer)
+    }
 
 	// Replay guard
 	pid := proofID(packet)
-	if im.keeper.HasProof(ctx, pid) {
-		ctx.Logger().Error("mintburn: duplicate proof", "proof", string(pid))
-		return channeltypes.NewErrorAcknowledgement(fmt.Errorf("duplicate proof"))
-	}
+    if im.keeper.HasProof(ctx, pid) {
+        ctx.Logger().Error("mintburn: duplicate proof", "proof", string(pid))
+        return channeltypes.NewErrorAcknowledgement(fmt.Errorf("duplicate proof"))
+    }
 
 	// Validate receiver and amount
-	rcpt, err := sdk.AccAddressFromBech32(data.Receiver)
-	if err != nil {
-		return channeltypes.NewErrorAcknowledgement(fmt.Errorf("invalid receiver address"))
-	}
-	amt, ok := sdkmath.NewIntFromString(data.Amount)
-	if !ok || !amt.IsPositive() {
-		return channeltypes.NewErrorAcknowledgement(fmt.Errorf("invalid token amount"))
-	}
+    rcpt, err := sdk.AccAddressFromBech32(data.Receiver)
+    if err != nil {
+        ctx.Logger().Info("mintburn: invalid receiver address", "receiver", data.Receiver)
+        return channeltypes.NewErrorAcknowledgement(fmt.Errorf("invalid receiver address"))
+    }
+    amt, ok := sdkmath.NewIntFromString(data.Amount)
+    if !ok || !amt.IsPositive() {
+        ctx.Logger().Info("mintburn: invalid amount", "amount", data.Amount)
+        return channeltypes.NewErrorAcknowledgement(fmt.Errorf("invalid token amount"))
+    }
 
 	// Mint mirrored native on DEX (use your DEX minimal denom here)
 	mintCoin := sdk.NewCoin(params.DexNativeDenom, amt) // or "umaany" if that's your DEX denom

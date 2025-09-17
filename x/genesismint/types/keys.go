@@ -1,5 +1,7 @@
 package types
 
+import "fmt"
+
 const (
 	ModuleName   = "genesismint"
 	StoreKey     = "x-genesismint"
@@ -13,6 +15,7 @@ var (
     ICAPendingPrefix = []byte{0x13} // ICA registration pending flags
     DonePrefix = []byte{0x14} // module completion flag
     ConfigPrefix = []byte{0x15} // module configuration
+    ICAPacketPrefix = []byte{0x16} // mapping from (channel,seq) -> escrow id
 )
 
 // key: claimed/<provider_chain_id>/<escrow_id> -> []byte{1}
@@ -54,3 +57,9 @@ func ConfigICAOwnerKey() []byte { return append(ConfigPrefix, []byte("cfg|ica_ow
 func ConfigICATimeoutSecondsKey() []byte { return append(ConfigPrefix, []byte("cfg|ica_timeout_seconds")...) }
 // key: cfg|max_claims_per_block -> uint64 (ASCII)
 func ConfigMaxClaimsPerBlockKey() []byte { return append(ConfigPrefix, []byte("cfg|max_claims_per_block")...) }
+
+// key: pkt|<channel_id>|<sequence> -> escrow_id
+func ICAPacketKey(channelID string, sequence uint64) []byte {
+    s := fmt.Sprintf("pkt|%s|%d", channelID, sequence)
+    return append(ICAPacketPrefix, []byte(s)...)
+}

@@ -16,6 +16,7 @@ import (
     icacontrollertypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/controller/types"
     icatypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/types"
     clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
+    channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
     commitmenttypes "github.com/cosmos/ibc-go/v8/modules/core/23-commitment/types"
 
     "github.com/maany-xyz/maany-dex/v5/x/genesismint/types"
@@ -234,6 +235,28 @@ func (k Keeper) deletePendingClaim(ctx sdk.Context, providerChainID, escrowID st
     store.Delete(types.PendingClaimKey(providerChainID, escrowID))
 }
 
+func (k Keeper) mapPacketToEscrow(ctx sdk.Context, channelID string, sequence uint64, providerChainID, escrowID string) {
+    store := ctx.KVStore(k.storeKey)
+    val := providerChainID + "|" + escrowID
+    store.Set(types.ICAPacketKey(channelID, sequence), []byte(val))
+}
+
+func (k Keeper) consumePacketMapping(ctx sdk.Context, channelID string, sequence uint64) (string, string, bool) {
+    store := ctx.KVStore(k.storeKey)
+    key := types.ICAPacketKey(channelID, sequence)
+    if !store.Has(key) { return "", "", false }
+    bz := store.Get(key)
+    store.Delete(key)
+    // value format: provider|escrow
+    s := string(bz)
+    for i := 0; i < len(s); i++ {
+        if s[i] == '|' {
+            return s[:i], s[i+1:], true
+        }
+    }
+    return "", s, true
+}
+
 // Iterate a limited number of pending claims, returning pairs (providerChainID, escrowID).
 func (k Keeper) listPendingClaims(ctx sdk.Context, limit int) [][2]string {
     store := ctx.KVStore(k.storeKey)
@@ -335,7 +358,8 @@ func (k Keeper) BeginBlocker(ctx sdk.Context) {
         ctx.Logger().Error("genesismint: bad ICA owner for portID", "owner", owner, "err", err)
         return
     }
-    if _, found := k.icaCtrlKeeper.GetActiveChannelID(ctx, conn, portID); !found {
+    channelID, found := k.icaCtrlKeeper.GetActiveChannelID(ctx, conn, portID)
+    if !found {
         ctx.Logger().Info("genesismint: ICA channel not active yet; skipping claim flush",
             "connection", conn, "owner", owner, "port_id", portID,
         )
@@ -388,7 +412,7 @@ func (k Keeper) BeginBlocker(ctx sdk.Context) {
         }
 
         // SendTx via ICA controller
-        _, err = k.icaMsgServer.SendTx(ctx, &icacontrollertypes.MsgSendTx{
+        resp, err := k.icaMsgServer.SendTx(ctx, &icacontrollertypes.MsgSendTx{
             Owner:           owner,
             ConnectionId:    conn,
             PacketData:      packet,
@@ -400,10 +424,17 @@ func (k Keeper) BeginBlocker(ctx sdk.Context) {
             continue
         }
 
-        // For simplicity, remove immediately; provider is idempotent. A more robust
-        // design would remove on ack success.
-        k.deletePendingClaim(ctx, providerChainID, escrowID)
-        ctx.Logger().Info("genesismint: sent provider claim via ICA",
+        // Map packet (channel, sequence) back to the escrowID for ack handling
+        if resp != nil {
+            seq := resp.Sequence
+            ch := channelID
+            k.mapPacketToEscrow(ctx, ch, seq, providerChainID, escrowID)
+            ctx.Logger().Info("genesismint: mapped ICA packet to escrow",
+                "channel", ch, "sequence", seq, "escrow_id", escrowID,
+            )
+        }
+
+        ctx.Logger().Info("genesismint: sent provider claim via ICA (awaiting ack)",
             "escrow_id", escrowID,
             "provider_chain_id", providerChainID,
             "sender_ica", icaAddr,
@@ -527,6 +558,34 @@ func (k Keeper) ensureICARegistered(ctx sdk.Context, connectionID, owner string)
     } else {
         k.setICAPending(ctx, connectionID, owner)
         ctx.Logger().Info("genesismint: initiated ICA registration", "connection", connectionID, "owner", owner, "port_id", portID)
+    }
+}
+
+// ---- ICA ack handling (called from IBC middleware) ----
+func (k Keeper) HandleICAAckSuccess(ctx sdk.Context, packet channeltypes.Packet) {
+    // source on controller side is our icacontroller-<owner> port
+    channelID := packet.SourceChannel
+    providerChainID, escrowID, ok := k.consumePacketMapping(ctx, channelID, packet.Sequence)
+    if !ok {
+        ctx.Logger().Info("genesismint: ICA ack success for unknown packet; ignoring", "channel", channelID, "sequence", packet.Sequence)
+        return
+    }
+    // Remove pending claim now that provider acknowledged success
+    ctx.Logger().Info("genesismint: provider ack success; removing pending claim", "escrow_id", escrowID, "provider_chain_id", providerChainID, "channel", channelID, "sequence", packet.Sequence)
+    k.deletePendingClaim(ctx, providerChainID, escrowID)
+    // Mark module done if queue empty
+    if !k.hasAnyPendingClaims(ctx) {
+        k.setDone(ctx)
+    }
+}
+
+func (k Keeper) HandleICAAckError(ctx sdk.Context, packet channeltypes.Packet) {
+    channelID := packet.SourceChannel
+    _, escrowID, ok := k.consumePacketMapping(ctx, channelID, packet.Sequence)
+    if ok {
+        ctx.Logger().Error("genesismint: provider ack error; will retry pending claim", "escrow_id", escrowID, "channel", channelID, "sequence", packet.Sequence)
+    } else {
+        ctx.Logger().Error("genesismint: provider ack error for unknown packet", "channel", channelID, "sequence", packet.Sequence)
     }
 }
 

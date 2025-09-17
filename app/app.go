@@ -952,8 +952,10 @@ func New(
 
 	var icaControllerStack ibcporttypes.IBCModule
 
-	icaControllerStack = interchaintxs.NewIBCModule(app.InterchainTxsKeeper)
-	icaControllerStack = icacontroller.NewIBCMiddleware(icaControllerStack, app.ICAControllerKeeper)
+    icaControllerStack = interchaintxs.NewIBCModule(app.InterchainTxsKeeper)
+    icaControllerStack = icacontroller.NewIBCMiddleware(icaControllerStack, app.ICAControllerKeeper)
+    // Wrap with genesismint ICA middleware to track acks
+    icaControllerStack = genesismint.NewICAMiddleware(icaControllerStack, app.GenesisMintKeeper)
 
 	icaHostIBCModule := icahost.NewIBCModule(app.ICAHostKeeper)
 
