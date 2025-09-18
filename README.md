@@ -24,6 +24,11 @@ You can check out the example contracts here: https://github.com/neutron-org/neu
 
 Integration tests are implemented here: https://github.com/neutron-org/neutron-integration-tests
 
+## Modules Docs
+
+- MintBurn (consumer-side privileged ICS-20 mint path bound to CCV): `x/mintburn/README.md`
+- GenesisMint (genesis proof-mint + ICA claim confirmation): `x/genesismint/README.md`
+
 # Swap Routing Logic
 
 [swap-exact-amount-in]:
