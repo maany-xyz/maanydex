@@ -673,6 +673,7 @@ func New(
 		app.IBCKeeper.ChannelKeeper,
 		app.IBCKeeper.ConnectionKeeper, 
 		app.IBCKeeper.ClientKeeper,
+		&app.ConsumerKeeper,
 	)
 
 	// Feekeeper needs to be initialized before middlewares injection

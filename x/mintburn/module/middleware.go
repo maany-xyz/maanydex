@@ -1,22 +1,21 @@
 package mintburn
 
 import (
-	"encoding/json"
-	"fmt"
+    "encoding/json"
+    "fmt"
 
-	sdkmath "cosmossdk.io/math"
-	"cosmossdk.io/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
+    sdkmath "cosmossdk.io/math"
+    "cosmossdk.io/store/prefix"
+    sdk "github.com/cosmos/cosmos-sdk/types"
 
-	capabilitytypes "github.com/cosmos/ibc-go/modules/capability/types"
-	ibctransfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
-	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	porttypes "github.com/cosmos/ibc-go/v8/modules/core/05-port/types"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
-	ibctmtypes "github.com/cosmos/ibc-go/v8/modules/light-clients/07-tendermint"
+    capabilitytypes "github.com/cosmos/ibc-go/modules/capability/types"
+    ibctransfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
+    channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
+    porttypes "github.com/cosmos/ibc-go/v8/modules/core/05-port/types"
+    "github.com/cosmos/ibc-go/v8/modules/core/exported"
 
-	mintburn "github.com/maany-xyz/maany-dex/v5/x/mintburn/keeper"
-	"github.com/maany-xyz/maany-dex/v5/x/mintburn/types"
+    mintburn "github.com/maany-xyz/maany-dex/v5/x/mintburn/keeper"
+    "github.com/maany-xyz/maany-dex/v5/x/mintburn/types"
 )
 
 type IBCMiddleware struct {
@@ -76,46 +75,46 @@ func (im IBCMiddleware) HandleChannelIdStorage(
     channelID string,
     isOpening bool,
 ) error {
-	if portID != "transfer" {
-		return nil
-	}
+    if portID != "transfer" {
+        return nil
+    }
 
-	channel, found := im.keeper.ChannelKeeper.GetChannel(ctx, portID, channelID)
-	if !found {
-		return fmt.Errorf("channel not found")
-	}
-	connectionID := channel.ConnectionHops[0]
-	connection, found := im.keeper.ConnectionKeeper.GetConnection(ctx, connectionID)
-	if !found {
-		return fmt.Errorf("connection %s not found", connectionID)
-	}
-	clientID := connection.Counterparty.ClientId
-	clientState, found := im.keeper.ClientKeeper.GetClientState(ctx, clientID)
-	if !found {
-		return fmt.Errorf("client state for %s not found", clientID)
-	}
-	tmClientState, ok := clientState.(*ibctmtypes.ClientState)
-	if !ok {
-		return fmt.Errorf("unexpected client state type")
-	}
-
-    params := im.keeper.GetParams(ctx)
-
-    if contains(params.ProviderChainIDs, tmClientState.ChainId) {
-        store := prefix.NewStore(ctx.KVStore(im.keeper.StoreKey), types.KeyAllowedChan)
-        if isOpening {
-            store.Set([]byte(channelID), []byte{1})
-            ctx.Logger().Info("mintburn: set allowed channel", "channel_id", channelID)
-        } else {
-            store.Delete([]byte(channelID))
-            ctx.Logger().Info("mintburn: removed allowed channel", "channel_id", channelID)
-        }
-    } else {
-        ctx.Logger().Info("mintburn: ignored channel open; provider chain-id not allowed",
+    channel, found := im.keeper.ChannelKeeper.GetChannel(ctx, portID, channelID)
+    if !found {
+        return fmt.Errorf("channel not found")
+    }
+    connectionID := channel.ConnectionHops[0]
+    connection, found := im.keeper.ConnectionKeeper.GetConnection(ctx, connectionID)
+    if !found {
+        return fmt.Errorf("connection %s not found", connectionID)
+    }
+    // Security binding: local connection's local client ID must equal the CCV provider client ID
+    localClientID := connection.ClientId
+    providerClientID, ok := im.keeper.ConsumerKeeper.GetProviderClientID(ctx)
+    if !ok || providerClientID == "" {
+        ctx.Logger().Info("mintburn: cannot fetch CCV provider client id; not allowlisting channel",
             "channel_id", channelID,
-            "counterparty_chain_id", tmClientState.ChainId,
-            "allowed_provider_chain_ids", fmt.Sprintf("%v", params.ProviderChainIDs),
         )
+        return nil
+    }
+    if localClientID != providerClientID {
+        ctx.Logger().Info("mintburn: channel client mismatch; not allowlisting",
+            "channel_id", channelID,
+            "connection_id", connectionID,
+            "local_client_id", localClientID,
+            "provider_client_id", providerClientID,
+        )
+        return nil
+    }
+
+    // Passed security checks: allowlist the local transfer channel for mintburn path
+    store := prefix.NewStore(ctx.KVStore(im.keeper.StoreKey), types.KeyAllowedChan)
+    if isOpening {
+        store.Set([]byte(channelID), []byte{1})
+        ctx.Logger().Info("mintburn: set allowed channel (via CCV client bind)", "channel_id", channelID)
+    } else {
+        store.Delete([]byte(channelID))
+        ctx.Logger().Info("mintburn: removed allowed channel", "channel_id", channelID)
     }
     return nil
 }
@@ -198,8 +197,8 @@ func (im IBCMiddleware) OnRecvPacket(
 		return channeltypes.NewErrorAcknowledgement(fmt.Errorf("invalid packet data"))
 	}
 
-    // Fast-path filter: only handle transfer packets on an allowed LOCAL channel.
-    // On the receiver chain, DestinationChannel is the local channel-id.
+    // Security: verify that the transfer channel is bound to the CCV provider client
+    // 1) Verify port/channels
     localAllowed := im.keeper.IsAllowedChannel(ctx, packet.DestinationChannel)
     if packet.DestinationPort != "transfer" {
         ctx.Logger().Info("mintburn: non-transfer destination port; forwarding",
@@ -214,6 +213,27 @@ func (im IBCMiddleware) OnRecvPacket(
             "src_channel", packet.SourceChannel,
         )
         return im.app.OnRecvPacket(ctx, packet, relayer)
+    }
+
+    // 2) Resolve and verify the local connection's client against CCV provider client
+    ch, found := im.keeper.ChannelKeeper.GetChannel(ctx, packet.DestinationPort, packet.DestinationChannel)
+    if !found {
+        return channeltypes.NewErrorAcknowledgement(fmt.Errorf("mintburn: channel not found"))
+    }
+    connID := ch.ConnectionHops[0]
+    conn, found := im.keeper.ConnectionKeeper.GetConnection(ctx, connID)
+    if !found {
+        return channeltypes.NewErrorAcknowledgement(fmt.Errorf("mintburn: connection not found"))
+    }
+    localClientID := conn.ClientId
+    providerClientID, ok := im.keeper.ConsumerKeeper.GetProviderClientID(ctx)
+    if !ok || providerClientID == "" || localClientID != providerClientID {
+        ctx.Logger().Info("mintburn: unauthorized transfer path; rejecting",
+            "dst_channel", packet.DestinationChannel,
+            "local_client_id", localClientID,
+            "provider_client_id", providerClientID,
+        )
+        return channeltypes.NewErrorAcknowledgement(fmt.Errorf("unauthorized transfer path"))
     }
 
     params := im.keeper.GetParams(ctx)

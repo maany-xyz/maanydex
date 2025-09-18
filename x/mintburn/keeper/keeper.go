@@ -29,40 +29,49 @@ type ConnectionKeeper interface {
 }
 
 type ClientKeeper interface {
-	GetClientState(ctx sdk.Context, clientID string) (ibcexported.ClientState, bool)
+    GetClientState(ctx sdk.Context, clientID string) (ibcexported.ClientState, bool)
+}
+
+// CCV consumer keeper (source of truth for provider client on the consumer)
+type CCVConsumerKeeper interface {
+    // Returns (providerClientID, found)
+    GetProviderClientID(ctx sdk.Context) (string, bool)
 }
 
 // ---- Keeper ----
 
 type Keeper struct {
-	ModuleName     string
-	StoreKey       storetypes.StoreKey
-	Cdc              codec.BinaryCodec
-	BankKeeper     bankKeeper.Keeper
-	ChannelKeeper  ChannelKeeper
-	ConnectionKeeper ConnectionKeeper
-	ClientKeeper     ClientKeeper
+    ModuleName     string
+    StoreKey       storetypes.StoreKey
+    Cdc              codec.BinaryCodec
+    BankKeeper     bankKeeper.Keeper
+    ChannelKeeper  ChannelKeeper
+    ConnectionKeeper ConnectionKeeper
+    ClientKeeper     ClientKeeper
+    ConsumerKeeper   CCVConsumerKeeper
 }
 
 // Constructor
 func NewKeeper(
-	moduleName string,
-	storeKey storetypes.StoreKey,
-	cdc codec.BinaryCodec,
-	bankKeeper bankKeeper.Keeper,
-	channelKeeper ChannelKeeper,
-	connectionKeeper ConnectionKeeper,
-	clientKeeper ClientKeeper,
+    moduleName string,
+    storeKey storetypes.StoreKey,
+    cdc codec.BinaryCodec,
+    bankKeeper bankKeeper.Keeper,
+    channelKeeper ChannelKeeper,
+    connectionKeeper ConnectionKeeper,
+    clientKeeper ClientKeeper,
+    consumerKeeper CCVConsumerKeeper,
 ) Keeper {
-	return Keeper{
-		ModuleName:       moduleName,
-		StoreKey:         storeKey,
-		Cdc:              cdc,
-		BankKeeper:       bankKeeper,
-		ChannelKeeper:    channelKeeper,
-		ConnectionKeeper: connectionKeeper,
-		ClientKeeper:     clientKeeper,
-	}
+    return Keeper{
+        ModuleName:       moduleName,
+        StoreKey:         storeKey,
+        Cdc:              cdc,
+        BankKeeper:       bankKeeper,
+        ChannelKeeper:    channelKeeper,
+        ConnectionKeeper: connectionKeeper,
+        ClientKeeper:     clientKeeper,
+        ConsumerKeeper:   consumerKeeper,
+    }
 }
 
 
