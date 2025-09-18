@@ -299,13 +299,29 @@ func (k Keeper) hasAnyPendingClaims(ctx sdk.Context) bool {
 
 // ---- In-flight claim helpers ----
 func (k Keeper) setInflight(ctx sdk.Context, providerChainID, escrowID string) {
-    ctx.KVStore(k.storeKey).Set(types.InflightKey(providerChainID, escrowID), []byte{1})
+    store := ctx.KVStore(k.storeKey)
+    store.Set(types.InflightKey(providerChainID, escrowID), []byte{1})
+    // record when it was enqueued (unix seconds)
+    ts := strconv.FormatInt(ctx.BlockTime().Unix(), 10)
+    store.Set(types.InflightAtKey(providerChainID, escrowID), []byte(ts))
 }
 func (k Keeper) clearInflight(ctx sdk.Context, providerChainID, escrowID string) {
-    ctx.KVStore(k.storeKey).Delete(types.InflightKey(providerChainID, escrowID))
+    store := ctx.KVStore(k.storeKey)
+    store.Delete(types.InflightKey(providerChainID, escrowID))
+    store.Delete(types.InflightAtKey(providerChainID, escrowID))
 }
 func (k Keeper) isInflight(ctx sdk.Context, providerChainID, escrowID string) bool {
     return ctx.KVStore(k.storeKey).Has(types.InflightKey(providerChainID, escrowID))
+}
+// inflightExpired returns true if inflight started more than limit seconds ago.
+func (k Keeper) inflightExpired(ctx sdk.Context, providerChainID, escrowID string, limitSeconds uint64) bool {
+    store := ctx.KVStore(k.storeKey)
+    bz := store.Get(types.InflightAtKey(providerChainID, escrowID))
+    if len(bz) == 0 { return false }
+    started, err := strconv.ParseInt(string(bz), 10, 64)
+    if err != nil { return false }
+    elapsed := ctx.BlockTime().Unix() - started
+    return elapsed >= int64(limitSeconds)
 }
 func (k Keeper) hasAnyInflight(ctx sdk.Context) bool {
     it := storetypes.KVStorePrefixIterator(ctx.KVStore(k.storeKey), types.InflightPrefix)
@@ -408,9 +424,14 @@ func (k Keeper) BeginBlocker(ctx sdk.Context) {
     for _, pair := range pending {
         providerChainID, escrowID := pair[0], pair[1]
 
-        // Skip claims already in-flight awaiting ack
+        // Skip claims already in-flight awaiting ack, unless inflight has expired (no ack/timeout observed).
         if k.isInflight(ctx, providerChainID, escrowID) {
-            continue
+            if k.inflightExpired(ctx, providerChainID, escrowID, k.getICATimeoutSeconds(ctx)) {
+                ctx.Logger().Info("genesismint: inflight expired; retrying claim", "escrow_id", escrowID, "provider_chain_id", providerChainID)
+                k.clearInflight(ctx, providerChainID, escrowID)
+            } else {
+                continue
+            }
         }
 
         // Build provider message Any without importing provider module
@@ -612,6 +633,17 @@ func (k Keeper) HandleICAAckError(ctx sdk.Context, packet channeltypes.Packet) {
         k.clearInflight(ctx, providerChainID, escrowID)
     } else {
         ctx.Logger().Error("genesismint: provider ack error for unknown packet", "channel", channelID, "sequence", packet.Sequence)
+    }
+}
+
+func (k Keeper) HandleICATimeout(ctx sdk.Context, packet channeltypes.Packet) {
+    channelID := packet.SourceChannel
+    providerChainID, escrowID, ok := k.consumePacketMapping(ctx, channelID, packet.Sequence)
+    if ok {
+        ctx.Logger().Error("genesismint: ICA timeout; will retry pending claim", "escrow_id", escrowID, "provider_chain_id", providerChainID, "channel", channelID, "sequence", packet.Sequence)
+        k.clearInflight(ctx, providerChainID, escrowID)
+    } else {
+        ctx.Logger().Error("genesismint: ICA timeout for unknown packet", "channel", channelID, "sequence", packet.Sequence)
     }
 }
 

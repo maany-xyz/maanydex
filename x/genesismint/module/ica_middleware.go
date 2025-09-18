@@ -45,8 +45,9 @@ func (m ICAMiddleware) OnRecvPacket(ctx sdk.Context, packet channeltypes.Packet,
     return m.app.OnRecvPacket(ctx, packet, relayer)
 }
 func (m ICAMiddleware) OnTimeoutPacket(ctx sdk.Context, packet channeltypes.Packet, relayer sdk.AccAddress) error {
-    // Treat timeout as failure: let app handle, then optionally re-enqueue
-    // We do not re-enqueue here to avoid duplicates; BeginBlocker will retry pending ones.
+    // Clear inflight so the claim can be retried on next BeginBlock
+    ctx.Logger().Error("genesismint: ICA packet timeout", "channel", packet.SourceChannel, "sequence", packet.Sequence)
+    m.keeper.HandleICATimeout(ctx, packet)
     return m.app.OnTimeoutPacket(ctx, packet, relayer)
 }
 func (m ICAMiddleware) OnAcknowledgementPacket(ctx sdk.Context, packet channeltypes.Packet, acknowledgement []byte, relayer sdk.AccAddress) error {

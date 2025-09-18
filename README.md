@@ -43,4 +43,4 @@ gamm's msg_server.go -> `SwapExactAmountIn` -> poolmanager's router.go `RouteExa
 
 # Commands
 
-`neutrond tx ibc-transfer transfer transfer channel-7 maany1evvmj6yr7nv29tk7yp5z3qaru308rt5acw4mqp 533333333umaany --from cons-key --gas auto --gas-adjustment 1.5 --fees 200000umaany --keyring-backend test --chain-id maanydex -y`
+`neutrond tx ibc-transfer transfer transfer channel-6 maany1evvmj6yr7nv29tk7yp5z3qaru308rt5acw4mqp 533333333umaany --from cons-key --gas auto --gas-adjustment 1.5 --fees 200000umaany --keyring-backend test --chain-id maanydex -y`

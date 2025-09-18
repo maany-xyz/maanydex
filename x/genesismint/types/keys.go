@@ -72,3 +72,11 @@ func InflightKey(providerChainID, escrowID string) []byte {
     k = append(k, []byte(escrowID)...)
     return append(InflightPrefix, k...)
 }
+
+// key: inflight_at|<provider>|<escrow> -> unix seconds as ASCII
+func InflightAtKey(providerChainID, escrowID string) []byte {
+    k := append([]byte("inflight_at|"), []byte(providerChainID)...)
+    k = append(k, '|')
+    k = append(k, []byte(escrowID)...)
+    return append(InflightPrefix, k...)
+}
