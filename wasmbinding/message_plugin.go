@@ -37,18 +37,16 @@ import (
 	ictxkeeper "github.com/maany-xyz/maany-dex/v5/x/interchaintxs/keeper"
 	ictxtypes "github.com/maany-xyz/maany-dex/v5/x/interchaintxs/types"
 
-	tokenfactorykeeper "github.com/maany-xyz/maany-dex/v5/x/tokenfactory/keeper"
-	tokenfactorytypes "github.com/maany-xyz/maany-dex/v5/x/tokenfactory/types"
+    
 )
 
 func CustomMessageDecorator(
-	ictx *ictxkeeper.Keeper,
-	icq *icqkeeper.Keeper,
-	adminKeeper *adminmodulekeeper.Keeper,
-	bankKeeper *bankkeeper.BaseKeeper,
-	tokenFactoryKeeper *tokenfactorykeeper.Keeper,
-	cronKeeper *cronkeeper.Keeper,
-	contractmanagerKeeper *contractmanagerkeeper.Keeper,
+    ictx *ictxkeeper.Keeper,
+    icq *icqkeeper.Keeper,
+    adminKeeper *adminmodulekeeper.Keeper,
+    bankKeeper *bankkeeper.BaseKeeper,
+    cronKeeper *cronkeeper.Keeper,
+    contractmanagerKeeper *contractmanagerkeeper.Keeper,
 ) func(messenger wasmkeeper.Messenger) wasmkeeper.Messenger {
 	return func(old wasmkeeper.Messenger) wasmkeeper.Messenger {
 		return &CustomMessenger{
@@ -56,16 +54,15 @@ func CustomMessageDecorator(
 			Wrapped:                    old,
 			Ictxmsgserver:              ictxkeeper.NewMsgServerImpl(*ictx),
 			Icqmsgserver:               icqkeeper.NewMsgServerImpl(*icq),
-			Adminserver:                adminmodulekeeper.NewMsgServerImpl(*adminKeeper),
-			Bank:                       bankKeeper,
-			TokenFactory:               tokenFactoryKeeper,
-			CronMsgServer:              cronkeeper.NewMsgServerImpl(*cronKeeper),
-			CronQueryServer:            cronKeeper,
-			AdminKeeper:                adminKeeper,
-			ContractmanagerMsgServer:   contractmanagerkeeper.NewMsgServerImpl(*contractmanagerKeeper),
-			ContractmanagerQueryServer: contractmanagerkeeper.NewQueryServerImpl(*contractmanagerKeeper),
-		}
-	}
+            Adminserver:                adminmodulekeeper.NewMsgServerImpl(*adminKeeper),
+            Bank:                       bankKeeper,
+            CronMsgServer:              cronkeeper.NewMsgServerImpl(*cronKeeper),
+            CronQueryServer:            cronKeeper,
+            AdminKeeper:                adminKeeper,
+            ContractmanagerMsgServer:   contractmanagerkeeper.NewMsgServerImpl(*contractmanagerKeeper),
+            ContractmanagerQueryServer: contractmanagerkeeper.NewQueryServerImpl(*contractmanagerKeeper),
+        }
+    }
 }
 
 type CustomMessenger struct {
@@ -75,9 +72,8 @@ type CustomMessenger struct {
 	Icqmsgserver               icqtypes.MsgServer
 	Adminserver                admintypes.MsgServer
 	Bank                       *bankkeeper.BaseKeeper
-	TokenFactory               *tokenfactorykeeper.Keeper
-	CronMsgServer              crontypes.MsgServer
-	CronQueryServer            crontypes.QueryServer
+    CronMsgServer              crontypes.MsgServer
+    CronQueryServer            crontypes.QueryServer
 	AdminKeeper                *adminmodulekeeper.Keeper
 	ContractmanagerMsgServer   contractmanagertypes.MsgServer
 	ContractmanagerQueryServer contractmanagertypes.QueryServer
@@ -124,27 +120,7 @@ func (m *CustomMessenger) DispatchMsg(ctx sdk.Context, contractAddr sdk.AccAddre
 		return m.submitAdminProposal(ctx, contractAddr, &contractMsg.SubmitAdminProposal.AdminProposal)
 	}
 
-	if contractMsg.CreateDenom != nil {
-		return m.createDenom(ctx, contractAddr, contractMsg.CreateDenom)
-	}
-	if contractMsg.MintTokens != nil {
-		return m.mintTokens(ctx, contractAddr, contractMsg.MintTokens)
-	}
-	if contractMsg.SetBeforeSendHook != nil {
-		return m.setBeforeSendHook(ctx, contractAddr, contractMsg.SetBeforeSendHook)
-	}
-	if contractMsg.ChangeAdmin != nil {
-		return m.changeAdmin(ctx, contractAddr, contractMsg.ChangeAdmin)
-	}
-	if contractMsg.BurnTokens != nil {
-		return m.burnTokens(ctx, contractAddr, contractMsg.BurnTokens)
-	}
-	if contractMsg.ForceTransfer != nil {
-		return m.forceTransfer(ctx, contractAddr, contractMsg.ForceTransfer)
-	}
-	if contractMsg.SetDenomMetadata != nil {
-		return m.setDenomMetadata(ctx, contractAddr, contractMsg.SetDenomMetadata)
-	}
+    // message handlers for removed modules omitted
 
 	if contractMsg.AddSchedule != nil {
 		return m.addSchedule(ctx, contractAddr, contractMsg.AddSchedule)
@@ -573,201 +549,45 @@ func (m *CustomMessenger) performSubmitAdminProposal(ctx sdk.Context, contractAd
 	return response, nil
 }
 
-// createDenom creates a new token denom
-func (m *CustomMessenger) createDenom(ctx sdk.Context, contractAddr sdk.AccAddress, createDenom *bindings.CreateDenom) ([]sdk.Event, [][]byte, [][]*types.Any, error) {
-	err := PerformCreateDenom(m.TokenFactory, ctx, contractAddr, createDenom)
-	if err != nil {
-		return nil, nil, nil, errors.Wrap(err, "perform create denom")
-	}
-	return nil, nil, nil, nil
-}
+// removed: createDenom helper
 
 // PerformCreateDenom is used with createDenom to create a token denom; validates the msgCreateDenom.
-func PerformCreateDenom(f *tokenfactorykeeper.Keeper, ctx sdk.Context, contractAddr sdk.AccAddress, createDenom *bindings.CreateDenom) error {
-	msgServer := tokenfactorykeeper.NewMsgServerImpl(*f)
-
-	msgCreateDenom := tokenfactorytypes.NewMsgCreateDenom(contractAddr.String(), createDenom.Subdenom)
-
-	// Create denom
-	_, err := msgServer.CreateDenom(
-		ctx,
-		msgCreateDenom,
-	)
-	if err != nil {
-		return errors.Wrap(err, "creating denom")
-	}
-	return nil
-}
+// removed: PerformCreateDenom
 
 // createDenom forces a transfer of a tokenFactory token
-func (m *CustomMessenger) forceTransfer(ctx sdk.Context, contractAddr sdk.AccAddress, forceTransfer *bindings.ForceTransfer) ([]sdk.Event, [][]byte, [][]*types.Any, error) {
-	err := PerformForceTransfer(m.TokenFactory, ctx, contractAddr, forceTransfer)
-	if err != nil {
-		return nil, nil, nil, errors.Wrap(err, "perform force transfer")
-	}
-	return nil, nil, nil, nil
-}
+// removed: forceTransfer helper
 
-// PerformForceTransfer is used with forceTransfer to force a tokenfactory token transfer; validates the msgForceTransfer.
-func PerformForceTransfer(f *tokenfactorykeeper.Keeper, ctx sdk.Context, contractAddr sdk.AccAddress, forceTransfer *bindings.ForceTransfer) error {
-	msgServer := tokenfactorykeeper.NewMsgServerImpl(*f)
+// removed: PerformForceTransfer
 
-	msgForceTransfer := tokenfactorytypes.NewMsgForceTransfer(contractAddr.String(), sdk.NewInt64Coin(forceTransfer.Denom, forceTransfer.Amount.Int64()), forceTransfer.TransferFromAddress, forceTransfer.TransferToAddress)
+// removed: setDenomMetadata helper
 
-	// Force Transfer
-	_, err := msgServer.ForceTransfer(
-		ctx,
-		msgForceTransfer,
-	)
-	if err != nil {
-		return errors.Wrap(err, "forcing transfer")
-	}
-	return nil
-}
-
-// setDenomMetadata sets a metadata for a tokenfactory denom
-func (m *CustomMessenger) setDenomMetadata(ctx sdk.Context, contractAddr sdk.AccAddress, setDenomMetadata *bindings.SetDenomMetadata) ([]sdk.Event, [][]byte, [][]*types.Any, error) {
-	err := PerformSetDenomMetadata(m.TokenFactory, ctx, contractAddr, setDenomMetadata)
-	if err != nil {
-		return nil, nil, nil, errors.Wrap(err, "perform set denom metadata")
-	}
-	return nil, nil, nil, nil
-}
-
-// PerformSetDenomMetadata is used with setDenomMetadata to set a metadata for a tokenfactory denom; validates the msgSetDenomMetadata.
-func PerformSetDenomMetadata(f *tokenfactorykeeper.Keeper, ctx sdk.Context, contractAddr sdk.AccAddress, setDenomMetadata *bindings.SetDenomMetadata) error {
-	msgServer := tokenfactorykeeper.NewMsgServerImpl(*f)
-
-	msgSetDenomMetadata := tokenfactorytypes.NewMsgSetDenomMetadata(contractAddr.String(), setDenomMetadata.Metadata)
-
-	// Set denom metadata
-	_, err := msgServer.SetDenomMetadata(
-		ctx,
-		msgSetDenomMetadata,
-	)
-	if err != nil {
-		return errors.Wrap(err, "setting denom metadata")
-	}
-	return nil
-}
+// removed: PerformSetDenomMetadata
 
 // mintTokens mints tokens of a specified denom to an address.
-func (m *CustomMessenger) mintTokens(ctx sdk.Context, contractAddr sdk.AccAddress, mint *bindings.MintTokens) ([]sdk.Event, [][]byte, [][]*types.Any, error) {
-	err := PerformMint(m.TokenFactory, m.Bank, ctx, contractAddr, mint)
-	if err != nil {
-		return nil, nil, nil, errors.Wrap(err, "perform mint")
-	}
-	return nil, nil, nil, nil
-}
+// removed: mintTokens helper
 
 // setBeforeSendHook sets before send hook for a specified denom.
-func (m *CustomMessenger) setBeforeSendHook(ctx sdk.Context, contractAddr sdk.AccAddress, set *bindings.SetBeforeSendHook) ([]sdk.Event, [][]byte, [][]*types.Any, error) {
-	err := PerformSetBeforeSendHook(m.TokenFactory, ctx, contractAddr, set)
-	if err != nil {
-		return nil, nil, nil, errors.Wrap(err, "failed to perform set before send hook")
-	}
-	return nil, nil, nil, nil
-}
+// removed: setBeforeSendHook helper
 
 // PerformMint used with mintTokens to validate the mint message and mint through token factory.
-func PerformMint(f *tokenfactorykeeper.Keeper, _ *bankkeeper.BaseKeeper, ctx sdk.Context, contractAddr sdk.AccAddress, mint *bindings.MintTokens) error {
-	rcpt, err := parseAddress(mint.MintToAddress)
-	if err != nil {
-		return err
-	}
+// removed: PerformMint
 
-	coin := sdk.Coin{Denom: mint.Denom, Amount: mint.Amount}
-	sdkMsg := tokenfactorytypes.NewMsgMintTo(contractAddr.String(), coin, rcpt.String())
-
-	// Mint through token factory / message server
-	msgServer := tokenfactorykeeper.NewMsgServerImpl(*f)
-	_, err = msgServer.Mint(ctx, sdkMsg)
-	if err != nil {
-		return errors.Wrap(err, "minting coins from message")
-	}
-
-	return nil
-}
-
-func PerformSetBeforeSendHook(f *tokenfactorykeeper.Keeper, ctx sdk.Context, contractAddr sdk.AccAddress, set *bindings.SetBeforeSendHook) error {
-	sdkMsg := tokenfactorytypes.NewMsgSetBeforeSendHook(contractAddr.String(), set.Denom, set.ContractAddr)
-
-	// SetBeforeSendHook through token factory / message server
-	msgServer := tokenfactorykeeper.NewMsgServerImpl(*f)
-	_, err := msgServer.SetBeforeSendHook(ctx, sdkMsg)
-	if err != nil {
-		return errors.Wrap(err, "set before send from message")
-	}
-
-	return nil
-}
+// removed: PerformSetBeforeSendHook
 
 // changeAdmin changes the admin.
-func (m *CustomMessenger) changeAdmin(ctx sdk.Context, contractAddr sdk.AccAddress, changeAdmin *bindings.ChangeAdmin) ([]sdk.Event, [][]byte, [][]*types.Any, error) {
-	err := ChangeAdmin(m.TokenFactory, ctx, contractAddr, changeAdmin)
-	if err != nil {
-		return nil, nil, nil, errors.Wrap(err, "failed to change admin")
-	}
-
-	return nil, nil, nil, nil
-}
+// removed: changeAdmin helper
 
 // ChangeAdmin is used with changeAdmin to validate changeAdmin messages and to dispatch.
-func ChangeAdmin(f *tokenfactorykeeper.Keeper, ctx sdk.Context, contractAddr sdk.AccAddress, changeAdmin *bindings.ChangeAdmin) error {
-	newAdminAddr, err := parseAddress(changeAdmin.NewAdminAddress)
-	if err != nil {
-		return err
-	}
-
-	changeAdminMsg := tokenfactorytypes.NewMsgChangeAdmin(contractAddr.String(), changeAdmin.Denom, newAdminAddr.String())
-
-	msgServer := tokenfactorykeeper.NewMsgServerImpl(*f)
-	_, err = msgServer.ChangeAdmin(ctx, changeAdminMsg)
-	if err != nil {
-		return errors.Wrap(err, "failed changing admin from message")
-	}
-	return nil
-}
+// removed: ChangeAdmin
 
 // burnTokens burns tokens.
-func (m *CustomMessenger) burnTokens(ctx sdk.Context, contractAddr sdk.AccAddress, burn *bindings.BurnTokens) ([]sdk.Event, [][]byte, [][]*types.Any, error) {
-	err := PerformBurn(m.TokenFactory, ctx, contractAddr, burn)
-	if err != nil {
-		return nil, nil, nil, errors.Wrap(err, "perform burn")
-	}
-
-	return nil, nil, nil, nil
-}
+// removed: burnTokens helper
 
 // PerformBurn performs token burning after validating tokenBurn message.
-func PerformBurn(f *tokenfactorykeeper.Keeper, ctx sdk.Context, contractAddr sdk.AccAddress, burn *bindings.BurnTokens) error {
-	coin := sdk.Coin{Denom: burn.Denom, Amount: burn.Amount}
-	sdkMsg := tokenfactorytypes.NewMsgBurnFrom(contractAddr.String(), coin, burn.BurnFromAddress)
-
-	// Burn through token factory / message server
-	msgServer := tokenfactorykeeper.NewMsgServerImpl(*f)
-	_, err := msgServer.Burn(ctx, sdkMsg)
-	if err != nil {
-		return errors.Wrap(err, "burning coins from message")
-	}
-
-	return nil
-}
+// removed: PerformBurn
 
 // GetFullDenom is a function, not method, so the message_plugin can use it
-func GetFullDenom(contract, subDenom string) (string, error) {
-	// Address validation
-	if _, err := parseAddress(contract); err != nil {
-		return "", err
-	}
-
-	fullDenom, err := tokenfactorytypes.GetTokenDenom(contract, subDenom)
-	if err != nil {
-		return "", errors.Wrap(err, "validate sub-denom")
-	}
-
-	return fullDenom, nil
-}
+// removed: GetFullDenom
 
 // parseAddress parses address from bech32 string and verifies its format.
 func parseAddress(addr string) (sdk.AccAddress, error) {

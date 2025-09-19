@@ -351,13 +351,12 @@ pub enum SudoMessage {
 In order to allow CosmWasm pool to work with the incentives module (or being composable in general),
 the contract needs to be able to create share tokens.
 
-We handle this by utilizing the `x/tokenfactory` module.
-Each pool has share denom with this pattern: `factory/{contract_address}/cw-pool/{custom-name}`.
+Each pool must define and manage its own share denom, typically derived from the contract address and pool identifier.
 
-The contract address uniquely identifies a pool. We also use cw-pool to make these denoms distinguishable
-from other tokenfactory denoms and provide contracts the ability to customize the `{custom-name}`.
+The contract address uniquely identifies a pool. Contracts should choose denom names that are clearly distinguishable
+from other native denoms and provide the ability to customize the `{custom-name}`.
 
-Each contract is responsible for minting and burning its token factory shares. The chain does no interaction with tokenfactory.
+Each contract is responsible for minting and burning its share tokens; there is no chain-side share-minting module integration.
 
 To integrate `x/cosmwasmpool` into the `x/incentives` module, it also needs to create gauges.
 

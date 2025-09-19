@@ -40,8 +40,8 @@ import (
 	icssimapp "github.com/cosmos/interchain-security/v5/testutil/ibc_testing"
 	"github.com/stretchr/testify/suite"
 
-	appparams "github.com/maany-xyz/maany-dex/v5/app/params"
-	tokenfactorytypes "github.com/maany-xyz/maany-dex/v5/x/tokenfactory/types"
+    appparams "github.com/maany-xyz/maany-dex/v5/app/params"
+    gammtypes "github.com/maany-xyz/maany-dex/v5/x/gamm/types"
 
 	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types" //nolint:staticcheck
 	appProvider "github.com/cosmos/interchain-security/v5/app/provider"
@@ -281,20 +281,20 @@ func (suite *IBCConnectionTestSuite) ConfigureTransferChannelAC() {
 
 func (suite *IBCConnectionTestSuite) FundAcc(acc sdk.AccAddress, amounts sdk.Coins) {
 	bankKeeper := suite.GetNeutronZoneApp(suite.ChainA).BankKeeper
-	err := bankKeeper.MintCoins(suite.ChainA.GetContext(), tokenfactorytypes.ModuleName, amounts)
+    err := bankKeeper.MintCoins(suite.ChainA.GetContext(), gammtypes.ModuleName, amounts)
 	suite.Require().NoError(err)
 
-	err = bankKeeper.SendCoinsFromModuleToAccount(suite.ChainA.GetContext(), tokenfactorytypes.ModuleName, acc, amounts)
+    err = bankKeeper.SendCoinsFromModuleToAccount(suite.ChainA.GetContext(), gammtypes.ModuleName, acc, amounts)
 	suite.Require().NoError(err)
 }
 
 // FundModuleAcc funds target modules with specified amount.
 func (suite *IBCConnectionTestSuite) FundModuleAcc(moduleName string, amounts sdk.Coins) {
 	bankKeeper := suite.GetNeutronZoneApp(suite.ChainA).BankKeeper
-	err := bankKeeper.MintCoins(suite.ChainA.GetContext(), tokenfactorytypes.ModuleName, amounts)
+    err := bankKeeper.MintCoins(suite.ChainA.GetContext(), gammtypes.ModuleName, amounts)
 	suite.Require().NoError(err)
 
-	err = bankKeeper.SendCoinsFromModuleToModule(suite.ChainA.GetContext(), tokenfactorytypes.ModuleName, moduleName, amounts)
+    err = bankKeeper.SendCoinsFromModuleToModule(suite.ChainA.GetContext(), gammtypes.ModuleName, moduleName, amounts)
 	suite.Require().NoError(err)
 }
 

@@ -82,7 +82,6 @@ func (im IBCModule) OnChanOpenAck(
 	}
 
 	// escrowAddress := transfertypes.GetEscrowAddress(portID, channelID)
-	// im.tokenfactoryKeeper.StoreEscrowAddress(ctx, escrowAddress.Bytes())
 
 	return nil
 }
@@ -99,7 +98,6 @@ func (im IBCModule) OnChanOpenConfirm(
 	}
 
 	// escrowAddress := transfertypes.GetEscrowAddress(portID, channelID)
-	// im.tokenfactoryKeeper.StoreEscrowAddress(ctx, escrowAddress.Bytes())
 
 	return nil
 }

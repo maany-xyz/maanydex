@@ -1,8 +1,8 @@
 package simtypes
 
 import (
-	"errors"
-	"fmt"
+    "errors"
+    "fmt"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/tx"
@@ -11,8 +11,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/cosmos/cosmos-sdk/types/tx/signing"
 
-	"github.com/maany-xyz/maany-dex/v5/app/params"
-	tokenfactorytypes "github.com/maany-xyz/maany-dex/v5/x/tokenfactory/types"
+    "github.com/maany-xyz/maany-dex/v5/app/params"
 
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	authsign "github.com/cosmos/cosmos-sdk/x/auth/signing"
@@ -136,10 +135,7 @@ func genTx(ctx sdk.Context, gen client.TxConfig, msgs []sdk.Msg, feeAmt sdk.Coin
 }
 
 // special cases some messages that require higher gas limits
-func getGas(msg sdk.Msg) uint64 {
-	_, ok := msg.(*tokenfactorytypes.MsgCreateDenom)
-	if ok {
-		return uint64(tokenfactorytypes.DefaultDenomCreationFee.Len() + sims.DefaultGenTxGas)
-	}
-	return uint64(sims.DefaultGenTxGas)
+func getGas(msg sdk.Msg) uint64 { //nolint:revive,unused
+    // Simplified: use default simulated gas for all messages
+    return uint64(sims.DefaultGenTxGas)
 }

@@ -12,7 +12,6 @@ import (
 	v504 "github.com/maany-xyz/maany-dex/v5/app/upgrades/v5.0.4"
 	v505 "github.com/maany-xyz/maany-dex/v5/app/upgrades/v5.0.5"
 
-	// dynamicfeestypes "github.com/maany-xyz/maany-dex/v5/x/dynamicfees/types"
 
 	mintburn "github.com/maany-xyz/maany-dex/v5/x/mintburn/keeper"
 	mintburnmodule "github.com/maany-xyz/maany-dex/v5/x/mintburn/module"
@@ -22,7 +21,6 @@ import (
 	// feemarketkeeper "github.com/skip-mev/feemarket/x/feemarket/keeper"
 	// feemarkettypes "github.com/skip-mev/feemarket/x/feemarket/types"
 
-	// "github.com/maany-xyz/maany-dex/v5/x/dynamicfees"
 	ibcratelimit "github.com/maany-xyz/maany-dex/v5/x/ibc-rate-limit"
 
 	"cosmossdk.io/client/v2/autocli"
@@ -151,9 +149,6 @@ import (
 	cronkeeper "github.com/maany-xyz/maany-dex/v5/x/cron/keeper"
 	crontypes "github.com/maany-xyz/maany-dex/v5/x/cron/types"
 
-	// "github.com/maany-xyz/maany-dex/v5/x/tokenfactory"
-	// tokenfactorykeeper "github.com/maany-xyz/maany-dex/v5/x/tokenfactory/keeper"
-	// tokenfactorytypes "github.com/maany-xyz/maany-dex/v5/x/tokenfactory/types"
 
 	"github.com/cosmos/admin-module/v2/x/adminmodule"
 	adminmodulecli "github.com/cosmos/admin-module/v2/x/adminmodule/client/cli"
@@ -168,7 +163,6 @@ import (
 	contractmanagermodulekeeper "github.com/maany-xyz/maany-dex/v5/x/contractmanager/keeper"
 	contractmanagermoduletypes "github.com/maany-xyz/maany-dex/v5/x/contractmanager/types"
 
-	// dynamicfeeskeeper "github.com/maany-xyz/maany-dex/v5/x/dynamicfees/keeper"
 
 	"github.com/maany-xyz/maany-dex/v5/x/feeburner"
 	feeburnerkeeper "github.com/maany-xyz/maany-dex/v5/x/feeburner/keeper"
@@ -321,12 +315,10 @@ var (
 				adminmodulecli.NewCmdSubmitCancelUpgradeProposal,
 			),
 		),
-		// tokenfactory.AppModuleBasic{},
 		// dex.AppModuleBasic{},
 		// oracle.AppModuleBasic{},
 		// marketmap.AppModuleBasic{},
 		// feemarket.AppModuleBasic{},
-		//dynamicfees.AppModuleBasic{},
 		// auction.AppModuleBasic{},
 	)
 
@@ -342,7 +334,6 @@ var (
 		feeburnertypes.ModuleName:                     nil,
 		ccvconsumertypes.ConsumerRedistributeName:     {authtypes.Burner},
 		ccvconsumertypes.ConsumerToSendToProviderName: nil,
-		// tokenfactorytypes.ModuleName:                  {authtypes.Minter, authtypes.Burner},
 		crontypes.ModuleName:                          nil,
 		// dextypes.ModuleName:                           {authtypes.Minter, authtypes.Burner},
 		// oracletypes.ModuleName:                        nil,
@@ -414,11 +405,9 @@ type App struct {
 	TransferKeeper      wrapkeeper.KeeperTransferWrapper
 	FeeGrantKeeper      feegrantkeeper.Keeper
 	// FeeMarkerKeeper     *feemarketkeeper.Keeper
-	// DynamicFeesKeeper   *dynamicfeeskeeper.Keeper
 	FeeKeeper           *feekeeper.Keeper
 	FeeBurnerKeeper     *feeburnerkeeper.Keeper
 	ConsumerKeeper      ccvconsumerkeeper.Keeper
-	// TokenFactoryKeeper  *tokenfactorykeeper.Keeper
 	CronKeeper          cronkeeper.Keeper
 	PFMKeeper           *pfmkeeper.Keeper
 	// DexKeeper           dexkeeper.Keeper
@@ -544,13 +533,12 @@ func New(
 		evidencetypes.StoreKey, ibctransfertypes.StoreKey, icacontrollertypes.StoreKey,
 		icahosttypes.StoreKey, capabilitytypes.StoreKey,
 		interchainqueriesmoduletypes.StoreKey, contractmanagermoduletypes.StoreKey, interchaintxstypes.StoreKey, wasmtypes.StoreKey, feetypes.StoreKey,
-		feeburnertypes.StoreKey, adminmoduletypes.StoreKey, ccvconsumertypes.StoreKey, //tokenfactorytypes.StoreKey,
+        feeburnertypes.StoreKey, adminmoduletypes.StoreKey, ccvconsumertypes.StoreKey,
 		pfmtypes.StoreKey,
 		crontypes.StoreKey, ibcratelimittypes.ModuleName, ibchookstypes.StoreKey, consensusparamtypes.StoreKey, crisistypes.StoreKey, //dextypes.StoreKey, 
 		// auctiontypes.StoreKey,
 		// oracletypes.StoreKey, marketmaptypes.StoreKey, 
 		 //feemarkettypes.StoreKey, 
-		// dynamicfeestypes.StoreKey
 		globalfeetypes.StoreKey,
 		mintburntypes.StoreKey, gammtypes.StoreKey, poolmanagertypes.StoreKey, genesisminttypes.StoreKey,
 	)
@@ -639,7 +627,6 @@ func New(
 		authtypes.NewModuleAddress(adminmoduletypes.ModuleName).String(),
 	)
 
-	// app.DynamicFeesKeeper = dynamicfeeskeeper.NewKeeper(appCodec, keys[dynamicfeestypes.StoreKey], authtypes.NewModuleAddress(adminmoduletypes.ModuleName).String())
 
 	// app.FeeMarkerKeeper = feemarketkeeper.NewKeeper(
 	// 	appCodec,
@@ -695,9 +682,7 @@ func New(
 		authtypes.NewModuleAddress(adminmoduletypes.ModuleName).String(),
 	)
 
-	// tokenFactoryKeeper := tokenfactorykeeper.NewKeeper(
 	// 	appCodec,
-	// 	app.keys[tokenfactorytypes.StoreKey],
 	// 	maccPerms,
 	// 	app.AccountKeeper,
 	// 	&app.BankKeeper,
@@ -883,22 +868,21 @@ func New(
 		app.AccountKeeper,
 		authtypes.NewModuleAddress(adminmoduletypes.ModuleName).String(),
 	)
-	wasmOpts = append(wasmbinding.RegisterCustomPlugins(
-		&app.InterchainTxsKeeper,
-		&app.InterchainQueriesKeeper,
-		// app.TransferKeeper,
-		&app.AdminmoduleKeeper,
-		app.FeeBurnerKeeper,
-		app.FeeKeeper,
-		&app.BankKeeper,
-		nil,
-		&app.CronKeeper,
-		&app.ContractManagerKeeper,
-		nil,
-		// app.OracleKeeper,
-		// app.MarketMapKeeper,
-		nil,
-	), wasmOpts...)
+    wasmOpts = append(wasmbinding.RegisterCustomPlugins(
+        &app.InterchainTxsKeeper,
+        &app.InterchainQueriesKeeper,
+        // app.TransferKeeper,
+        &app.AdminmoduleKeeper,
+        app.FeeBurnerKeeper,
+        app.FeeKeeper,
+        &app.BankKeeper,
+        &app.CronKeeper,
+        &app.ContractManagerKeeper,
+        nil,
+        // app.OracleKeeper,
+        // app.MarketMapKeeper,
+        nil,
+    ), wasmOpts...)
 
 	queryPlugins := wasmkeeper.WithQueryPlugins(
 		&wasmkeeper.QueryPlugins{
@@ -1025,11 +1009,9 @@ func New(
 		adminModule,
 		ibcRateLimitmodule,
 		ibcHooksModule,
-		// tokenfactory.NewAppModule(appCodec, *app.TokenFactoryKeeper, app.AccountKeeper, app.BankKeeper),
 		cronModule,
 		globalfee.NewAppModule(app.GlobalFeeKeeper, app.GetSubspace(globalfee.ModuleName), app.AppCodec(), app.keys[globalfee.ModuleName]),
 		// feemarket.NewAppModule(appCodec, *app.FeeMarkerKeeper),
-		// dynamicfees.NewAppModule(appCodec, *app.DynamicFeesKeeper),
 		// dexModule,
 		// marketmapModule,
 		// oracleModule,
@@ -1068,7 +1050,6 @@ func New(
 		feegrant.ModuleName,
 		paramstypes.ModuleName,
 		ccvconsumertypes.ModuleName,
-		// tokenfactorytypes.ModuleName,
 		icatypes.ModuleName,
 		interchainqueriesmoduletypes.ModuleName,
 		interchaintxstypes.ModuleName,
@@ -1109,7 +1090,6 @@ func New(
 		ibchost.ModuleName,
 		ibctransfertypes.ModuleName,
 		ccvconsumertypes.ModuleName,
-		// tokenfactorytypes.ModuleName,
 		icatypes.ModuleName,
 		interchainqueriesmoduletypes.ModuleName,
 		interchaintxstypes.ModuleName,
@@ -1154,7 +1134,6 @@ func New(
 		upgradetypes.ModuleName,
 		feegrant.ModuleName,
 		ccvconsumertypes.ModuleName,
-		// tokenfactorytypes.ModuleName,
 		icatypes.ModuleName,
 		interchainqueriesmoduletypes.ModuleName,
 		interchaintxstypes.ModuleName,
@@ -1172,7 +1151,6 @@ func New(
 		// oracletypes.ModuleName,
 		// marketmaptypes.ModuleName,
 		// dextypes.ModuleName,
-		// dynamicfeestypes.ModuleName,
 		consensusparamtypes.ModuleName,
 		mintburntypes.ModuleName,
 		gammtypes.ModuleName,
@@ -1711,7 +1689,6 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(crontypes.StoreKey).WithKeyTable(crontypes.ParamKeyTable())
 	paramsKeeper.Subspace(feeburnertypes.StoreKey).WithKeyTable(feeburnertypes.ParamKeyTable())
 	paramsKeeper.Subspace(feetypes.StoreKey).WithKeyTable(feetypes.ParamKeyTable())
-	//paramsKeeper.Subspace(tokenfactorytypes.StoreKey).WithKeyTable(tokenfactorytypes.ParamKeyTable())
 	paramsKeeper.Subspace(interchainqueriesmoduletypes.StoreKey).WithKeyTable(interchainqueriesmoduletypes.ParamKeyTable())
 	paramsKeeper.Subspace(interchaintxstypes.StoreKey).WithKeyTable(interchaintxstypes.ParamKeyTable())
 	paramsKeeper.Subspace(gammtypes.StoreKey).WithKeyTable(gammtypes.ParamKeyTable())

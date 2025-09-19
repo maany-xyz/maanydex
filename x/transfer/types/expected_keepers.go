@@ -33,7 +33,7 @@ type AccountKeeper interface {
 	GetModuleAccount(ctx context.Context, name string) sdk.ModuleAccountI
 }
 
-// TokenfactoryKeeper defines the tokenfactory keeper.
+// TokenfactoryKeeper was previously used to track escrow addresses; deprecated.
 type TokenfactoryKeeper interface {
 	StoreEscrowAddress(ctx sdk.Context, address sdk.AccAddress)
 }

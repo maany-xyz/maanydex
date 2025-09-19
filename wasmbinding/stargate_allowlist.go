@@ -1,27 +1,23 @@
 package wasmbinding
 
 import (
-	wasmkeeper "github.com/CosmWasm/wasmd/x/wasm/keeper"
-	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	icacontrollertypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/controller/types"
-	ibctransfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
-	ibcclienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types" //nolint:staticcheck
-	ibcconnectiontypes "github.com/cosmos/ibc-go/v8/modules/core/03-connection/types"
-	ibcchanneltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	consumertypes "github.com/cosmos/interchain-security/v5/x/ccv/consumer/types"
-	globalfeetypes "github.com/maany-xyz/maany-dex/v5/x/globalfee/types"
-	feemarkettypes "github.com/skip-mev/feemarket/x/feemarket/types"
-	marketmaptypes "github.com/skip-mev/slinky/x/marketmap/types"
-	oracletypes "github.com/skip-mev/slinky/x/oracle/types"
-
-	dynamicfeestypes "github.com/maany-xyz/maany-dex/v5/x/dynamicfees/types"
-
-	crontypes "github.com/maany-xyz/maany-dex/v5/x/cron/types"
-	feeburnertypes "github.com/maany-xyz/maany-dex/v5/x/feeburner/types"
-	interchainqueriestypes "github.com/maany-xyz/maany-dex/v5/x/interchainqueries/types"
-	interchaintxstypes "github.com/maany-xyz/maany-dex/v5/x/interchaintxs/types"
-	tokenfactorytypes "github.com/maany-xyz/maany-dex/v5/x/tokenfactory/types"
+    wasmkeeper "github.com/CosmWasm/wasmd/x/wasm/keeper"
+    authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
+    banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+    icacontrollertypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/controller/types"
+    ibctransfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
+    ibcclienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types" //nolint:staticcheck
+    ibcconnectiontypes "github.com/cosmos/ibc-go/v8/modules/core/03-connection/types"
+    ibcchanneltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
+    consumertypes "github.com/cosmos/interchain-security/v5/x/ccv/consumer/types"
+    globalfeetypes "github.com/maany-xyz/maany-dex/v5/x/globalfee/types"
+    feemarkettypes "github.com/skip-mev/feemarket/x/feemarket/types"
+    marketmaptypes "github.com/skip-mev/slinky/x/marketmap/types"
+    oracletypes "github.com/skip-mev/slinky/x/oracle/types"
+    crontypes "github.com/maany-xyz/maany-dex/v5/x/cron/types"
+    feeburnertypes "github.com/maany-xyz/maany-dex/v5/x/feeburner/types"
+    interchainqueriestypes "github.com/maany-xyz/maany-dex/v5/x/interchainqueries/types"
+    interchaintxstypes "github.com/maany-xyz/maany-dex/v5/x/interchaintxs/types"
 )
 
 func AcceptedStargateQueries() wasmkeeper.AcceptedQueries {
@@ -32,15 +28,8 @@ func AcceptedStargateQueries() wasmkeeper.AcceptedQueries {
 		"/ibc.core.connection.v1.Query/Connection":      &ibcconnectiontypes.QueryConnectionResponse{},
 		"/ibc.core.channel.v1.Query/ChannelClientState": &ibcchanneltypes.QueryChannelClientStateResponse{},
 
-		// token factory
-		"/osmosis.tokenfactory.v1beta1.Query/Params":                 &tokenfactorytypes.QueryParamsResponse{},
-		"/osmosis.tokenfactory.v1beta1.Query/DenomAuthorityMetadata": &tokenfactorytypes.QueryDenomAuthorityMetadataResponse{},
-		"/osmosis.tokenfactory.v1beta1.Query/DenomsFromCreator":      &tokenfactorytypes.QueryDenomsFromCreatorResponse{},
-		"/osmosis.tokenfactory.v1beta1.Query/BeforeSendHookAddress":  &tokenfactorytypes.QueryBeforeSendHookAddressResponse{},
-		"/osmosis.tokenfactory.v1beta1.Query/FullDenom":              &tokenfactorytypes.QueryFullDenomResponse{},
-
-		// interchain accounts
-		"/ibc.applications.interchain_accounts.controller.v1.Query/InterchainAccount": &icacontrollertypes.QueryInterchainAccountResponse{},
+        // interchain accounts
+        "/ibc.applications.interchain_accounts.controller.v1.Query/InterchainAccount": &icacontrollertypes.QueryInterchainAccountResponse{},
 
 		// transfer
 		"/ibc.applications.transfer.v1.Query/DenomTrace":    &ibctransfertypes.QueryDenomTraceResponse{},
@@ -93,11 +82,8 @@ func AcceptedStargateQueries() wasmkeeper.AcceptedQueries {
 		"/feemarket.feemarket.v1.Query/GasPrice":  &feemarkettypes.GasPriceResponse{},
 		"/feemarket.feemarket.v1.Query/GasPrices": &feemarkettypes.GasPricesResponse{},
 
-		// dynamicfees
-		"/neutron.dynamicfees.v1.Query/Params": &dynamicfeestypes.QueryParamsResponse{},
-
-		// globalfee
-		"/gaia.globalfee.v1beta1.Query/Params": &globalfeetypes.QueryParamsResponse{},
+        // globalfee
+        "/gaia.globalfee.v1beta1.Query/Params": &globalfeetypes.QueryParamsResponse{},
 
 		// consumer
 		"/interchain_security.ccv.consumer.v1.Query/QueryParams": &consumertypes.QueryParamsResponse{},
