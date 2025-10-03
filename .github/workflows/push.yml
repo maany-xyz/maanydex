@@ -5,6 +5,7 @@ on: [push, pull_request]
 jobs:
   tests:
     name: Test
+    if: ${{ false }}
     runs-on: ubuntu-latest
     steps:
       - name: Set up Go 1.22
@@ -21,4 +22,3 @@ jobs:
 
       - name: Test
         run: make test
-

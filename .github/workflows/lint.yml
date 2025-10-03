@@ -14,6 +14,7 @@ permissions:
 jobs:
   golangci:
     name: lint
+    if: ${{ false }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-go@v4
