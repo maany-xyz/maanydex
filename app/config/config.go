@@ -8,7 +8,7 @@ const (
 	DefaultBondDenom  = BaseCoinUnit  
 	DefaultExponent   = 6 
 	// Bech32MainPrefix defines the main SDK Bech32 prefix of an account's address
-	Bech32MainPrefix = "maany-dex"
+	Bech32MainPrefix = "maanydex"
 	// PrefixValidator is the prefix for validator keys
 	PrefixValidator = "val"
 	// PrefixConsensus is the prefix for consensus keys
