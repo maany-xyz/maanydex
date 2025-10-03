@@ -43,7 +43,7 @@ import (
 	"github.com/maany-xyz/maany-dex/v5/app/params"
 )
 
-// NewRootCmd creates a new root command for neutrond. It is called once in the
+// NewRootCmd creates a new root command for maanydexd. It is called once in the
 // main function.
 func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 	encodingConfig := app.MakeEncodingConfig()
@@ -138,7 +138,7 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 }
 
 func tempDir() string {
-	dir, err := os.MkdirTemp("", "neutrond")
+	dir, err := os.MkdirTemp("", "maanydexd")
 	if err != nil {
 		dir = app.DefaultNodeHome
 	}
@@ -378,14 +378,14 @@ func setCustomEnvVariablesFromClientToml(ctx client.Context) {
 	}
 
 	// gas
-	setEnvFromConfig("gas", "NEUTROND_GAS")
-	setEnvFromConfig("gas-prices", "NEUTROND_GAS_PRICES")
-	setEnvFromConfig("gas-adjustment", "NEUTROND_GAS_ADJUSTMENT")
+	setEnvFromConfig("gas", "MAANYDEXD_GAS")
+	setEnvFromConfig("gas-prices", "MAANYDEXD_GAS_PRICES")
+	setEnvFromConfig("gas-adjustment", "MAANYDEXD_GAS_ADJUSTMENT")
 	// fees
-	setEnvFromConfig("fees", "NEUTROND_FEES")
-	setEnvFromConfig("fee-account", "NEUTROND_FEE_ACCOUNT")
+	setEnvFromConfig("fees", "MAANYDEXD_FEES")
+	setEnvFromConfig("fee-account", "MAANYDEXD_FEE_ACCOUNT")
 	// memo
-	setEnvFromConfig("note", "NEUTROND_NOTE")
+	setEnvFromConfig("note", "MAANYDEXD_NOTE")
 }
 
 func genAutoCompleteCmd(rootCmd *cobra.Command) {
@@ -395,11 +395,11 @@ func genAutoCompleteCmd(rootCmd *cobra.Command) {
 		Long: `To configure your shell to load completions for each session, add to your profile:
 
 # bash example
-echo '. <(neutrond enable-cli-autocomplete bash)' >> ~/.bash_profile
+echo '. <(maanydexd enable-cli-autocomplete bash)' >> ~/.bash_profile
 source ~/.bash_profile
 
 # zsh example
-echo '. <(neutrond enable-cli-autocomplete zsh)' >> ~/.zshrc
+echo '. <(maanydexd enable-cli-autocomplete zsh)' >> ~/.zshrc
 source ~/.zshrc
 `,
 		DisableFlagsInUseLine: true,

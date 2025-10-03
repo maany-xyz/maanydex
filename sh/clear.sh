@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CONSUMER_CONFIG="$HOME/.neutrond/data"
+CONSUMER_CONFIG="$HOME/.maanydexd/data"
 
 rm -rf "$CONSUMER_CONFIG/application.db"
 rm -rf "$CONSUMER_CONFIG/blockstore.db"

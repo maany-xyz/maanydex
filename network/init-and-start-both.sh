@@ -3,7 +3,7 @@ set -e
 
 script_full_path=$(dirname "$0")
 
-export BINARY=neutrond
+export BINARY=maanydexd
 export CHAINID=test-1
 export P2PPORT=26656
 export RPCPORT=26657

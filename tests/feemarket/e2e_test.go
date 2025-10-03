@@ -113,7 +113,7 @@ var (
 			Name:           "feemarket",
 			Denom:          denom,
 			ChainID:        "chain-id-feemarket",
-			Bin:            "neutrond",
+			Bin:            "maanydexd",
 			Bech32Prefix:   "neutron",
 			CoinType:       "118",
 			GasAdjustment:  gasAdjustment,

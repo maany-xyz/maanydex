@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-BINARY=${BINARY:-neutrond}
+BINARY=${BINARY:-maanydexd}
 BASE_DIR=./data
 CHAINID=${CHAINID:-test-1}
 STAKEDENOM=${STAKEDENOM:-untrn}

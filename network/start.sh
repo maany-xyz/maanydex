@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-BINARY=${BINARY:-neutrond}
+BINARY=${BINARY:-maanydexd}
 BASE_DIR=./data
 CHAINID=${CHAINID:-test-1}
 GRPCPORT=${GRPCPORT:-9090}
@@ -29,4 +29,3 @@ else
     --grpc.address="0.0.0.0:$GRPCPORT"    \
     --trace 2>&1 | tee "$CHAIN_DIR/$CHAINID.log"
 fi
-

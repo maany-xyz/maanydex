@@ -34,10 +34,10 @@ go install ./...
 
 
 # Initialize chain.
-neutrond init test
+maanydexd init test
 
 # Get Genesis
-wget -O ~/.neutrond/config/genesis.json https://raw.githubusercontent.com/neutron-org/mainnet-assets/main/neutron-1-genesis.json
+wget -O ~/.maanydexd/config/genesis.json https://raw.githubusercontent.com/neutron-org/mainnet-assets/main/neutron-1-genesis.json
 
 
 # Get "trust_hash" and "trust_height".
@@ -51,23 +51,23 @@ echo "trust_height: $BLOCK_HEIGHT"
 echo "trust_hash: $TRUST_HASH"
 
 # Export state sync variables.
-export NEUTROND_STATESYNC_ENABLE=true
-export NEUTROND_P2P_MAX_NUM_OUTBOUND_PEERS=500
-export NEUTROND_STATESYNC_RPC_SERVERS="https://rpc-kralum.neutron-1.neutron.org:443,https://rpc-kralum.neutron-1.neutron.org:443"
-export NEUTROND_STATESYNC_TRUST_HEIGHT=$BLOCK_HEIGHT
-export NEUTROND_STATESYNC_TRUST_HASH=$TRUST_HASH
-export NEUTROND_P2P_LADDR=tcp://0.0.0.0:7777
-export NEUTROND_RPC_LADDR=tcp://127.0.0.1:7711
-export NEUTROND_GRPC_ADDRESS=127.0.0.1:7712
-export NEUTROND_GRPC_WEB_ADDRESS=127.0.0.1:8014
-export NEUTROND_API_ADDRESS=tcp://127.0.0.1:8013
-export NEUTROND_NODE=tcp://127.0.0.1:8011
-export NEUTROND_P2P_MAX_NUM_INBOUND_PEERS=500
-export NEUTROND_RPC_PPROF_LADDR=127.0.0.1:6969
+export MAANYDEXD_STATESYNC_ENABLE=true
+export MAANYDEXD_P2P_MAX_NUM_OUTBOUND_PEERS=500
+export MAANYDEXD_STATESYNC_RPC_SERVERS="https://rpc-kralum.neutron-1.neutron.org:443,https://rpc-kralum.neutron-1.neutron.org:443"
+export MAANYDEXD_STATESYNC_TRUST_HEIGHT=$BLOCK_HEIGHT
+export MAANYDEXD_STATESYNC_TRUST_HASH=$TRUST_HASH
+export MAANYDEXD_P2P_LADDR=tcp://0.0.0.0:7777
+export MAANYDEXD_RPC_LADDR=tcp://127.0.0.1:7711
+export MAANYDEXD_GRPC_ADDRESS=127.0.0.1:7712
+export MAANYDEXD_GRPC_WEB_ADDRESS=127.0.0.1:8014
+export MAANYDEXD_API_ADDRESS=tcp://127.0.0.1:8013
+export MAANYDEXD_NODE=tcp://127.0.0.1:8011
+export MAANYDEXD_P2P_MAX_NUM_INBOUND_PEERS=500
+export MAANYDEXD_RPC_PPROF_LADDR=127.0.0.1:6969
 
 # Fetch and set list of seeds from chain registry.
-NEUTROND_P2P_SEEDS=$(curl -s https://raw.githubusercontent.com/cosmos/chain-registry/master/neutron/chain.json | jq -r '[foreach .peers.seeds[] as $item (""; "\($item.id)@\($item.address)")] | join(",")')
-export NEUTROND_P2P_SEEDS
+MAANYDEXD_P2P_SEEDS=$(curl -s https://raw.githubusercontent.com/cosmos/chain-registry/master/neutron/chain.json | jq -r '[foreach .peers.seeds[] as $item (""; "\($item.id)@\($item.address)")] | join(",")')
+export MAANYDEXD_P2P_SEEDS
 
 # Start chain.
-neutrond start --x-crisis-skip-assert-invariants --iavl-disable-fastnode false --minimum-gas-prices 0untrn
+maanydexd start --x-crisis-skip-assert-invariants --iavl-disable-fastnode false --minimum-gas-prices 0untrn

@@ -34,14 +34,14 @@ type NeutronCustomClient struct {
 	Note string `mapstructure:"note" json:"note"`
 }
 
-// NeutronAppConfig defines the config structure of the neutrond app.toml file. Specifically,
+// NeutronAppConfig defines the config structure of the maanydexd app.toml file. Specifically,
 // it wraps the default app.toml config with additional slinky application config params.
 type NeutronAppConfig struct {
 	serverconfig.Config
 	Oracle oracleconfig.AppConfig `mapstructure:"oracle" json:"oracle"`
 }
 
-// initAppConfig initializes a default application configuration for neutrond.
+// initAppConfig initializes a default application configuration for maanydexd.
 // And a config template string (for how the config will ultimately look on disk).
 func initAppConfig() (*NeutronAppConfig, string) {
 	srvConfig := serverconfig.DefaultConfig()
@@ -82,15 +82,15 @@ func runConfigCmd(cmd *cobra.Command, args []string) error {
 
 	ncc := NeutronCustomClient{
 		*conf,
-		os.Getenv("NEUTROND_GAS"),
-		os.Getenv("NEUTROND_GAS_PRICES"),
-		os.Getenv("NEUTROND_GAS_ADJUSTMENT"),
+		os.Getenv("MAANYDEXD_GAS"),
+		os.Getenv("MAANYDEXD_GAS_PRICES"),
+		os.Getenv("MAANYDEXD_GAS_ADJUSTMENT"),
 
-		os.Getenv("NEUTROND_FEES"),
-		// os.Getenv("NEUTROND_FEE_GRANTER"),
-		// os.Getenv("NEUTROND_FEE_PAYER"),
+		os.Getenv("MAANYDEXD_FEES"),
+		// os.Getenv("MAANYDEXD_FEE_GRANTER"),
+		// os.Getenv("MAANYDEXD_FEE_PAYER"),
 
-		os.Getenv("NEUTROND_NOTE"),
+		os.Getenv("MAANYDEXD_NOTE"),
 	}
 
 	switch len(args) {

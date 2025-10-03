@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 
 PACKAGES_SIMTEST=$(shell go list ./... | grep '/simulation')
-VERSION := $(shell echo $(shell git describe --tags) | sed 's/^v//')
+VERSION := $(shell (git describe --tags --dirty 2>/dev/null || git rev-parse --short HEAD) | sed 's/^v//')
 COMMIT := $(shell git log -1 --format='%H')
 LEDGER_ENABLED ?= true
 SDK_PACK := $(shell go list -m github.com/cosmos/cosmos-sdk | sed  's/ /\@/g')
@@ -10,6 +10,9 @@ SIMAPP = ./app
 GO_VERSION=1.23
 GOLANGCI_LINT_VERSION=v1.55.2
 BUILDDIR ?= $(CURDIR)/build
+INSTALL_PREFIX ?= /usr/local
+INSTALL_BINDIR ?= $(INSTALL_PREFIX)/bin
+INSTALL_SUDO ?= sudo
 
 # for dockerized protobuf tools
 DOCKER := $(shell which docker)
@@ -65,7 +68,7 @@ build_tags_test_binary_comma_sep := $(subst $(empty),$(comma),$(build_tags_test_
 # process linker flags
 
 ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=neutron \
-		  -X github.com/cosmos/cosmos-sdk/version.AppName=neutrond \
+		  -X github.com/cosmos/cosmos-sdk/version.AppName=maanydexd \
 		  -X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
 		  -X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
 		  -X "github.com/cosmos/cosmos-sdk/version.BuildTags=$(build_tags_comma_sep)"
@@ -83,14 +86,17 @@ BUILD_FLAGS_TEST_BINARY := -tags "$(build_tags_test_binary_comma_sep)" -ldflags 
 include contrib/devtools/Makefile
 
 check_version:
-ifneq ($(GO_SYSTEM_VERSION), $(REQUIRE_GO_VERSION))
-	@echo "ERROR: Go version ${REQUIRE_GO_VERSION} is required for $(VERSION) of Neutron."
-	exit 1
-endif
+	@system=$(GO_SYSTEM_VERSION); required=$(REQUIRE_GO_VERSION); \
+	sys_major=$${system%%.*}; sys_minor=$${system#*.}; sys_minor=$${sys_minor%%.*}; \
+	req_major=$${required%%.*}; req_minor=$${required#*.}; req_minor=$${req_minor%%.*}; \
+	if [ $$sys_major -lt $$req_major ] || { [ $$sys_major -eq $$req_major ] && [ $$sys_minor -lt $$req_minor ]; }; then \
+		printf "ERROR: Go version %s or higher is required for %s.\n" "$$required" "$(VERSION) of Maany-DEX"; \
+		exit 1; \
+	fi
 
 all: install lint test
 
-BUILD_TARGETS := build install
+BUILD_TARGETS := build
 
 build: BUILD_ARGS=-o $(BUILDDIR)/
 
@@ -98,11 +104,20 @@ $(BUILD_TARGETS): check_version go.sum $(BUILDDIR)/
 ifeq ($(OS),Windows_NT)
 	exit 1
 else
-	go $@ -mod=readonly $(BUILD_FLAGS) $(BUILD_ARGS) ./cmd/neutrond
+	go $@ -mod=readonly $(BUILD_FLAGS) $(BUILD_ARGS) ./cmd/maanydexd
 endif
 
 $(BUILDDIR)/:
 	mkdir -p $(BUILDDIR)/
+
+install: check_version go.sum $(BUILDDIR)/
+ifeq ($(OS),Windows_NT)
+	exit 1
+else
+	go build -mod=readonly $(BUILD_FLAGS) -o $(BUILDDIR)/maanydexd ./cmd/maanydexd
+	$(INSTALL_SUDO) install -d $(INSTALL_BINDIR)
+	$(INSTALL_SUDO) install -m 755 $(BUILDDIR)/maanydexd $(INSTALL_BINDIR)/maanydexd
+endif
 
 build-static-linux-amd64: go.sum $(BUILDDIR)/
 	$(DOCKER) buildx create --name neutronbuilder || true
@@ -118,7 +133,7 @@ build-static-linux-amd64: go.sum $(BUILDDIR)/
 		-f Dockerfile.builder .
 	$(DOCKER) rm -f neutronbinary || true
 	$(DOCKER) create -ti --name neutronbinary neutron-amd64
-	$(DOCKER) cp neutronbinary:/bin/neutrond $(BUILDDIR)/neutrond-linux-amd64
+	$(DOCKER) cp neutronbinary:/bin/maanydexd $(BUILDDIR)/maanydexd-linux-amd64
 	$(DOCKER) rm -f neutronbinary
 
 build-e2e-docker-image: go.sum $(BUILDDIR)/
@@ -144,7 +159,7 @@ feemarket-e2e-test:
 	@cd ./tests/feemarket &&  go mod tidy && go test -p 1 -v -race -timeout 30m -count=1 ./...
 
 install-test-binary: check_version go.sum
-	go install -mod=readonly $(BUILD_FLAGS_TEST_BINARY) ./cmd/neutrond
+	go install -mod=readonly $(BUILD_FLAGS_TEST_BINARY) ./cmd/maanydexd
 
 ########################################
 ### Tools & dependencies
@@ -160,7 +175,7 @@ go.sum: go.mod
 draw-deps:
 	@# requires brew install graphviz or apt-get install graphviz
 	go get github.com/RobotsAndPencils/goviz
-	@goviz -i ./cmd/neutrond -d 2 | dot -Tpng -o dependency-graph.png
+	@goviz -i ./cmd/maanydexd -d 2 | dot -Tpng -o dependency-graph.png
 
 clean:
 	rm -rf snapcraft-local.yaml $(BUILDDIR)/
@@ -255,22 +270,22 @@ init: kill-dev install-test-binary
 	./network/hermes/create-conn.sh
 
 start: kill-dev install-test-binary
-	@echo "Starting up neutrond alone..."
-	export BINARY=neutrond CHAINID=test-1 P2PPORT=26656 RPCPORT=26657 RESTPORT=1317 ROSETTA=8080 GRPCPORT=8090 GRPCWEB=8091 STAKEDENOM=untrn && \
+	@echo "Starting up maanydexd alone..."
+	export BINARY=maanydexd CHAINID=test-1 P2PPORT=26656 RPCPORT=26657 RESTPORT=1317 ROSETTA=8080 GRPCPORT=8090 GRPCWEB=8091 STAKEDENOM=untrn && \
 	./network/init.sh && ./network/init-neutrond.sh && ./network/start.sh
 
 start-rly:
 	./network/hermes/start.sh
 
 kill-dev:
-	@echo "Killing neutrond and removing previous data"
+	@echo "Killing maanydexd and removing previous data"
 	-@rm -rf ./data
-	-@killall neutrond 2>/dev/null
+	-@killall maanydexd 2>/dev/null
 	-@killall gaiad 2>/dev/null
 
 build-docker-image:
 	# please keep the image name consistent with https://github.com/neutron-org/neutron-integration-tests/blob/main/setup/docker-compose.yml
-	@docker buildx build --load --build-context app=. -t neutron-node --build-arg BINARY=neutrond .
+	@docker buildx build --load --build-context app=. -t neutron-node --build-arg BINARY=maanydexd .
 
 start-docker-container:
 	# please keep the ports consistent with https://github.com/neutron-org/neutron-integration-tests/blob/main/setup/docker-compose.yml

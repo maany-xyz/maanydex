@@ -39,22 +39,22 @@ RUN WASMVM_VERSION=$(go list -m github.com/CosmWasm/wasmvm/v2 | cut -d ' ' -f 2)
 # Copy the remaining files
 COPY . .
 
-# Build neutrond binary
+# Build maanydexd binary
 RUN --mount=type=cache,target=/root/.cache/go-build \
     --mount=type=cache,target=/root/go/pkg/mod \
     go build \
       -mod=readonly \
       -tags ${BUILD_TAGS} \
       -ldflags "-X github.com/cosmos/cosmos-sdk/version.Name="neutron" \
-              -X github.com/cosmos/cosmos-sdk/version.AppName="neutrond" \
+              -X github.com/cosmos/cosmos-sdk/version.AppName="maanydexd" \
               -X github.com/cosmos/cosmos-sdk/version.Version=${GIT_VERSION} \
               -X github.com/cosmos/cosmos-sdk/version.Commit=${GIT_COMMIT} \
               -X github.com/cosmos/cosmos-sdk/version.BuildTags='${BUILD_TAGS}' \
               -X github.com/maany-xyz/maany-dex/v5/app.EnableSpecificProposals=${ENABLED_PROPOSALS} \
               -w -s -linkmode=external -extldflags '-Wl,-z,muldefs -static'" \
       -trimpath \
-      -o /neutron/build/neutrond \
-      /neutron/cmd/neutrond
+      -o /neutron/build/maanydexd \
+      /neutron/cmd/maanydexd
 
 # --------------------------------------------------------
 # Runner
@@ -62,7 +62,7 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
 
 FROM ${RUNNER_IMAGE}
 
-COPY --from=builder /neutron/build/neutrond /bin/neutrond
+COPY --from=builder /neutron/build/maanydexd /bin/maanydexd
 
 ENV HOME /neutron
 WORKDIR $HOME
@@ -71,4 +71,4 @@ EXPOSE 26656
 EXPOSE 26657
 EXPOSE 1317
 
-ENTRYPOINT ["neutrond"]
+ENTRYPOINT ["maanydexd"]

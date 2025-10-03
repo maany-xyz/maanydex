@@ -236,7 +236,7 @@ import (
 )
 
 const (
-	Name = "neutrond"
+	Name = "maanydexd"
 )
 
 var (
